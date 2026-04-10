@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEGA POLLA - Resultados</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <h1>MEGA POLLA</h1>
+        <p>EDICIÓN #324 | FECHA: 06/11/2025</p>
+    </header>
+    
+    <div class="card-container full-width">
+        <div class="card resultados-dia">
+            <h2>Resultados del día</h2>
+            <div id="numeros-ganadores-display" class="numeros-ganadores">
+                <p>No se han seleccionado números ganadores</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card-container"> 
+        <div class="card estadistica ventas">
+            <i class="fas fa-ticket-alt"></i>
+            <div class="valor" id="ventas">0</div>
+            <h3>TOTAL JUGADAS REGISTRADAS</h3>
+        </div>
+        
+        <div class="card estadistica recaudado">
+            <i class="fas fa-money-bill-wave"></i>
+            <div class="valor" id="recaudado">0 BS</div>
+            <h3>TOTAL RECAUDADO</h3>
+        </div>
+        
+        <div class="card estadistica casa">
+            <i class="fas fa-chart-line"></i>
+            <div class="valor" id="casa20">0 BS</div>
+            <h3>CASA (20%)</h3>
+        </div>
+
+        <div class="card estadistica domingo">
+            <i class="fas fa-umbrella"></i>
+            <div class="valor" id="cincoDomingo">0 BS</div>
+            <h3>5% DOMINGO</h3> 
+        </div>
+
+        <div class="card estadistica acumulado">
+            <i class="fas fa-trophy"></i>
+            <div class="valor" id="acumulado1">0 BS</div>
+            <h3>ACUMULADO DÍA ANTERIOR</h3> 
+        </div>
+
+        <div class="card estadistica repartir">
+            <i class="fas fa-hand-holding-usd"></i>
+            <div class="valor" id="repartir75">0 BS</div>
+            <h3>PREMIO A REPARTIR (75%)</h3>
+        </div>
+        
+        <div class="card estadistica ganadores" style="grid-column: span 2;">
+            <i class="fas fa-users"></i>
+            <div class="valor" id="total-ganadores">0</div>
+            <h3>Ganadores (7 Aciertos)</h3> 
+        </div>
+    </div>
+
+    <div class="pdf-container">
+        <button id="btn-descargar-pdf">
+            <i class="fas fa-file-pdf"></i> Descargar Resultados en PDF
+        </button>
+    </div>
+    <div class="filtro-container">
+        <div class="filtro-input-wrapper">
+            <i class="fas fa-search"></i>
+            <input type="text" id="filtroParticipantes" class="filtro-input" placeholder="🔍 Buscar por Nombre o REFE...">
+        </div>
+    </div>
+    <div class="card-container full-width">
+        
+        <div class="card ranking">
+            <h2>PARTICIPANTES Y JUGADAS</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>NRO</th>
+                        <th>PARTICIPANTES</th>
+                        <th>REFE</th>
+                        <th colspan="7">JUGADAS</th> 
+                        <th>ACIERTOS</th>
+                    </tr>
+                </thead>
+                <tbody id="ranking-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

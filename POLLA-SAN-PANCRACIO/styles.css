@@ -1,0 +1,647 @@
+/* ========================================================= */
+/* 1. ESTILOS GENERALES Y LAYOUT BASE                       */
+/* ========================================================= */
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #212121; /* Fondo gris oscuro */
+    color: #eee; /* Texto general a gris claro para contraste */
+    margin: 0;
+    padding: 15px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* AJUSTE CRUCIAL: Forzar texto oscuro dentro de secciones/tarjetas blancas */
+.card, .admin-section, .card h2, .admin-section h2, .admin-section h3 {
+    color: #333; 
+}
+
+
+header {
+    text-align: center;
+    margin-bottom: 25px;
+    padding: 15px 10px;
+    background-color: #fdd835;
+    color: #333;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 900px; /* Ancho máximo para el header y contenedores */
+    box-sizing: border-box;
+}
+
+h1 {
+    color: #333;
+    font-size: 2.2em; 
+    margin-bottom: 5px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+header p {
+    font-size: 0.9em;
+    font-weight: 600;
+    color: #555;
+}
+
+h2 {
+    color: #333;
+    font-size: 1.6em;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: 700;
+}
+
+/* CONTENEDOR PRINCIPAL - Ajuste a Grid para las estadísticas */
+.card-container {
+    display: grid; /* Usamos grid para las estadísticas */
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas de igual tamaño */
+    gap: 15px;
+    width: 100%;
+    max-width: 900px; /* Ancho máximo aplicado para uniformidad */
+    margin-bottom: 25px;
+}
+
+/* Asegurar que las tarjetas de resultados y ranking usen el ancho completo */
+.card-container.full-width {
+    display: flex; /* Vuelven a flex para ocupar 100% de la fila */
+    grid-template-columns: unset; /* Desactivar grid para estos contenedores */
+    justify-content: center;
+}
+
+.card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-width: unset;
+    box-sizing: border-box;
+}
+
+/* ========================================================= */
+/* 2. ESTILOS DE TABLAS Y GRILLES (Resultados y Ranking)     */
+/* ========================================================= */
+
+.card.resultados-dia {
+    background-color: #fdd835;
+    color: #333;
+    width: 100%;
+    padding: 15px;
+}
+.card.resultados-dia h2 {
+    margin: 0 0 12px 0;
+    font-size: 1.6em;
+    color: #333;
+}
+.card.resultados-dia p {
+    font-size: 1em;
+    font-weight: 500;
+    margin-top: 8px;
+}
+
+/* GRILA DE RESULTADOS */
+.card.resultados-dia .resultados-grilla {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-size: 0.9em;
+}
+.card.resultados-dia .resultados-grilla th {
+    background-color: #333;
+    color: #fff;
+    padding: 8px 4px;
+    font-weight: 700;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    min-width: 30px; 
+}
+.card.resultados-dia .resultados-grilla td {
+    padding: 8px 4px;
+    border: 1px solid #eee;
+    font-size: 1em;
+    font-weight: 700;
+    color: #333; /* Asegurar color oscuro en celdas de resultado */
+}
+.card.resultados-dia .resultados-grilla .sorteo-name {
+    background-color: #555;
+    color: #fff;
+    font-weight: 700;
+    text-align: left;
+    padding-left: 10px;
+    min-width: 90px;
+}
+.card.resultados-dia .resultados-grilla .numero-resultado {
+    text-align: center;
+    min-width: 30px; 
+}
+
+
+/* --- INICIO ESTILOS ESPECÍFICOS DEL RANKING PÚBLICO (.card.ranking) --- */
+.card.ranking table {
+    width: 100%;
+    border-collapse: separate; 
+    border-spacing: 0;
+    margin-top: 10px;
+}
+
+.card.ranking thead th {
+    background-color: #007bff;
+    color: white;
+    font-weight: 700;
+    padding: 10px 5px;
+    text-align: center;
+    border: none; 
+    font-size: 0.8em;
+    white-space: nowrap;
+}
+
+.card.ranking tbody td {
+    background-color: transparent; 
+    border: none; 
+    padding: 4px 2px; 
+    text-align: center;
+    vertical-align: middle;
+    font-size: 0.9em;
+    color: #333; /* Asegurar texto oscuro en celdas de ranking */
+}
+
+/* 4. DEFINICIÓN DE COLORES DE FONDO POR NÚMERO DE ACIERTOS (0 a 7) */
+
+/* Clase base para el color de fila */
+.card.ranking tbody tr {
+    transition: background-color 0.3s ease;
+    color: #333; /* Asegurar que la fila sin aciertos sea oscura */
+}
+
+/* 0 Aciertos: Se mantiene Blanco/Transparente */
+.card.ranking .aciertos-0 { background-color: #ffffff; } 
+
+/* 1 Acierto: Rojo/Rosa más oscuro */
+.card.ranking .aciertos-1 { background-color: #f0c8c8; } 
+
+/* 2 Aciertos: Melocotón/Naranja más oscuro */
+.card.ranking .aciertos-2 { background-color: #f5e0c5; } 
+
+/* 3 Aciertos: Amarillo intermedio bajo */
+.card.ranking .aciertos-3 { background-color: #ffe082; } 
+
+/* 4 Aciertos: Amarillo más fuerte (Warning) */
+.card.ranking .aciertos-4 { 
+    background-color: #ffc107; 
+    color: #333; 
+} 
+
+/* 5 Aciertos: Verde/Amarillo más saturado y distinguido (Lime Green) */
+.card.ranking .aciertos-5 { 
+    background-color: #aae075; 
+} 
+
+/* 6 Aciertos: Verde más oscuro */
+.card.ranking .aciertos-6 { background-color: #82c974; } 
+
+/* 7 Aciertos (GANADOR): Verde brillante/Oscuro (Success) */
+.card.ranking .aciertos-7 { 
+    background-color: #28a745; 
+    color: white; 
+    font-weight: 700; 
+    box-shadow: 0 0 10px rgba(40, 167, 69, 0.5); 
+} 
+
+/* Ajuste de contraste para la fila de 7 aciertos (ganador) */
+.card.ranking .aciertos-7 .ranking-box {
+    background-color: white; 
+    color: #333;
+}
+.card.ranking .aciertos-7 .jugada-acierto .ranking-box {
+    background-color: #008736; /* Un verde más oscuro para el acierto dentro del ganador */
+    color: white;
+}
+.card.ranking .aciertos-7 .ganador-final {
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+
+
+/* 1. ELIMINAR LÍNEAS AMARILLAS DE GANADOR Y ACIERTOS ANTERIORES */
+.card.ranking tr.fila-ganadora td,
+.card.ranking .acierto-individual,
+.card.ranking .aciertos {
+    background-color: transparent !important; 
+    color: inherit !important;
+    padding: 4px 2px; 
+}
+
+/* 2. Cajas Blancas para NRO, PARTICIPANTE, REFE y Jugadas (AISLADAS) */
+.card.ranking .ranking-box { 
+    display: inline-block;
+    background-color: white; 
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 4px 8px; 
+    font-weight: 600;
+    color: #444;
+    white-space: nowrap;
+    text-align: center;
+    min-width: 30px; 
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    line-height: 1.2; 
+}
+
+.card.ranking .jugada-acierto .ranking-box {
+    background-color: #28a745; /* Verde si acierta */
+    color: white;
+    font-weight: 700;
+    border-color: #28a745; 
+}
+
+/* Ajuste de anchos para las cajas */
+.card.ranking .cell-nro .ranking-box { min-width: 20px; }
+.card.ranking .cell-participante .ranking-box { min-width: 100px; padding: 4px 10px; }
+.card.ranking .cell-refe .ranking-box { min-width: 40px; }
+.card.ranking .cell-jugada .ranking-box { min-width: 15px; }
+
+
+/* 3. Estilo para la celda de Aciertos/GANADOR */
+.card.ranking .cell-aciertos {
+    color: #ff5722; 
+    font-weight: 800;
+    font-size: 1.1em;
+    padding: 8px 5px;
+    white-space: nowrap;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+}
+
+/* Estilo del Círculo de Aciertos */
+.card.ranking .aciertos-box {
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    
+    width: 25px; /* Tamaño del círculo */
+    height: 25px;
+    padding: 0; 
+
+    background-color: #dc3545; /* Rojo */
+    border: 1px solid #dc3545; 
+    border-radius: 50%; /* Esto crea el círculo */
+    
+    font-weight: 700;
+    color: white; /* Letra blanca */
+    white-space: nowrap;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    line-height: 1; 
+    font-size: 0.9em; 
+}
+
+.card.ranking .ganador-final {
+    color: #28a745; /* Verde para el texto GANADOR */
+    font-size: 1.2em;
+    font-weight: 900;
+    white-space: nowrap;
+    background-color: transparent !important; 
+    padding: 0 !important;
+    border-radius: 0 !important;
+    display: block;
+    line-height: 1.2; 
+}
+
+/* --- FIN ESTILOS ESPECÍFICOS DEL RANKING PÚBLICO --- */
+
+
+/* ========================================================= */
+/* 3. ESTILOS DE ESTADÍSTICAS Y ADMIN PANEL                  */
+/* ========================================================= */
+
+/* CLAVE: Ajuste de tamaño y centrado para la tarjeta de estadística */
+.card.estadistica {
+    padding: 10px; /* Reducir padding */
+    height: 100px; /* Tamaño fijo para uniformidad */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centrado vertical */
+}
+.card.estadistica h3 { 
+    margin-top: 5px; /* Ajustar margen superior */
+    margin-bottom: 0;
+    font-size: 0.75em; /* Reducir fuente del título */
+    font-weight: 600;
+    line-height: 1.2;
+    color: #555;
+}
+.card.estadistica .valor {
+    font-size: 1.5em; /* Reducir fuente del valor */
+    font-weight: 800;
+    color: #007bff;
+    margin: 5px 0 0 0; /* Ajustar márgenes */
+}
+.card.estadistica i {
+    display: none; /* Ocultar el ícono para un look más limpio/compacto */
+}
+
+/* Colores de Valor Específicos */
+.card.estadistica.ventas .valor { color: #f9a825; } /* Amarillo/Naranja para Jugadas */
+.card.estadistica.recaudado .valor { color: #28a745; } /* Verde para Recaudado */
+.card.estadistica.repartir .valor { color: #dc3545; } /* Rojo para Repartir */
+.card.estadistica.acumulado .valor { color: #0056b3; } /* Azul oscuro para Acumulado */
+.card.estadistica.casa .valor { color: #17a2b8; } /* Celeste para Casa */
+.card.estadistica.domingo .valor { color: #6f42c1; } /* Púrpura para 5% Domingo */
+.card.estadistica.ganadores .valor { color: #e83e8c; } /* Rosa/Magenta para Ganadores */
+
+
+/* ... (Estilos de Admin Section) ... */
+.admin-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 800px;
+    color: #333; /* Forzar color oscuro en texto de Admin */
+}
+.admin-section form label {
+    display: block;
+    margin-top: 10px;
+    font-weight: 600;
+    color: #333; /* Asegurar color oscuro en labels */
+}
+.admin-section form input[type="text"],
+.admin-section form input[type="number"],
+.admin-section form select,
+.admin-section form button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.admin-section form button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.admin-section form button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* ESTILOS DE LA LISTA DEL ADMINISTRADOR (CRUCIAL PARA ADMIN.HTML) */
+.admin-section ul { 
+    list-style: none; 
+    padding: 0; 
+}
+.admin-section li { 
+    background-color: #f9f9f9; 
+    border: 1px solid #eee; 
+    padding: 10px 15px; 
+    margin-bottom: 8px; 
+    border-radius: 6px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    font-size: 0.95em; 
+    color: #333; 
+    flex-wrap: wrap; 
+}
+/* Estilos específicos para las jugadas dentro de la lista del admin */
+.admin-section .jugadas-list span {
+    background-color: #fdd835; /* Color amarillo de jugada en admin */
+    padding: 2px 5px;
+    border-radius: 3px;
+    color: #333;
+    font-weight: 700;
+}
+
+
+/* ========================================================= */
+/* 4. FILTRO DE BÚSQUEDA Y BOTÓN PDF                          */
+/* ========================================================= */
+
+.pdf-container {
+    width: 100%;
+    max-width: 900px;
+    text-align: center; 
+    margin-bottom: 20px;
+}
+
+#btn-descargar-pdf {
+    background-color: #dc3545; /* Rojo */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.3s ease;
+}
+
+#btn-descargar-pdf:hover {
+    background-color: #c82333;
+}
+
+
+.filtro-container {
+    width: 100%;
+    max-width: 900px; /* Alineado con los card-container */
+    padding: 0 15px; /* Padding para evitar que toque los bordes */
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    margin-top: 10px; 
+}
+
+.filtro-input {
+    width: 100%;
+    padding: 12px 15px 12px 45px; /* Más padding a la izquierda para el ícono */
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+    
+    position: relative; 
+    color: #333; /* Asegurar color oscuro en el texto de entrada */
+}
+
+/* Estilo para el ícono de lupa dentro del input */
+.filtro-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.filtro-input-wrapper i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa; 
+    font-size: 1.1em;
+}
+
+
+/* ========================================================= */
+/* 5. RESPONSIVE DESIGN                                      */
+/* ========================================================= */
+
+@media (max-width: 900px) {
+    /* En pantallas medianas, cambia a 3 columnas */
+    .card-container {
+        grid-template-columns: repeat(3, 1fr); 
+    }
+    
+    /* El contenedor de estadísticas usa grid, el resto usa flex (por full-width) */
+    .card-container.full-width {
+        grid-template-columns: unset;
+    }
+    
+    /* Asegurar que las estadísticas se ajusten bien en 3 columnas */
+    .card.estadistica {
+        grid-column: span 1; 
+    }
+    /* La tarjeta de ganadores debe ocupar 2 columnas */
+    .card.estadistica.ganadores {
+        grid-column: span 2; 
+    }
+
+}
+
+@media (max-width: 768px) {
+    .card-container.full-width { 
+        flex-direction: column; 
+    }
+    header { padding: 10px; }
+    h1 { font-size: 1.8em; }
+    .card { padding: 15px; }
+
+    /* En pantallas pequeñas, cambia a 2 columnas */
+    .card-container {
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 10px;
+    }
+    .card-container .card {
+        grid-column: span 1; /* Asegurar que ocupen 1 columna */
+        height: 80px; /* Reducir altura un poco más */
+    }
+    /* La tarjeta de ganadores debe ocupar 2 columnas */
+    .card.estadistica.ganadores {
+        grid-column: span 2; 
+    }
+    
+    .card.estadistica h3 { 
+        font-size: 0.65em; 
+    }
+    .card.estadistica .valor {
+        font-size: 1.3em; 
+    }
+}
+
+@media (max-width: 480px) {
+    /* Ranking: Ajuste de tabla y fuente */
+    .card.ranking table { min-width: 400px; } 
+    .card.ranking thead th, .card.ranking tbody td { font-size: 0.6em; padding: 5px 2px; } 
+    .card.ranking .ganador-final { font-size: 0.7em; padding: 3px 4px; } 
+    
+    /* Responsive para las cajas del ranking */
+    .card.ranking .ranking-box { 
+        padding: 3px 5px;
+        font-size: 0.7em;
+        border-radius: 4px;
+    }
+    .card.ranking .aciertos-box {
+        width: 20px; 
+        height: 20px;
+        font-size: 0.7em; 
+    }
+    .card.ranking .cell-participante .ranking-box { min-width: 60px; }
+    .card.ranking .cell-jugada .ranking-box { min-width: 10px; }
+
+
+    /* Admin Panel */
+    .admin-section { padding: 10px; }
+}
+
+
+/* ========================================================= */
+/* 6. ESTILOS DE DESCARGA PDF/IMPRESIÓN (Print Styles)       */
+/* ========================================================= */
+
+@media print {
+    
+    /* 1. Oculta elementos no necesarios */
+    .pdf-container,
+    #btn-descargar-pdf,
+    .filtro-container {
+        display: none !important;
+    }
+    
+    /* 2. FUERZA LA IMPRESIÓN DE FONDOS Y COLORES */
+    body, header, .card, .card-container, .card.ranking tbody tr {
+        -webkit-print-color-adjust: exact !important; 
+        color-adjust: exact !important;
+        color: #333 !important;
+    }
+    
+    body {
+        background-color: #f0f2f5 !important; 
+        padding: 0;
+        margin: 0;
+    }
+    
+    /* 3. Asegura el ancho completo y mantiene el tamaño original */
+    .card-container, header {
+        max-width: 100%;
+        width: 100%;
+        margin-bottom: 15px; 
+    }
+    
+    /* 4. Ajustes Mínimos para evitar cortes en la tabla ancha */
+    .card.ranking table {
+        page-break-inside: auto;
+        width: 100%; 
+        font-size: 0.85em; 
+    }
+    
+    /* Reducir padding de las celdas para ahorrar espacio */
+    .card.ranking thead th, .card.ranking tbody td {
+        padding: 4px 1px;
+    }
+    
+    /* Prevenir cortes de filas */
+    .card.ranking tbody tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+    }
+    
+    /* Ajustes para las cajas del ranking para que sean más compactas en la impresión */
+    .card.ranking .ranking-box { 
+        padding: 3px 5px; 
+        font-size: 0.8em; 
+        min-width: 15px; 
+    }
+    .card.ranking .aciertos-box { 
+        width: 20px; 
+        height: 20px; 
+        font-size: 0.8em;
+    }
+    .card.ranking .ganador-final { font-size: 0.9em; }
+}

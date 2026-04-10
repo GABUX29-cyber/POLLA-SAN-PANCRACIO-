@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - MEGA POLLA</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <style>
+        .btn-editar, .btn-guardar, .btn-eliminar {
+            margin-left: 10px;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .btn-editar {
+            background-color: #ffc107;
+            color: #333;
+        }
+        .btn-guardar {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-eliminar {
+            background-color: #dc3545;
+            color: white;
+        }
+        .editable-input {
+            padding: 5px;
+            margin: 0 2px;
+            width: auto;
+            display: inline-block;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            color: #333;
+            font-family: 'Montserrat', sans-serif;
+            border-radius: 4px;
+        }
+        .jugada-edit {
+            width: 30px; 
+            text-align: center;
+        }
+        .resultado-edit-num {
+            width: 50px; 
+            text-align: center;
+        }
+        #lista-participantes li, #lista-resultados li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #paste-section {
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        #paste-section textarea {
+            width: calc(100% - 20px);
+            min-height: 120px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 0.95em;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            resize: vertical; 
+        }
+        #paste-section button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            width: 100%;
+            transition: background-color 0.2s ease;
+        }
+        #paste-section button:hover {
+            background-color: #0056b3;
+        }
+        #jugadas-procesadas {
+            font-family: monospace; 
+            width: calc(100% - 20px);
+        }
+        #input-buscar-participante {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            box-sizing: border-box; 
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>PANEL DE ADMINISTRACIÓN - MEGA POLLA</h1>
+        <p>Gestión de Resultados y Participantes</p>
+    </header>
+
+    <div class="admin-section">
+        <h2>💵 Ingresar Montos Financieros y Ventas</h2>
+        <form id="form-finanzas">
+            <label for="input-ventas">Total de VENTAS (Tickets Vendidos):</label>
+            <input type="number" id="input-ventas" min="0" value="197" required>
+            
+            <label for="input-recaudado">Recaudado del Día (Bs.):</label>
+            <input type="number" id="input-recaudado" step="0.01" value="5000.00" required>
+            
+            <label for="input-acumulado">Acumulado Primer Lugar (Bs.):</label>
+            <input type="number" id="input-acumulado" step="0.01" value="2274.00" required>
+            
+            <button type="submit">Guardar Finanzas</button>
+        </form>
+    </div>
+
+    <div class="admin-section">
+        <h2>🔢 Ingresar Resultados del Sorteo</h2>
+        <form id="form-resultados">
+            <label for="sorteo-hora">Sorteo y Hora:</label>
+            <select id="sorteo-hora" required>
+                <option value="">Seleccione Sorteo</option>
+                <option value="LOTTO ACTIVO 8AM">LOTTO ACTIVO 8AM</option>
+                <option value="LOTTO ACTIVO 9AM">LOTTO ACTIVO 9AM</option>
+                <option value="LOTTO ACTIVO 10AM">LOTTO ACTIVO 10AM</option>
+                <option value="LOTTO ACTIVO 11AM">LOTTO ACTIVO 11AM</option>
+                <option value="LOTTO ACTIVO 12PM">LOTTO ACTIVO 12PM</option>
+                <option value="LOTTO ACTIVO 1PM">LOTTO ACTIVO 1PM</option>
+                <option value="LOTTO ACTIVO 2PM">LOTTO ACTIVO 2PM</option>
+                <option value="LOTTO ACTIVO 3PM">LOTTO ACTIVO 3PM</option>
+                <option value="LOTTO ACTIVO 4PM">LOTTO ACTIVO 4PM</option>
+                <option value="LOTTO ACTIVO 5PM">LOTTO ACTIVO 5PM</option>
+                <option value="LOTTO ACTIVO 6PM">LOTTO ACTIVO 6PM</option>
+                <option value="LOTTO ACTIVO 7PM">LOTTO ACTIVO 7PM</option>
+                <option value="GRANJITA 8AM">GRANJITA 8AM</option>
+                <option value="GRANJITA 9AM">GRANJITA 9AM</option>
+                <option value="GRANJITA 10AM">GRANJITA 10AM</option>
+                <option value="GRANJITA 11AM">GRANJITA 11AM</option>
+                <option value="GRANJITA 12PM">GRANJITA 12PM</option>
+                <option value="GRANJITA 1PM">GRANJITA 1PM</option>
+                <option value="GRANJITA 2PM">GRANJITA 2PM</option>
+                <option value="GRANJITA 3PM">GRANJITA 3PM</option>
+                <option value="GRANJITA 4PM">GRANJITA 4PM</option>
+                <option value="GRANJITA 5PM">GRANJITA 5PM</option>
+                <option value="GRANJITA 6PM">GRANJITA 6PM</option>
+                <option value="GRANJITA 7PM">GRANJITA 7PM</option>
+                <option value="SELVA PLUS 8AM">SELVA PLUS 8AM</option>
+                <option value="SELVA PLUS 9AM">SELVA PLUS 9AM</option>
+                <option value="SELVA PLUS 10AM">SELVA PLUS 10AM</option>
+                <option value="SELVA PLUS 11AM">SELVA PLUS 11AM</option>
+                <option value="SELVA PLUS 12PM">SELVA PLUS 12PM</option>
+                <option value="SELVA PLUS 1PM">SELVA PLUS 1PM</option>
+                <option value="SELVA PLUS 2PM">SELVA PLUS 2PM</option>
+                <option value="SELVA PLUS 3PM">SELVA PLUS 3PM</option>
+                <option value="SELVA PLUS 4PM">SELVA PLUS 4PM</option>
+                <option value="SELVA PLUS 5PM">SELVA PLUS 5PM</option>
+                <option value="SELVA PLUS 6PM">SELVA PLUS 6PM</option>
+                <option value="SELVA PLUS 7PM">SELVA PLUS 7PM</option>
+            </select>
+            
+            <label for="numero-ganador">Número Ganador (00-99):</label>
+            <input type="number" id="numero-ganador" min="0" max="99" required>
+            
+            <button type="submit">Guardar Resultado</button>
+        </form>
+        <h3>Resultados Ingresados (Haga clic en Editar para modificar):</h3>
+        <ul id="lista-resultados"></ul>
+    </div>
+
+    <div class="admin-section">
+        <h2>👥 Ingresar Nuevo Participante</h2>
+        
+        <div id="paste-section">
+            <label for="input-paste-data">
+                **Opción Rápida:** Pega el mensaje completo del participante aquí. Se separarán las jugadas de **7 en 7**.
+            </label>
+            <textarea id="input-paste-data" placeholder="Ejemplo de pegado:
+09 19 29 20 25 35 45
+08 18 28 29 30 40 50
+ÁLEXA
+Identificación: 29931335"></textarea>
+            <button type="button" id="btn-procesar-pegado">Pegar y Procesar Datos</button>
+        </div>
+        
+        <form id="form-participante" style="margin-top: 20px;">
+            <label for="nombre">Nombre/Alias:</label>
+            <input type="text" id="nombre" required>
+            
+            <label for="refe">Código REFE (Identificación):</label>
+            <input type="number" id="refe" placeholder="Ingrese el REFE si no se autocompletó" required>
+            
+            <label>Jugadas Procesadas (Cada grupo de 7 números separado por '|' será un registro individual):</label>
+            <input type="text" id="jugadas-procesadas" 
+                         placeholder="Ej: 09,19,29,20,25,35,45 | 08,18,28,29,30,40,50" 
+                         required>
+            
+            <input type="hidden" id="notas-correccion" value=""> 
+
+            <button type="submit">Registrar Participante</button>
+        </form>
+        
+        <h3>Participantes Actuales (Cada línea es una jugada registrada):</h3>
+        
+        <div id="participantes-search-bar">
+            <input type="text" 
+                         id="input-buscar-participante" 
+                         placeholder="🔍 Buscar por Nombre o REFE..." 
+                         >
+        </div>
+        <ul id="lista-participantes"></ul>
+    </div>
+    
+    <hr style="border-color: #fdd835; margin: 30px 0;">
+
+    <div style="text-align: center; margin-bottom: 20px;">
+        <button id="btn-reiniciar-datos" style="background-color: #dc3545; color: white;">
+            🔴 Reiniciar Partidas y Resultados
+        </button>
+        <button id="btn-deshacer" style="background-color: #6c757d; color: white; margin-top: 10px; padding: 10px; border: none; border-radius: 4px; cursor: pointer; display: none;">
+            ↩️ Deshacer Último Reinicio
+        </button>
+        <p style="font-size: 0.8em; color: #aaa; margin-top: 15px;">Esto vaciará todos los participantes y resultados. **Requiere clave para ejecutar**.</p>
+    </div>
+    <script src="admin-script.js"></script>
+</body>
+</html>
