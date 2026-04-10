@@ -16,42 +16,53 @@ document.addEventListener('DOMContentLoaded', async () => {
     const JUGADA_SIZE = 7; 
     let rankingCalculado = []; 
 
-    // Función principal para obtener datos de la nube
+    // FUNCIÓN PARA FORMATEAR MONEDA (Punto en miles, coma en decimales)
+    const formatearBS = (monto) => {
+        return new Intl.NumberFormat('de-DE', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(monto) + " BS";
+    };
+
+    function establecerFechaReal() {
+        const headerP = document.querySelector('header p');
+        if (headerP) {
+            const ahora = new Date();
+            const opciones = { 
+                weekday: 'long', 
+                day: '2-digit', 
+                month: 'long', 
+                year: 'numeric' 
+            };
+            const fechaFormateada = ahora.toLocaleDateString('es-ES', opciones);
+            headerP.style.textTransform = 'capitalize';
+            headerP.innerHTML = `<i class="fas fa-calendar-alt"></i> ${fechaFormateada}`;
+        }
+    }
+
     async function cargarDatosDesdeNube() {
         try {
-            // 1. Obtener Participantes
-            const { data: p, error: ep } = await _supabase
-                .from('participantes')
-                .select('*')
-                .order('nro', { ascending: true });
-            
-            // 2. Obtener Resultados
-            const { data: r, error: er } = await _supabase
-                .from('resultados')
-                .select('*');
-            
-            // 3. Obtener Finanzas
-            const { data: f, error: ef } = await _supabase
-                .from('finanzas')
-                .select('*')
-                .single();
+            const { data: p } = await _supabase.from('participantes').select('*').order('nro', { ascending: true });
+            const { data: r } = await _supabase.from('resultados').select('*');
+            const { data: f } = await _supabase.from('finanzas').select('*').single();
 
             if (p) participantesData = p;
             if (r) {
                 resultadosAdmin = r;
-                resultadosDelDia = r.map(res => res.numero);
+                resultadosDelDia = r.map(res => String(res.numero));
             }
-            if (f) finanzasData = f;
+            if (f) {
+                finanzasData = f;
+            }
 
-            // Una vez cargados, procesamos la lógica original
             inicializarSistema();
-
         } catch (error) {
             console.error("Error cargando datos de Supabase:", error);
         }
     }
 
     function inicializarSistema() {
+        establecerFechaReal(); 
         actualizarFinanzasYEstadisticas(); 
         renderResultadosDia();
         renderRanking();
@@ -59,15 +70,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // ----------------------------------------------------------------
-    // PARTE 2: Funciones Lógicas y de Cálculo (Tu lógica original)
+    // PARTE 2: Funciones Lógicas de Cálculo
     // ----------------------------------------------------------------
 
     function calcularAciertos(jugadorJugadas, ganadores) {
         let aciertos = 0;
-        const ganadoresSet = new Set(ganadores.map(String)); 
+        const ganadoresSet = new Set(ganadores.map(val => String(val))); 
         
         jugadorJugadas.forEach(num => {
-            if (ganadoresSet.has(String(num).padStart(2, '0')) || ganadoresSet.has(String(num))) {
+            let numProcesado = String(num);
+            if (ganadoresSet.has(numProcesado)) {
                 aciertos++;
             }
         });
@@ -79,16 +91,39 @@ document.addEventListener('DOMContentLoaded', async () => {
         const recaudadoEl = document.getElementById('recaudado');
         const acumuladoEl = document.getElementById('acumulado1');
         const repartirEl = document.getElementById('repartir75');
+        const casaEl = document.getElementById('monto-casa');
+        const domingoEl = document.getElementById('monto-domingo');
+
+        const montoRecaudadoHoy = parseFloat(finanzasData.recaudado) || 0;
+        const montoAcumuladoAnterior = parseFloat(finanzasData.acumulado1) || 0;
+
+        const GRAN_TOTAL = montoRecaudadoHoy + montoAcumuladoAnterior;
 
         if (ventasEl) ventasEl.textContent = finanzasData.ventas;
-        if (recaudadoEl) recaudadoEl.textContent = `${finanzasData.recaudado.toFixed(2)} BS`;
-        if (acumuladoEl) acumuladoEl.textContent = `${finanzasData.acumulado1.toFixed(2)} BS`;
+        
+        // APLICANDO EL NUEVO FORMATO A TODOS LOS CAMPOS
+        if (recaudadoEl) recaudadoEl.textContent = formatearBS(montoRecaudadoHoy);
+        if (acumuladoEl) acumuladoEl.textContent = formatearBS(montoAcumuladoAnterior);
         
         if (repartirEl) {
-            const premio75 = finanzasData.recaudado * 0.75;
-            repartirEl.textContent = `${premio75.toFixed(2)} BS`;
+            const premio = GRAN_TOTAL * 0.75;
+            repartirEl.textContent = formatearBS(premio);
+        }
+
+        if (casaEl) {
+            const casa = GRAN_TOTAL * 0.20;
+            casaEl.textContent = formatearBS(casa);
+        }
+
+        if (domingoEl) {
+            const domingo = GRAN_TOTAL * 0.05;
+            domingoEl.textContent = formatearBS(domingo);
         }
     }
+
+    // ----------------------------------------------------------------
+    // PARTE 3: Renderizado de Interfaz
+    // ----------------------------------------------------------------
 
     function renderResultadosDia() {
         const container = document.getElementById('numeros-ganadores-display');
@@ -99,16 +134,47 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        container.innerHTML = ''; 
+        const horas = ["8AM", "9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM"];
+        const nombresRuletas = ["LOTTO ACTIVO", "GRANJITA", "SELVA PLUS"];
+
+        const mapaResultados = {};
         resultadosAdmin.forEach(res => {
-            const ball = document.createElement('div');
-            ball.className = 'resultado-item';
-            ball.innerHTML = `
-                <span class="sorteo-name">${res.sorteo}</span>
-                <span class="numero-ball">${res.numero.toString().padStart(2, '0')}</span>
-            `;
-            container.appendChild(ball);
+            const partes = res.sorteo.split(' ');
+            const hora = partes.pop(); 
+            const nombreRuleta = partes.join(' ');
+
+            if (!mapaResultados[nombreRuleta]) {
+                mapaResultados[nombreRuleta] = {};
+            }
+            mapaResultados[nombreRuleta][hora] = res.numero;
         });
+
+        let tablaHTML = `
+            <div class="tabla-resultados-wrapper">
+                <table class="tabla-horarios">
+                    <thead>
+                        <tr>
+                            <th style="background:#333; border:none;"></th>
+                            ${horas.map(h => `<th>${h}</th>`).join('')}
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+
+        nombresRuletas.forEach(ruleta => {
+            tablaHTML += `<tr><td class="col-ruleta">${ruleta}</td>`;
+            horas.forEach(h => {
+                const num = (mapaResultados[ruleta] && mapaResultados[ruleta][h]) 
+                            ? mapaResultados[ruleta][h] 
+                            : "--";
+                const claseNum = num === "--" ? "sin-resultado" : "celda-numero";
+                tablaHTML += `<td class="${claseNum}">${num}</td>`;
+            });
+            tablaHTML += `</tr>`;
+        });
+
+        tablaHTML += `</tbody></table></div>`;
+        container.innerHTML = tablaHTML;
     }
 
     function renderRanking(filtro = "") {
@@ -120,6 +186,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             const numAciertos = calcularAciertos(p.jugadas, resultadosDelDia);
             return { ...p, aciertos: numAciertos };
         });
+
+        rankingCalculado.sort((a, b) => b.aciertos - a.aciertos);
 
         const term = filtro.toLowerCase();
         const dataFiltrada = rankingCalculado.filter(p => 
@@ -136,8 +204,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             let jugadasHTML = '';
             for (let i = 0; i < JUGADA_SIZE; i++) {
-                const num = p.jugadas[i] ? p.jugadas[i].toString().padStart(2, '0') : '--';
-                const esGanador = resultadosDelDia.includes(num) || resultadosDelDia.includes(p.jugadas[i]);
+                const num = p.jugadas[i] ? String(p.jugadas[i]) : '--';
+                const esGanador = resultadosDelDia.includes(num);
                 const claseGanador = esGanador ? 'hit' : '';
                 jugadasHTML += `<td><span class="ranking-box ${claseGanador}">${num}</span></td>`;
             }
@@ -173,20 +241,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // ----------------------------------------------------------------
-    // LÓGICA PARA DESCARGAR PDF
-    // ----------------------------------------------------------------
-    
     const btnDescargarPdf = document.getElementById('btn-descargar-pdf');
     if (btnDescargarPdf) {
         btnDescargarPdf.addEventListener('click', () => {
-            const originalTitle = document.title;
-            document.title = "Resultados_Mega_Polla";
             window.print();
-            document.title = originalTitle;
         });
     }
 
-    // INICIO DE CARGA
     cargarDatosDesdeNube();
 });
