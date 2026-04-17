@@ -97,25 +97,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         const primerPremioEl = document.getElementById('primer-premio'); 
         const segundoPremioEl = document.getElementById('segundo-premio'); 
         const domingoEl = document.getElementById('monto-domingo');
-        const casaEl = document.getElementById('monto-casa');
 
         // Valores base desde la base de datos
         const montoRecaudadoHoy = parseFloat(finanzasData.recaudado) || 0;
         const montoAcumuladoAnterior = parseFloat(finanzasData.acumulado1) || 0;
         const montoAcumuladoDos = parseFloat(finanzasData.acumulado2) || 0;
 
-        // --- NUEVA LÓGICA FINANCIERA SOLICITADA ---
+        // --- LÓGICA FINANCIERA INTERNA ---
         
         // 1. Repartición del 100% recogido
         const montoParaPremiosTotal = montoRecaudadoHoy * 0.75; // 75% para repartir
         const montoParaDomingo = montoRecaudadoHoy * 0.05;      // 5% para domingos
-        const montoParaCasa = montoRecaudadoHoy * 0.20;         // 20% para la casa
+        // El 20% de la casa se calcula pero no se busca el elemento en el DOM para no mostrarlo
+        const montoParaCasa = montoRecaudadoHoy * 0.20;         
 
         // 2. División del 75% de premios (80% / 20%) + sus respectivos acumulados
-        // Primer Premio: (80% del pozo de premios) + Acumulado 1
         const calculoPrimerPremio = (montoParaPremiosTotal * 0.80) + montoAcumuladoAnterior;
-        
-        // Segundo Premio: (20% del pozo de premios) + Acumulado 2
         const calculoSegundoPremio = (montoParaPremiosTotal * 0.20) + montoAcumuladoDos;
 
         // --- ACTUALIZACIÓN DE LA INTERFAZ ---
@@ -126,7 +123,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (acumulado1El) acumulado1El.textContent = formatearBS(montoAcumuladoAnterior);
         if (acumulado2El) acumulado2El.textContent = formatearBS(montoAcumuladoDos);
         
-        // Cuadro 2: Premios y Distribución
+        // Cuadro 2: Premios (Sin mostrar la Casa)
         if (primerPremioEl) {
             primerPremioEl.textContent = formatearBS(calculoPrimerPremio);
         }
@@ -137,10 +134,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (domingoEl) {
             domingoEl.textContent = formatearBS(montoParaDomingo);
-        }
-
-        if (casaEl) {
-            casaEl.textContent = formatearBS(montoParaCasa);
         }
     }
 
