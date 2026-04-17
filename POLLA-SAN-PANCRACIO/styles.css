@@ -212,7 +212,7 @@ header p {
 }
 
 /* ========================================================= */
-/* 5. RESULTADOS DEL DÍA (BOLAS DE LOTERÍA)                  */
+/* 5. RESULTADOS DEL DÍA (BOLAS DE LOTERÍA)                   */
 /* ========================================================= */
 .numeros-ganadores {
     display: flex;
@@ -572,7 +572,7 @@ footer {
 }
 
 /* ========================================================= */
-/* 12. ESTILOS DE IMPRESIÓN (PDF)                             */
+/* 12. ESTILOS DE IMPRESIÓN (PDF)                            */
 /* ========================================================= */
 @media print {
     #btn-descargar-pdf, .filtro-container, footer, button {
@@ -600,6 +600,15 @@ footer {
         color: #333 !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
+    }
+
+    /* FORZAR CENTRADO DE TÍTULOS EN PDF */
+    .compact-resumen h2 {
+        display: block !important;
+        text-align: center !important;
+        width: 100% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
 
     /* REDUCCIÓN DE RESUMEN AL IMPRIMIR A UNA FILA HORIZONTAL */
