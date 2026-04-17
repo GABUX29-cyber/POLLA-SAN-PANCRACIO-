@@ -600,27 +600,31 @@ footer {
         color: #333 !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
+        text-align: center !important;
     }
 
     /* FORZAR CENTRADO DE TÍTULOS EN PDF */
     .compact-resumen h2 {
         display: block !important;
         text-align: center !important;
-        width: 100% !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
+        width: fit-content !important;
+        margin: 0 auto 10px auto !important;
     }
 
-    /* REDUCCIÓN DE RESUMEN AL IMPRIMIR A UNA FILA HORIZONTAL */
+    /* SOLUCIÓN AL CENTRADO DE TARJETAS EN PDF */
     .stats-grid-ultra {
-        grid-template-columns: repeat(8, 1fr) !important;
-        gap: 2px !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important; /* Esto centra las tarjetas si son menos de 8 */
+        gap: 5px !important;
     }
 
     .est-mini {
         border: 1px solid #ddd !important;
-        padding: 4px 1px !important;
+        padding: 4px 5px !important;
         min-height: auto !important;
+        flex: 1 1 10% !important; /* Permite que crezcan y se centren */
+        max-width: 100px !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
     }
