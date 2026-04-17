@@ -88,44 +88,59 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function actualizarFinanzasYEstadisticas() {
-        // Enlazamos con los nuevos IDs del HTML organizado en dos cuadros
+        // Enlazamos con los IDs del HTML
         const ventasEl = document.getElementById('ventas');
         const recaudadoEl = document.getElementById('recaudado');
         const acumulado1El = document.getElementById('acumulado1');
         const acumulado2El = document.getElementById('acumulado2');
         
-        const primerPremioEl = document.getElementById('repartir75'); // ID del primer recuadro de premios
-        const segundoPremioEl = document.getElementById('monto-domingo'); // ID del segundo recuadro de premios
+        const primerPremioEl = document.getElementById('primer-premio'); 
+        const segundoPremioEl = document.getElementById('segundo-premio'); 
+        const domingoEl = document.getElementById('monto-domingo');
         const casaEl = document.getElementById('monto-casa');
 
+        // Valores base desde la base de datos
         const montoRecaudadoHoy = parseFloat(finanzasData.recaudado) || 0;
         const montoAcumuladoAnterior = parseFloat(finanzasData.acumulado1) || 0;
         const montoAcumuladoDos = parseFloat(finanzasData.acumulado2) || 0;
 
-        // Cálculos
-        const GRAN_TOTAL = montoRecaudadoHoy + montoAcumuladoAnterior;
+        // --- NUEVA LÓGICA FINANCIERA SOLICITADA ---
+        
+        // 1. Repartición del 100% recogido
+        const montoParaPremiosTotal = montoRecaudadoHoy * 0.75; // 75% para repartir
+        const montoParaDomingo = montoRecaudadoHoy * 0.05;      // 5% para domingos
+        const montoParaCasa = montoRecaudadoHoy * 0.20;         // 20% para la casa
 
-        // Mostrar Cuadro 1: Resumen de Polla
+        // 2. División del 75% de premios (80% / 20%) + sus respectivos acumulados
+        // Primer Premio: (80% del pozo de premios) + Acumulado 1
+        const calculoPrimerPremio = (montoParaPremiosTotal * 0.80) + montoAcumuladoAnterior;
+        
+        // Segundo Premio: (20% del pozo de premios) + Acumulado 2
+        const calculoSegundoPremio = (montoParaPremiosTotal * 0.20) + montoAcumuladoDos;
+
+        // --- ACTUALIZACIÓN DE LA INTERFAZ ---
+
+        // Cuadro 1: Resumen de Polla
         if (ventasEl) ventasEl.textContent = finanzasData.ventas;
         if (recaudadoEl) recaudadoEl.textContent = formatearBS(montoRecaudadoHoy);
         if (acumulado1El) acumulado1El.textContent = formatearBS(montoAcumuladoAnterior);
         if (acumulado2El) acumulado2El.textContent = formatearBS(montoAcumuladoDos);
         
-        // Mostrar Cuadro 2: Premios
-        // Ajusta estos porcentajes según tu regla de negocio:
+        // Cuadro 2: Premios y Distribución
         if (primerPremioEl) {
-            const primerPremio = (GRAN_TOTAL * 0.50); // Ejemplo: 50% para el primero
-            primerPremioEl.textContent = formatearBS(primerPremio);
+            primerPremioEl.textContent = formatearBS(calculoPrimerPremio);
         }
 
         if (segundoPremioEl) {
-            const segundoPremio = (GRAN_TOTAL * 0.25); // Ejemplo: 25% para el segundo
-            segundoPremioEl.textContent = formatearBS(segundoPremio);
+            segundoPremioEl.textContent = formatearBS(calculoSegundoPremio);
+        }
+
+        if (domingoEl) {
+            domingoEl.textContent = formatearBS(montoParaDomingo);
         }
 
         if (casaEl) {
-            const casa = GRAN_TOTAL * 0.25; // Ejemplo: 25% para la casa
-            casaEl.textContent = formatearBS(casa);
+            casaEl.textContent = formatearBS(montoParaCasa);
         }
     }
 
