@@ -46,89 +46,86 @@ header p {
 }
 
 /* ========================================================= */
-/* 2. ÁREA FINANCIERA ULTRA COMPACTA (DOS CUADROS)           */
+/* 2. ÁREA FINANCIERA ULTRA COMPACTA (CON COLORES Y EMOJIS)   */
 /* ========================================================= */
 .compact-resumen {
-    padding: 12px !important;
+    padding: 8px !important;
 }
 
 .compact-resumen h2 {
-    font-size: 1em !important;
-    margin-bottom: 10px !important;
+    font-size: 0.9em !important;
+    margin-bottom: 8px !important;
     border-bottom: 2px solid #fdd835;
     padding-bottom: 3px;
     display: inline-block;
-    font-weight: 700;
 }
 
 .stats-grid-ultra {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
+    gap: 5px;
 }
 
 .est-mini {
     border-radius: 6px;
-    padding: 8px 4px;
+    padding: 6px 2px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(0,0,0,0.08);
-    min-height: 75px;
-    transition: transform 0.2s;
+    border: 1px solid rgba(0,0,0,0.1);
+    min-height: 60px;
 }
 
 .est-mini i {
-    font-size: 1.1em;
-    margin-bottom: 5px;
+    font-size: 0.9em;
+    margin-bottom: 3px;
 }
 
 .val-mini {
-    font-size: 0.95em;
+    font-size: 0.9em;
     font-weight: 800;
     color: #333;
-    line-height: 1.1;
+    line-height: 1;
 }
 
 .est-mini label {
-    font-size: 0.55em;
+    font-size: 0.52em;
     text-transform: uppercase;
-    font-weight: 800;
-    color: #555;
-    margin-top: 5px;
+    font-weight: 700;
+    color: #444;
+    margin-top: 3px;
     text-align: center;
     width: 95%;
-    white-space: normal;
+    white-space: normal; /* Asegura que el texto no se corte y baje */
 }
 
-/* Colores de los cuadros financieros (Cuadro 1) */
-.ventas { background-color: #e3f2fd; border-bottom: 4px solid #2196f3; }
+/* Colores de los cuadros financieros */
+.ventas { background-color: #e3f2fd; border-bottom: 3px solid #2196f3; }
 .ventas i { color: #2196f3; }
 
-.recaudado { background-color: #e8f5e9; border-bottom: 4px solid #4caf50; }
+.recaudado { background-color: #e8f5e9; border-bottom: 3px solid #4caf50; }
 .recaudado i { color: #4caf50; }
 
-.acumulado { background-color: #fffde7; border-bottom: 4px solid #fbc02d; }
+.acumulado { background-color: #fffde7; border-bottom: 3px solid #fbc02d; }
 .acumulado i { color: #fbc02d; }
 
+/* Estilo para el nuevo Acumulado 2 */
 .acumulado2 { 
     background-color: #fff9c4 !important; 
-    border-bottom: 4px solid #fbc02d !important; 
+    border-bottom: 3px solid #fbc02d !important; 
 }
-.acumulado2 i { color: #fbc02d; }
 
-/* Colores de los cuadros de premios (Cuadro 2) */
-.repartir { background-color: #fff3e0; border-bottom: 4px solid #ff9800; }
-.repartir i { color: #ff9800; }
-
-.domingo { background-color: #e0f2f1; border-bottom: 4px solid #009688; }
-.domingo i { color: #009688; }
-
-.casa { background-color: #f3e5f5; border-bottom: 4px solid #9c27b0; }
+.casa { background-color: #f3e5f5; border-bottom: 3px solid #9c27b0; }
 .casa i { color: #9c27b0; }
 
-.ganadores-box-item { background-color: #ffebee; border-bottom: 4px solid #f44336; }
+.domingo { background-color: #e0f2f1; border-bottom: 3px solid #009688; }
+.domingo i { color: #009688; }
+
+.repartir { background-color: #fff3e0; border-bottom: 3px solid #ff9800; }
+.repartir i { color: #ff9800; }
+
+.ganadores-box-item { background-color: #ffebee; border-bottom: 3px solid #f44336; }
 .ganadores-box-item i { color: #f44336; }
 
 /* ========================================================= */
@@ -215,7 +212,7 @@ header p {
 }
 
 /* ========================================================= */
-/* 5. RESULTADOS DEL DÍA (BOLAS DE LOTERÍA)                   */
+/* 5. RESULTADOS DEL DÍA (BOLAS DE LOTERÍA)                  */
 /* ========================================================= */
 .numeros-ganadores {
     display: flex;
@@ -575,7 +572,7 @@ footer {
 }
 
 /* ========================================================= */
-/* 12. ESTILOS DE IMPRESIÓN (PDF)                            */
+/* 12. ESTILOS DE IMPRESIÓN (PDF)                             */
 /* ========================================================= */
 @media print {
     #btn-descargar-pdf, .filtro-container, footer, button {
@@ -583,8 +580,10 @@ footer {
     }
     
     body {
-        background-color: white !important;
-        color: #333 !important;
+        background-color: #212121 !important;
+        color: #eee !important;
+        -webkit-print-color-adjust: exact !important; 
+        print-color-adjust: exact !important;
         padding: 0;
         margin: 0;
     }
@@ -594,16 +593,16 @@ footer {
         color: #333 !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
-        margin-bottom: 10px;
     }
 
     .card {
-        box-shadow: none !important;
-        border: 1px solid #eee !important;
-        margin-bottom: 10px !important;
+        background-color: #ffffff !important;
+        color: #333 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
     }
 
-    /* En impresión, ponemos los 8 cuadros financieros en una sola fila para ahorrar espacio */
+    /* REDUCCIÓN DE RESUMEN AL IMPRIMIR A UNA FILA HORIZONTAL */
     .stats-grid-ultra {
         grid-template-columns: repeat(8, 1fr) !important;
         gap: 2px !important;
@@ -617,13 +616,14 @@ footer {
         print-color-adjust: exact;
     }
 
-    .val-mini { font-size: 0.7em !important; }
-    .est-mini label { font-size: 0.4em !important; }
-    .est-mini i { display: none; } /* Ocultamos iconos para ganar espacio */
+    .val-mini { font-size: 0.75em !important; }
+    .est-mini label { font-size: 0.45em !important; }
+    .est-mini i { font-size: 0.7em !important; }
 
     tbody tr, tr {
         page-break-inside: avoid !important;
+        break-inside: avoid !important;
     }
 
-    @page { margin: 1cm; }
+    @page { margin: 0; }
 }
