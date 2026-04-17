@@ -100,7 +100,7 @@ header p {
     white-space: normal; /* Asegura que el texto no se corte y baje */
 }
 
-/* Restauración de colores originales */
+/* Colores de los cuadros financieros */
 .ventas { background-color: #e3f2fd; border-bottom: 3px solid #2196f3; }
 .ventas i { color: #2196f3; }
 
@@ -109,6 +109,12 @@ header p {
 
 .acumulado { background-color: #fffde7; border-bottom: 3px solid #fbc02d; }
 .acumulado i { color: #fbc02d; }
+
+/* Estilo para el nuevo Acumulado 2 */
+.acumulado2 { 
+    background-color: #fff9c4 !important; 
+    border-bottom: 3px solid #fbc02d !important; 
+}
 
 .casa { background-color: #f3e5f5; border-bottom: 3px solid #9c27b0; }
 .casa i { color: #9c27b0; }
@@ -196,8 +202,8 @@ header p {
 
 .celda-numero {
     font-weight: 800;
-    font-size: 1.5em; /* CAMBIO: Tamaño aumentado */
-    color: #000000 !important; /* CAMBIO: Color negro */
+    font-size: 1.5em;
+    color: #000000 !important;
 }
 
 .sin-resultado {
@@ -534,16 +540,13 @@ footer {
 }
 
 /* ========================================================= */
-/* 11. MEDIA QUERIES (RESPONSIVE)                             */
+/* 11. MEDIA QUERIES (RESPONSIVE)                            */
 /* ========================================================= */
 @media (max-width: 600px) {
     .stats-grid-ultra {
         grid-template-columns: repeat(2, 1fr);
     }
-    .ganadores-destacado {
-        grid-column: span 2;
-    }
-
+    
     .card-container {
         grid-template-columns: 1fr;
     }
@@ -601,7 +604,7 @@ footer {
 
     /* REDUCCIÓN DE RESUMEN AL IMPRIMIR A UNA FILA HORIZONTAL */
     .stats-grid-ultra {
-        grid-template-columns: repeat(7, 1fr) !important;
+        grid-template-columns: repeat(8, 1fr) !important;
         gap: 2px !important;
     }
 

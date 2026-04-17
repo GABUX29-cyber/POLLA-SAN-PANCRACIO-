@@ -49,15 +49,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     verificarSesion();
 
-    // Variables globales de tu lógica
-    const JUGADA_SIZE = 7; 
+    // --- VARIABLES GLOBALES ACTUALIZADAS ---
+    const JUGADA_SIZE = 6; // Cambio de 7 a 6
 
     let participantes = [];
     let resultados = [];
-    let finanzas = { ventas: 0, recaudado: 0.00, acumulado1: 0.00 };
+    let finanzas = { ventas: 0, recaudado: 0.00, acumulado1: 0.00, acumulado2: 0.00 };
 
     // ---------------------------------------------------------------------------------------
-    // --- 1. FUNCIÓN DE PROCESAMIENTO (REGLAS DE NEGOCIO) ---
+    // --- 1. FUNCIÓN DE PROCESAMIENTO (REGLAS DE NEGOCIO PARA 6 NÚMEROS) ---
     // ---------------------------------------------------------------------------------------
     function procesarYValidarJugada(numerosRaw, nombreParticipante) {
         let numeros = numerosRaw.map(n => {
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let avisos = [];
         let avisosAlert = [];
 
-        // Regla: Máximo 7 números (elimina el sobrante)
+        // Regla: Máximo 6 números (elimina el sobrante)
         if (numeros.length > JUGADA_SIZE) {
             let eliminados = [];
             while (numeros.length > JUGADA_SIZE) {
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
             avisosAlert.push(`⚠️ ${msg}`);
         }
 
-        // Validación: Mínimo 7 números
+        // Validación: Mínimo 6 números
         if (numeros.length < JUGADA_SIZE) {
             alert(`❌ ERROR en ${nombreParticipante}: Solo tiene ${numeros.length} números.`);
             return null;
@@ -118,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Si hubo cambios, avisar al administrador antes de registrar
         if (avisosAlert.length > 0) {
             alert(`📝 CAMBIOS AUTOMÁTICOS EN ${nombreParticipante}:\n\n${avisosAlert.join('\n')}`);
         }
@@ -142,7 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (r) resultados = r;
             if (f) finanzas = f;
 
-            // --- SINCRONIZACIÓN AUTOMÁTICA HACIA LA NUBE ---
             if (p && f && p.length !== f.ventas) {
                 await _supabase.from('finanzas').update({ ventas: p.length }).eq('id', 1);
                 finanzas.ventas = p.length;
@@ -212,6 +210,12 @@ document.addEventListener('DOMContentLoaded', () => {
         finanzas.recaudado = parseFloat(document.getElementById('input-recaudado').value);
         finanzas.acumulado1 = parseFloat(document.getElementById('input-acumulado').value);
         
+        // Incluir acumulado2 si el elemento existe en el HTML
+        const inputAc2 = document.getElementById('input-acumulado2');
+        if (inputAc2) {
+            finanzas.acumulado2 = parseFloat(inputAc2.value);
+        }
+        
         const { error } = await _supabase.from('finanzas').update(finanzas).eq('id', 1);
         if (error) alert("Error al actualizar finanzas");
         else { alert("✅ Finanzas actualizadas."); cargarDatosDesdeNube(); }
@@ -253,10 +257,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         lineas.forEach(linea => {
             const matches = linea.match(/\b\d{1,2}\b/g);
-            if (matches && matches.length >= 5) {
+            if (matches && matches.length >= 4) {
                 for (let i = 0; i < matches.length; i += JUGADA_SIZE) {
                     let grupo = matches.slice(i, i + JUGADA_SIZE);
-                    if (grupo.length >= 5) {
+                    if (grupo.length >= 4) {
                         jugadasFinales.push(grupo.join(','));
                     }
                 }
@@ -318,6 +322,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const inputAcumulado = document.getElementById('input-acumulado');
         if (inputAcumulado) inputAcumulado.value = finanzas.acumulado1;
+
+        const inputAcumulado2 = document.getElementById('input-acumulado2');
+        if (inputAcumulado2) inputAcumulado2.value = finanzas.acumulado2 || 0;
 
         const montoCasa = (finanzas.recaudado * 0.20).toFixed(2);
         const montoDomingo = (finanzas.recaudado * 0.05).toFixed(2);

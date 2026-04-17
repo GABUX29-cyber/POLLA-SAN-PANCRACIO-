@@ -9,11 +9,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     let finanzasData = {
         ventas: 0, 
         recaudado: 0.00,
-        acumulado1: 0.00
+        acumulado1: 0.00,
+        acumulado2: 0.00 // Nuevo campo para el segundo acumulado
     };
     
     let resultadosDelDia = [];
-    const JUGADA_SIZE = 7; 
+    const JUGADA_SIZE = 6; // Cambio de 7 a 6 números
     let rankingCalculado = []; 
 
     // FUNCIÓN PARA FORMATEAR MONEDA (Punto en miles, coma en decimales)
@@ -89,24 +90,27 @@ document.addEventListener('DOMContentLoaded', async () => {
     function actualizarFinanzasYEstadisticas() {
         const ventasEl = document.getElementById('ventas');
         const recaudadoEl = document.getElementById('recaudado');
-        const acumuladoEl = document.getElementById('acumulado1');
+        const acumulado1El = document.getElementById('acumulado1');
+        const acumulado2El = document.getElementById('acumulado2'); // Elemento del Acumulado 2
         const repartirEl = document.getElementById('repartir75');
         const casaEl = document.getElementById('monto-casa');
         const domingoEl = document.getElementById('monto-domingo');
 
         const montoRecaudadoHoy = parseFloat(finanzasData.recaudado) || 0;
         const montoAcumuladoAnterior = parseFloat(finanzasData.acumulado1) || 0;
+        const montoAcumuladoDos = parseFloat(finanzasData.acumulado2) || 0;
 
+        // El gran total para cálculos de porcentajes suele basarse en lo recaudado + acumulado principal
         const GRAN_TOTAL = montoRecaudadoHoy + montoAcumuladoAnterior;
 
         if (ventasEl) ventasEl.textContent = finanzasData.ventas;
         
-        // APLICANDO EL NUEVO FORMATO A TODOS LOS CAMPOS
         if (recaudadoEl) recaudadoEl.textContent = formatearBS(montoRecaudadoHoy);
-        if (acumuladoEl) acumuladoEl.textContent = formatearBS(montoAcumuladoAnterior);
+        if (acumulado1El) acumulado1El.textContent = formatearBS(montoAcumuladoAnterior);
+        if (acumulado2El) acumulado2El.textContent = formatearBS(montoAcumuladoDos);
         
         if (repartirEl) {
-            const premio = GRAN_TOTAL * 0.75;
+            const premio = (GRAN_TOTAL * 0.75);
             repartirEl.textContent = formatearBS(premio);
         }
 
@@ -198,7 +202,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         let totalGanadores = 0;
 
         dataFiltrada.forEach(p => {
-            if (p.aciertos >= 7) totalGanadores++;
+            // Se actualiza a 6 aciertos para ser considerado ganador
+            if (p.aciertos >= 6) totalGanadores++;
 
             const tr = document.createElement('tr');
             
@@ -221,7 +226,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             tbody.appendChild(tr);
 
             const aciertosCell = tr.querySelector(`#aciertos-${p.nro}`);
-            if (p.aciertos >= 7) { 
+            if (p.aciertos >= 6) { 
                 aciertosCell.innerHTML = '<span class="ganador-final">GANADOR 🏆</span>';
             } else {
                 aciertosCell.innerHTML = `<span class="ranking-box aciertos-box">${p.aciertos}</span>`;
