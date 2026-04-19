@@ -11,6 +11,8 @@ body {
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
+    /* MEJORA: Evitar desbordamiento lateral en móviles */
+    overflow-x: hidden;
 }
 
 /* AJUSTE CRUCIAL: Forzar texto oscuro dentro de secciones/tarjetas blancas */
@@ -33,7 +35,8 @@ header {
 
 h1 {
     margin: 0;
-    font-size: 1.8em;
+    /* MEJORA: Fuente dinámica para el título */
+    font-size: clamp(1.3em, 5vw, 1.8em);
     font-weight: 800;
     letter-spacing: 1px;
     text-transform: uppercase;
@@ -46,7 +49,7 @@ header p {
 }
 
 /* ========================================================= */
-/* 2. ÁREA FINANCIERA ULTRA COMPACTA (CON COLORES Y EMOJIS)    */
+/* 2. ÁREA FINANCIERA ULTRA COMPACTA (CON COLORES Y EMOJIS)   */
 /* ========================================================= */
 .compact-resumen {
     padding: 8px !important;
@@ -83,40 +86,49 @@ header p {
 }
 
 .val-mini {
-    font-size: 0.9em;
+    /* MEJORA: Fuente dinámica para montos financieros */
+    font-size: clamp(0.75em, 2.5vw, 0.9em);
     font-weight: 800;
     color: #333;
     line-height: 1;
 }
 
 .est-mini label {
-    font-size: 0.52em;
+    /* MEJORA: Fuente dinámica para etiquetas */
+    font-size: clamp(0.45em, 2vw, 0.52em);
     text-transform: uppercase;
     font-weight: 700;
     color: #444;
     margin-top: 3px;
     text-align: center;
     width: 95%;
-    white-space: normal;
+    white-space: normal; 
 }
 
 /* Colores de los cuadros financieros */
 .ventas { background-color: #e3f2fd; border-bottom: 3px solid #2196f3; }
 .ventas i { color: #2196f3; }
+
 .recaudado { background-color: #e8f5e9; border-bottom: 3px solid #4caf50; }
 .recaudado i { color: #4caf50; }
+
 .acumulado { background-color: #fffde7; border-bottom: 3px solid #fbc02d; }
 .acumulado i { color: #fbc02d; }
+
 .acumulado2 { 
     background-color: #fff9c4 !important; 
     border-bottom: 3px solid #fbc02d !important; 
 }
+
 .casa { background-color: #f3e5f5; border-bottom: 3px solid #9c27b0; }
 .casa i { color: #9c27b0; }
+
 .domingo { background-color: #e0f2f1; border-bottom: 3px solid #009688; }
 .domingo i { color: #009688; }
+
 .repartir { background-color: #fff3e0; border-bottom: 3px solid #ff9800; }
 .repartir i { color: #ff9800; }
+
 .ganadores-box-item { background-color: #ffebee; border-bottom: 3px solid #f44336; }
 .ganadores-box-item i { color: #f44336; }
 
@@ -132,6 +144,10 @@ header p {
     margin-bottom: 25px;
 }
 
+.card-container.full-width {
+    grid-template-columns: 1fr;
+}
+
 .card {
     background-color: #ffffff;
     padding: 20px;
@@ -140,7 +156,6 @@ header p {
     text-align: center;
     width: 100%;
     box-sizing: border-box;
-    overflow: hidden; /* IMPORTANTE: No deja que nada salga de la tarjeta */
 }
 
 .card h2 {
@@ -153,29 +168,30 @@ header p {
 }
 
 /* ========================================================= */
-/* 4. TABLA DE RESULTADOS (CUADRÍCULA POR HORAS)              */
+/* 4. TABLA DE RESULTADOS (CUADRÍCULA POR HORAS)             */
 /* ========================================================= */
 .tabla-resultados-wrapper {
     width: 100%;
-    max-width: 100%; /* No se sale del margen de la tarjeta */
-    overflow-x: auto; /* Scroll interno si la tabla es grande */
+    /* MEJORA: Scroll interno suave obligatorio */
+    overflow-x: auto;
     margin-top: 10px;
-    -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch; /* Mejora scroll en iPhone */
     border-radius: 8px;
 }
 
 .tabla-horarios {
-    width: 900px; /* ANCHO FIJO INTERNO: Mantiene el tamaño real de la tabla */
+    width: 100%;
     border-collapse: collapse;
-    table-layout: fixed;
+    /* MEJORA: Ancho mínimo para que los datos no se pisen */
+    min-width: 700px; 
 }
 
 .tabla-horarios th, .tabla-horarios td {
     border: 1px solid #ddd;
-    padding: 12px 5px;
+    padding: 8px 4px;
     text-align: center;
-    font-size: 0.9em;
-    color: #333;
+    /* MEJORA: Fuente dinámica en celdas */
+    font-size: clamp(0.75em, 2vw, 0.85em);
 }
 
 .tabla-horarios thead th {
@@ -185,20 +201,20 @@ header p {
 }
 
 .col-ruleta {
+    /* MEJORA: Columna fija al scrollear lateralmente */
+    position: sticky;
+    left: 0;
+    z-index: 2;
     background-color: #fdd835 !important;
     font-weight: 800;
     color: #333;
     text-align: left !important;
-    padding-left: 15px !important;
-    width: 130px; /* Columna fija */
-    position: sticky;
-    left: 0;
-    z-index: 2;
+    padding-left: 10px !important;
 }
 
 .celda-numero {
-    font-weight: 900;
-    font-size: 1.6em;
+    font-weight: 800;
+    font-size: 1.5em;
     color: #000000 !important;
 }
 
@@ -210,67 +226,58 @@ header p {
 /* ========================================================= */
 /* 5. RESULTADOS DEL DÍA (BOLAS DE LOTERÍA)                   */
 /* ========================================================= */
-.numeros-ganadores-wrapper {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
 .numeros-ganadores {
     display: flex;
-    flex-wrap: nowrap; /* No permite que las bolas bajen de línea */
-    justify-content: flex-start;
-    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
     margin-top: 10px;
-    min-width: 850px; /* Ancho para forzar scroll lateral */
-    padding: 10px;
 }
 
 .resultado-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex-shrink: 0;
 }
 
 .sorteo-name {
-    font-size: 0.75em;
+    font-size: 0.7em;
     font-weight: 700;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
     color: #555;
     text-transform: uppercase;
 }
 
 .numero-ball {
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     background: radial-gradient(circle at 30% 30%, #fdd835, #fbc02d);
     color: #333;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 900;
-    font-size: 1.5em;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-    border: 2.5px solid #333;
+    font-weight: 800;
+    font-size: 1.3em;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2), inset 0 -2px 5px rgba(0,0,0,0.1);
+    border: 2px solid #333;
 }
 
 /* ========================================================= */
-/* 6. TABLA DE RANKING / PARTICIPANTES                        */
+/* 6. TABLA DE RANKING / PARTICIPANTES                       */
 /* ========================================================= */
 .ranking {
-    width: 100%;
-    max-width: 100%;
+    /* MEJORA: Scroll interno para la lista de jugadores */
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
 
-.ranking table {
-    width: 850px; /* Ancho fijo interno para evitar que se apriete */
+table {
+    width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
+    /* MEJORA: Ancho mínimo para ranking */
+    min-width: 600px;
     font-size: 0.9em;
 }
 
@@ -325,14 +332,13 @@ tbody tr:hover {
     height: 35px;
     line-height: 35px;
     border-radius: 50%;
-    font-size: 1.1em;
-    display: inline-block;
+    font-size: 1em;
 }
 
 .ganador-final {
     background-color: #d32f2f;
     color: white;
-    padding: 5px 12px;
+    padding: 5px 10px;
     border-radius: 20px;
     font-weight: 800;
     font-size: 0.8em;
@@ -520,10 +526,23 @@ form button:hover {
     transition: 0.2s;
 }
 
-.btn-editar { background-color: #ffc107; color: #333; }
-.btn-editar:hover { background-color: #e0a800; }
-.btn-eliminar { background-color: #dc3545; color: white; }
-.btn-eliminar:hover { background-color: #c82333; }
+.btn-editar {
+    background-color: #ffc107;
+    color: #333;
+}
+
+.btn-editar:hover {
+    background-color: #e0a800;
+}
+
+.btn-eliminar {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-eliminar:hover {
+    background-color: #c82333;
+}
 
 /* ========================================================= */
 /* 10. FOOTER                                                */
@@ -540,22 +559,41 @@ footer {
 /* 11. MEDIA QUERIES (RESPONSIVE)                            */
 /* ========================================================= */
 @media (max-width: 600px) {
-    .stats-grid-ultra { grid-template-columns: repeat(2, 1fr); }
-    .card-container { grid-template-columns: 1fr; }
-    h1 { font-size: 1.4em; }
+    .stats-grid-ultra {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .card-container {
+        grid-template-columns: 1fr;
+    }
+    
+    /* MEJORA: Tamaño de fuente más pequeño para móvil para evitar choques */
+    .val-mini { font-size: 0.75em; }
+    .est-mini label { font-size: 0.45em; }
+    
+    .ranking table { font-size: 0.75em; }
+    
+    .ranking-box {
+        width: 22px;
+        height: 22px;
+        line-height: 22px;
+        font-size: 0.75em;
+    }
     
     #lista-participantes li, #lista-resultados li {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
     }
+
+    .tabla-horarios { font-size: 0.65em; }
 }
 
 /* ========================================================= */
 /* 12. ESTILOS DE IMPRESIÓN (PDF)                            */
 /* ========================================================= */
 @media print {
-    #btn-descargar-pdf, .filtro-container, footer, button, .admin-section {
+    #btn-descargar-pdf, .filtro-container, footer, button {
         display: none !important;
     }
     
@@ -583,6 +621,15 @@ footer {
         text-align: center !important;
     }
 
+    /* MEJORA: Desactivar scroll interno en impresión para mostrar todo */
+    .tabla-resultados-wrapper, .ranking {
+        overflow: visible !important;
+    }
+    
+    .tabla-horarios, table {
+        min-width: 100% !important;
+    }
+
     .compact-resumen h2 {
         display: block !important;
         text-align: center !important;
@@ -590,11 +637,30 @@ footer {
         margin: 0 auto 10px auto !important;
     }
 
-    /* En PDF forzamos a que las tablas se ajusten al ancho de hoja */
-    .tabla-horarios, .ranking table, .numeros-ganadores {
-        width: 100% !important;
-        min-width: 100% !important;
-        table-layout: auto !important;
+    .stats-grid-ultra {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important; 
+        gap: 5px !important;
+    }
+
+    .est-mini {
+        border: 1px solid #ddd !important;
+        padding: 4px 5px !important;
+        min-height: auto !important;
+        flex: 1 1 10% !important; 
+        max-width: 100px !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .val-mini { font-size: 0.75em !important; }
+    .est-mini label { font-size: 0.45em !important; }
+    .est-mini i { font-size: 0.7em !important; }
+
+    tbody tr, tr {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
     }
 
     @page { margin: 0; }
