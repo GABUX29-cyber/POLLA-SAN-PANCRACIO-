@@ -27,7 +27,7 @@ header {
     border-radius: 12px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 900px; /* Ancho máximo para el header y contenedores */
+    max-width: 900px;
     box-sizing: border-box;
 }
 
@@ -97,7 +97,7 @@ header p {
     margin-top: 3px;
     text-align: center;
     width: 95%;
-    white-space: normal; /* Asegura que el texto no se corte y baje */
+    white-space: normal;
 }
 
 /* Colores de los cuadros financieros */
@@ -110,7 +110,6 @@ header p {
 .acumulado { background-color: #fffde7; border-bottom: 3px solid #fbc02d; }
 .acumulado i { color: #fbc02d; }
 
-/* Estilo para el nuevo Acumulado 2 */
 .acumulado2 { 
     background-color: #fff9c4 !important; 
     border-bottom: 3px solid #fbc02d !important; 
@@ -164,27 +163,28 @@ header p {
 }
 
 /* ========================================================= */
-/* 4. TABLA DE RESULTADOS (CUADRÍCULA POR HORAS)             */
+/* 4. TABLA DE RESULTADOS (CUADRÍCULA POR HORAS)              */
 /* ========================================================= */
 .tabla-resultados-wrapper {
     width: 100%;
-    overflow-x: auto; /* Permite el scroll horizontal */
+    overflow-x: auto;
     margin-top: 10px;
     -webkit-overflow-scrolling: touch;
     border-radius: 8px;
+    border: 1px solid #ddd;
 }
 
 .tabla-horarios {
-    width: 100%;
+    width: 950px; /* ANCHO FIJO: Para que las celdas no se aplasten */
     border-collapse: collapse;
-    min-width: 700px; /* Forzamos un ancho mínimo para que aparezca el scroll y no se rompa el margen */
+    table-layout: fixed; 
 }
 
 .tabla-horarios th, .tabla-horarios td {
     border: 1px solid #ddd;
-    padding: 8px 5px;
+    padding: 12px 5px;
     text-align: center;
-    font-size: 0.85em;
+    font-size: 0.9em;
     color: #333;
 }
 
@@ -199,15 +199,16 @@ header p {
     font-weight: 800;
     color: #333;
     text-align: left !important;
-    padding-left: 10px !important;
-    position: sticky; /* Mantiene el nombre de la ruleta visible al hacer scroll */
+    padding-left: 15px !important;
+    width: 140px;
+    position: sticky;
     left: 0;
-    z-index: 1;
+    z-index: 2;
 }
 
 .celda-numero {
-    font-weight: 800;
-    font-size: 1.5em;
+    font-weight: 900;
+    font-size: 1.6em;
     color: #000000 !important;
 }
 
@@ -219,41 +220,52 @@ header p {
 /* ========================================================= */
 /* 5. RESULTADOS DEL DÍA (BOLAS DE LOTERÍA)                   */
 /* ========================================================= */
+.numeros-ganadores-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 10px;
+}
+
 .numeros-ganadores {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
+    flex-wrap: nowrap; /* EVITA QUE SE BAJEN DE LÍNEA */
+    justify-content: flex-start;
+    gap: 20px;
     margin-top: 10px;
+    min-width: 900px; /* ANCHO FIJO PARA SCROLL */
+    padding: 10px;
 }
 
 .resultado-item {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex-shrink: 0;
 }
 
 .sorteo-name {
-    font-size: 0.7em;
+    font-size: 0.75em;
     font-weight: 700;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     color: #555;
     text-transform: uppercase;
+    white-space: nowrap;
 }
 
 .numero-ball {
-    width: 45px;
-    height: 45px;
+    width: 50px;
+    height: 50px;
     background: radial-gradient(circle at 30% 30%, #fdd835, #fbc02d);
     color: #333;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 800;
-    font-size: 1.3em;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2), inset 0 -2px 5px rgba(0,0,0,0.1);
-    border: 2px solid #333;
+    font-weight: 900;
+    font-size: 1.5em;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    border: 2.5px solid #333;
 }
 
 /* ========================================================= */
@@ -261,16 +273,15 @@ header p {
 /* ========================================================= */
 .ranking {
     width: 100%;
-    overflow-x: auto; /* Permite el scroll horizontal */
+    overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
 
-table {
-    width: 100%;
+.ranking table {
+    width: 850px; /* ANCHO FIJO PARA RANKING */
     border-collapse: collapse;
     margin-top: 10px;
     font-size: 0.9em;
-    min-width: 600px; /* Asegura que la tabla no se aplaste en móviles */
 }
 
 thead th {
@@ -324,14 +335,15 @@ tbody tr:hover {
     height: 35px;
     line-height: 35px;
     border-radius: 50%;
-    font-size: 1em;
+    font-size: 1.1em;
     display: inline-block;
+    font-weight: 900;
 }
 
 .ganador-final {
     background-color: #d32f2f;
     color: white;
-    padding: 5px 10px;
+    padding: 5px 12px;
     border-radius: 20px;
     font-weight: 800;
     font-size: 0.8em;
@@ -562,29 +574,18 @@ footer {
     
     h1 { font-size: 1.4em; }
     
-    .ranking table { font-size: 0.75em; }
-    
-    .ranking-box {
-        width: 22px;
-        height: 22px;
-        line-height: 22px;
-        font-size: 0.75em;
-    }
-    
     #lista-participantes li, #lista-resultados li {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
     }
-
-    .tabla-horarios { font-size: 0.65em; }
 }
 
 /* ========================================================= */
 /* 12. ESTILOS DE IMPRESIÓN (PDF)                            */
 /* ========================================================= */
 @media print {
-    #btn-descargar-pdf, .filtro-container, footer, button {
+    #btn-descargar-pdf, .filtro-container, footer, button, .admin-section {
         display: none !important;
     }
     
@@ -612,7 +613,6 @@ footer {
         text-align: center !important;
     }
 
-    /* FORZAR CENTRADO DE TÍTULOS EN PDF */
     .compact-resumen h2 {
         display: block !important;
         text-align: center !important;
@@ -620,11 +620,10 @@ footer {
         margin: 0 auto 10px auto !important;
     }
 
-    /* SOLUCIÓN AL CENTRADO DE TARJETAS EN PDF */
     .stats-grid-ultra {
         display: flex !important;
         flex-wrap: wrap !important;
-        justify-content: center !important; /* Esto centra las tarjetas si son menos de 8 */
+        justify-content: center !important;
         gap: 5px !important;
     }
 
@@ -632,7 +631,7 @@ footer {
         border: 1px solid #ddd !important;
         padding: 4px 5px !important;
         min-height: auto !important;
-        flex: 1 1 10% !important; /* Permite que crezcan y se centren */
+        flex: 1 1 10% !important;
         max-width: 100px !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
@@ -641,6 +640,14 @@ footer {
     .val-mini { font-size: 0.75em !important; }
     .est-mini label { font-size: 0.45em !important; }
     .est-mini i { font-size: 0.7em !important; }
+
+    /* En PDF forzamos a que todo sea visible sin scroll */
+    .tabla-horarios, .ranking table, .numeros-ganadores {
+        width: 100% !important;
+        min-width: 100% !important;
+        flex-wrap: wrap !important; 
+        table-layout: auto !important;
+    }
 
     tbody tr, tr {
         page-break-inside: avoid !important;
