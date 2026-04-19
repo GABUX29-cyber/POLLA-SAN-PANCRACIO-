@@ -1,10 +1,12 @@
 /* ========================================================= */
-/* 1. ESTILOS GENERALES Y LAYOUT BASE                         */
+/* 1. ESTILOS GENERALES Y LAYOUT BASE (PALETA SAN PANCRACIO) */
 /* ========================================================= */
 body {
     font-family: 'Montserrat', sans-serif;
-    background-color: #212121; /* Fondo gris oscuro */
-    color: #eee; /* Texto general a gris claro para contraste */
+    /* Fondo Principal: Verde Bosque Oscuro con Degradado Radial a Negro Mate */
+    background-color: #0B1A0E;
+    background-image: radial-gradient(circle, #142d18 0%, #050a06 100%);
+    color: #FFFFFF; /* Texto general en Blanco Puro para contraste máximo */
     margin: 0;
     padding: 15px; 
     display: flex;
@@ -13,131 +15,134 @@ body {
     min-height: 100vh;
 }
 
-/* AJUSTE CRUCIAL: Forzar texto oscuro dentro de secciones/tarjetas blancas */
-.card, .admin-section, .card h2, .admin-section h2, .admin-section h3 {
-    color: #333;
+/* AJUSTE: Títulos y etiquetas en Dorado Metálico sobre fondo oscuro */
+.card h2, .admin-section h2, .admin-section h3, form label {
+    color: #D4AF37; 
 }
 
 header {
     text-align: center;
-    margin-bottom: 25px;
-    padding: 15px 10px;
-    background-color: #fdd835;
-    color: #333;
-    border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 30px; /* Espacio para que el logo sobresalga */
+    margin-bottom: 35px;
+    padding: 30px 15px;
+    /* Encabezado: Degradado Radial Verde Esmeralda a Negro Mate */
+    background: radial-gradient(circle, #1b5e20 0%, #000000 100%);
+    color: #D4AF37; 
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
     width: 100%;
-    max-width: 900px; /* Ancho máximo para el header y contenedores */
+    max-width: 900px; 
     box-sizing: border-box;
+    border: 2px solid #D4AF37; /* Borde dorado metálico */
 }
 
 h1 {
-    margin: 0;
-    font-size: 1.8em;
-    font-weight: 800;
-    letter-spacing: 1px;
+    margin: 15px 0 5px 0;
+    font-size: 2em;
+    font-weight: 900;
+    letter-spacing: 2px;
     text-transform: uppercase;
+    color: #FFFFFF;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
 }
 
 header p {
     margin: 5px 0 0;
-    font-weight: 600;
-    font-size: 0.9em;
+    font-weight: 800;
+    font-size: 1.1em;
+    /* Dorado Brillante para la fecha */
+    color: #D4AF37; 
+    text-transform: uppercase;
 }
 
 /* ========================================================= */
-/* 2. ÁREA FINANCIERA ULTRA COMPACTA (CON COLORES Y EMOJIS)   */
+/* 2. ÁREA FINANCIERA ULTRA COMPACTA (TARJETAS DE ORO)       */
 /* ========================================================= */
 .compact-resumen {
-    padding: 8px !important;
+    padding: 12px !important;
 }
 
 .compact-resumen h2 {
-    font-size: 0.9em !important;
-    margin-bottom: 8px !important;
-    border-bottom: 2px solid #fdd835;
-    padding-bottom: 3px;
+    font-size: 1em !important;
+    margin-bottom: 12px !important;
+    border-bottom: 2px solid #D4AF37;
+    padding-bottom: 4px;
     display: inline-block;
 }
 
 .stats-grid-ultra {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 5px;
+    gap: 10px;
 }
 
 .est-mini {
-    border-radius: 6px;
-    padding: 6px 2px;
+    /* Estilo "Tarjetas de Oro" */
+    background-color: #0B1A0E;
+    /* Patrón sutil de tréboles */
+    background-image: url('https://www.transparenttextures.com/patterns/four-leaf-clover.png'); 
+    border: 3px solid #D4AF37; 
+    border-radius: 12px;
+    padding: 8px 4px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(0,0,0,0.1);
-    min-height: 60px;
+    min-height: 80px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
 
+/* Iconos Dorados */
 .est-mini i {
-    font-size: 0.9em;
-    margin-bottom: 3px;
+    font-size: 1.1em;
+    margin-bottom: 4px;
+    color: #D4AF37 !important;
 }
 
+/* Montos imponentes en Blanco Puro con sombra (Drop Shadow) */
 .val-mini {
-    font-size: 0.9em;
-    font-weight: 800;
-    color: #333;
-    line-height: 1;
+    font-size: 1em;
+    font-weight: 900;
+    color: #FFFFFF !important; 
+    line-height: 1.1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .est-mini label {
-    font-size: 0.52em;
+    font-size: 0.55em;
     text-transform: uppercase;
-    font-weight: 700;
-    color: #444;
-    margin-top: 3px;
+    font-weight: 800;
+    color: #D4AF37;
+    margin-top: 5px;
     text-align: center;
     width: 95%;
-    white-space: normal; /* Asegura que el texto no se corte y baje */
+    white-space: normal;
 }
 
-/* Colores de los cuadros financieros */
-.ventas { background-color: #e3f2fd; border-bottom: 3px solid #2196f3; }
-.ventas i { color: #2196f3; }
-
-.recaudado { background-color: #e8f5e9; border-bottom: 3px solid #4caf50; }
-.recaudado i { color: #4caf50; }
-
-.acumulado { background-color: #fffde7; border-bottom: 3px solid #fbc02d; }
-.acumulado i { color: #fbc02d; }
-
-/* Estilo para el nuevo Acumulado 2 */
-.acumulado2 { 
-    background-color: #fff9c4 !important; 
-    border-bottom: 3px solid #fbc02d !important; 
+/* Forzar que todas las mini-tarjetas sigan el estilo de Oro */
+.ventas, .recaudado, .acumulado, .acumulado2, .casa, .domingo, .repartir, .ganadores-box-item { 
+    background-color: #0B1A0E !important; 
+    border: 3px solid #D4AF37 !important;
 }
 
-.casa { background-color: #f3e5f5; border-bottom: 3px solid #9c27b0; }
-.casa i { color: #9c27b0; }
-
-.domingo { background-color: #e0f2f1; border-bottom: 3px solid #009688; }
-.domingo i { color: #009688; }
-
-.repartir { background-color: #fff3e0; border-bottom: 3px solid #ff9800; }
-.repartir i { color: #ff9800; }
-
-.ganadores-box-item { background-color: #ffebee; border-bottom: 3px solid #f44336; }
-.ganadores-box-item i { color: #f44336; }
+/* Acento de Alerta en Rojo Vibrante para Ganadores */
+.ganadores-box-item {
+    border-color: #E74C3C !important;
+}
+.ganadores-box-item i {
+    color: #E74C3C !important;
+}
 
 /* ========================================================= */
-/* 3. CONTENEDORES Y TARJETAS                                 */
+/* 3. CONTENEDORES Y TARJETAS                                */
 /* ========================================================= */
 .card-container {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 15px;
+    gap: 20px;
     width: 100%;
     max-width: 900px;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }
 
 .card-container.full-width {
@@ -145,10 +150,11 @@ header p {
 }
 
 .card {
-    background-color: #ffffff;
+    background-color: #0B1A0E;
     padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border-radius: 18px;
+    border: 2px solid #D4AF37;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
     text-align: center;
     width: 100%;
     box-sizing: border-box;
@@ -156,20 +162,23 @@ header p {
 
 .card h2 {
     margin-top: 0;
-    margin-bottom: 15px;
-    font-size: 1.2em;
-    border-bottom: 2px solid #fdd835;
+    margin-bottom: 18px;
+    font-size: 1.3em;
+    font-weight: 800;
+    border-bottom: 2px solid #D4AF37;
     padding-bottom: 8px;
     display: inline-block;
+    text-transform: uppercase;
 }
 
 /* ========================================================= */
-/* 4. TABLA DE RESULTADOS (CUADRÍCULA POR HORAS)             */
+/* 4. TABLA DE RESULTADOS (DISEÑO MESA NEGRA)                */
 /* ========================================================= */
 .tabla-resultados-wrapper {
     width: 100%;
     overflow-x: auto;
-    margin-top: 10px;
+    margin-top: 15px;
+    border-radius: 12px;
     -webkit-overflow-scrolling: touch;
 }
 
@@ -180,39 +189,42 @@ header p {
 }
 
 .tabla-horarios th, .tabla-horarios td {
-    border: 1px solid #ddd;
-    padding: 8px 2px;
+    border: 1px solid #142d18;
+    padding: 12px 4px;
     text-align: center;
-    font-size: 0.85em;
+    font-size: 0.9em;
 }
 
+/* Cabecera Negra con letras Doradas */
 .tabla-horarios thead th {
-    background-color: #333;
-    color: #fdd835;
-    font-weight: 700;
+    background-color: #000000;
+    color: #D4AF37;
+    font-weight: 800;
+    text-transform: uppercase;
 }
 
 .col-ruleta {
-    background-color: #fdd835;
-    font-weight: 800;
-    color: #333;
+    background-color: #050a06;
+    font-weight: 900;
+    color: #D4AF37 !important;
     text-align: left !important;
-    padding-left: 10px !important;
+    padding-left: 15px !important;
+    border-left: 5px solid #D4AF37 !important;
 }
 
 .celda-numero {
-    font-weight: 800;
-    font-size: 1.5em;
-    color: #000000 !important;
+    font-weight: 900;
+    font-size: 1.6em;
+    color: #FFFFFF !important;
 }
 
 .sin-resultado {
-    color: #ccc;
+    color: #2e4d34;
     font-weight: 400;
 }
 
 /* ========================================================= */
-/* 5. RESULTADOS DEL DÍA (BOLAS DE LOTERÍA)                   */
+/* 5. RESULTADOS DEL DÍA (ESTILO MONEDA DE ORO)              */
 /* ========================================================= */
 .numeros-ganadores {
     display: flex;
@@ -229,30 +241,31 @@ header p {
 }
 
 .sorteo-name {
-    font-size: 0.7em;
-    font-weight: 700;
-    margin-bottom: 4px;
-    color: #555;
+    font-size: 0.75em;
+    font-weight: 800;
+    margin-bottom: 6px;
+    color: #D4AF37;
     text-transform: uppercase;
 }
 
 .numero-ball {
-    width: 45px;
-    height: 45px;
-    background: radial-gradient(circle at 30% 30%, #fdd835, #fbc02d);
-    color: #333;
+    width: 50px;
+    height: 50px;
+    /* Efecto Moneda de Oro */
+    background: radial-gradient(circle at 30% 30%, #f7d774, #D4AF37);
+    color: #000000;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 800;
-    font-size: 1.3em;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2), inset 0 -2px 5px rgba(0,0,0,0.1);
-    border: 2px solid #333;
+    font-weight: 900;
+    font-size: 1.4em;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.5), inset 0 2px 4px rgba(255,255,255,0.4);
+    border: 2px solid #000000;
 }
 
 /* ========================================================= */
-/* 6. TABLA DE RANKING / PARTICIPANTES                       */
+/* 6. TABLA DE RANKING / PARTICIPANTES (FILAS ALTERNAS)      */
 /* ========================================================= */
 .ranking {
     overflow-x: auto;
@@ -262,70 +275,79 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
-    font-size: 0.9em;
+    font-size: 0.95em;
 }
 
+/* Cabecera Negra con letras Doradas */
 thead th {
-    background-color: #333;
-    color: #fdd835;
-    padding: 12px 8px;
+    background-color: #000000;
+    color: #D4AF37;
+    padding: 15px 10px;
     text-transform: uppercase;
-    font-weight: 700;
-    border: 1px solid #444;
+    font-weight: 800;
+    border: 1px solid #D4AF37;
 }
 
 tbody td {
-    padding: 10px 5px;
-    border-bottom: 1px solid #eee;
-    color: #333;
-    font-weight: 600;
+    padding: 12px 8px;
+    color: #FFFFFF;
+    font-weight: 700;
+    border-bottom: 1px solid #142d18;
+}
+
+/* Filas alternas: Verde muy oscuro y Gris casi negro */
+tbody tr:nth-child(odd) {
+    background-color: #0B1A0E;
 }
 
 tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #050a06;
 }
 
 tbody tr:hover {
-    background-color: #fffde7;
+    background-color: #142d18;
 }
 
 .ranking-box {
     display: inline-block;
-    width: 28px;
-    height: 28px;
-    line-height: 28px;
-    background-color: #eee;
-    border-radius: 4px;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    background-color: #1b5e20;
+    border-radius: 6px;
     text-align: center;
-    font-weight: 700;
-    border: 1px solid #ccc;
-    font-size: 0.85em;
+    font-weight: 800;
+    border: 1px solid #2e4d34;
+    color: #FFFFFF;
 }
 
+/* Resaltado de Ganador: Círculo Dorado efecto Moneda con número calado en negro */
 .ranking-box.hit {
-    background-color: #4caf50;
-    color: white;
-    border-color: #2e7d32;
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    background: radial-gradient(circle at 30% 30%, #f7d774, #D4AF37);
+    color: #000000; 
+    border-radius: 50%;
+    border: 1px solid #000000;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
 }
 
 .aciertos-box {
-    background-color: #333;
-    color: #fdd835;
-    width: 35px;
-    height: 35px;
-    line-height: 35px;
+    background-color: #000000;
+    color: #D4AF37;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
     border-radius: 50%;
-    font-size: 1em;
+    font-size: 1.1em;
+    border: 2px solid #D4AF37;
 }
 
 .ganador-final {
-    background-color: #d32f2f;
+    background: linear-gradient(145deg, #E74C3C, #c0392b);
     color: white;
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-weight: 800;
-    font-size: 0.8em;
+    padding: 8px 18px;
+    border-radius: 25px;
+    font-weight: 900;
+    font-size: 0.85em;
     animation: pulse 1.5s infinite;
     display: inline-block;
 }
@@ -342,7 +364,7 @@ tbody tr:hover {
 .filtro-container {
     width: 100%;
     max-width: 900px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .filtro-input-wrapper {
@@ -352,111 +374,109 @@ tbody tr:hover {
 
 .filtro-input-wrapper i {
     position: absolute;
-    left: 15px;
+    left: 20px;
     top: 50%;
     transform: translateY(-50%);
-    color: #777;
+    color: #D4AF37;
+    font-size: 1.2em;
 }
 
 .filtro-input {
     width: 100%;
-    padding: 12px 12px 12px 45px;
-    border-radius: 25px;
-    border: none;
-    background-color: #fff;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    padding: 15px 15px 15px 55px;
+    border-radius: 30px;
+    border: 2px solid #D4AF37;
+    background-color: #000000;
+    color: white;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.5);
     font-family: 'Montserrat', sans-serif;
-    font-size: 1em;
+    font-size: 1.1em;
     box-sizing: border-box;
     outline: none;
+    font-weight: 600;
 }
 
 /* ========================================================= */
 /* 8. BOTÓN PDF                                              */
 /* ========================================================= */
 #btn-descargar-pdf {
-    background-color: #d32f2f;
-    color: white;
+    background: linear-gradient(145deg, #D4AF37, #b8962d);
+    color: #000000;
     border: none;
-    padding: 12px 25px;
-    border-radius: 8px;
-    font-weight: 700;
+    padding: 14px 30px;
+    border-radius: 10px;
+    font-weight: 900;
     cursor: pointer;
     font-family: 'Montserrat', sans-serif;
     display: flex;
     align-items: center;
-    gap: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-    transition: background 0.2s;
+    gap: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
 }
 
 #btn-descargar-pdf:hover {
-    background-color: #b71c1c;
+    background: #FFFFFF;
+    transform: scale(1.03);
 }
 
 /* ========================================================= */
-/* 9. PANEL DE ADMINISTRACIÓN                                 */
+/* 9. PANEL DE ADMINISTRACIÓN                                */
 /* ========================================================= */
 .admin-section {
-    background-color: white;
+    background-color: #0B1A0E;
     width: 100%;
     max-width: 900px;
     padding: 25px;
-    border-radius: 12px;
-    margin-bottom: 25px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
     box-sizing: border-box;
+    border: 2px solid #D4AF37;
 }
 
 #paste-section {
-    margin-top: 20px;
-    border-top: 1px solid #eee;
+    margin-top: 25px;
+    border-top: 1px solid #142d18;
     padding-top: 20px;
 }
 
 #paste-section textarea {
     width: 100%;
-    min-height: 120px;
-    padding: 12px;
+    min-height: 140px;
+    padding: 15px;
     margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 0.95em;
+    background-color: #050a06;
+    border: 1px solid #D4AF37;
+    color: white;
+    border-radius: 10px;
+    font-size: 1em;
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
     resize: vertical;
 }
 
 #btn-procesar-pegado {
-    background-color: #007bff;
+    background-color: #0277bd;
     color: white;
-    padding: 12px;
+    padding: 15px;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
-    font-size: 1em;
-    font-weight: 700;
+    font-size: 1.1em;
+    font-weight: 800;
     width: 100%;
-    transition: background-color 0.2s ease;
-}
-
-#btn-procesar-pegado:hover {
-    background-color: #0056b3;
-}
-
-form label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 700;
-    color: #444;
 }
 
 form input, form select {
     width: 100%;
-    padding: 12px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    padding: 14px;
+    margin-bottom: 25px;
+    background-color: #050a06;
+    border: 1px solid #D4AF37;
+    color: white;
+    border-radius: 8px;
     font-family: 'Montserrat', sans-serif;
     font-size: 1em;
     box-sizing: border-box;
@@ -464,179 +484,76 @@ form input, form select {
 
 form button {
     width: 100%;
-    padding: 15px;
-    background-color: #388e3c;
+    padding: 18px;
+    background: linear-gradient(145deg, #1b5e20, #0B1A0E);
     color: white;
-    border: none;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 1.1em;
+    border: 2px solid #D4AF37;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: 1.2em;
     cursor: pointer;
     text-transform: uppercase;
 }
 
-form button:hover {
-    background-color: #2e7d32;
-}
-
-#lista-participantes, #lista-resultados {
-    list-style: none;
-    padding: 0;
-    margin-top: 20px;
-}
-
 #lista-participantes li, #lista-resultados li {
-    background-color: #f5f5f5;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    border-left: 5px solid #fdd835;
-    font-size: 0.9em;
-    color: #333;
-    font-weight: 600;
+    background-color: #050a06;
+    padding: 18px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    border-left: 8px solid #D4AF37;
+    font-size: 0.95em;
+    color: #FFFFFF;
+    font-weight: 700;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.btn-editar, .btn-eliminar {
-    padding: 6px 12px;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-    font-weight: 700;
-    font-family: 'Montserrat', sans-serif;
-    margin-left: 5px;
-    transition: 0.2s;
-}
-
-.btn-editar {
-    background-color: #ffc107;
-    color: #333;
-}
-
-.btn-editar:hover {
-    background-color: #e0a800;
-}
-
-.btn-eliminar {
-    background-color: #dc3545;
-    color: white;
-}
-
-.btn-eliminar:hover {
-    background-color: #c82333;
-}
+.btn-editar { background-color: #ffc107; color: #000; }
+.btn-eliminar { background-color: #dc3545; color: white; }
 
 /* ========================================================= */
 /* 10. FOOTER                                                */
 /* ========================================================= */
 footer {
     margin-top: auto;
-    padding: 20px;
+    padding: 25px;
     text-align: center;
-    color: #999;
-    font-size: 0.8em;
+    color: #2e4d34;
+    font-size: 0.9em;
+    font-weight: 700;
 }
 
 /* ========================================================= */
 /* 11. MEDIA QUERIES (RESPONSIVE)                            */
 /* ========================================================= */
 @media (max-width: 600px) {
-    .stats-grid-ultra {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .card-container {
-        grid-template-columns: 1fr;
-    }
-    
-    h1 { font-size: 1.4em; }
-    
-    .ranking table { font-size: 0.75em; }
-    
-    .ranking-box {
-        width: 22px;
-        height: 22px;
-        line-height: 22px;
-        font-size: 0.75em;
-    }
-    
-    #lista-participantes li, #lista-resultados li {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
-
-    .tabla-horarios { font-size: 0.65em; }
+    .stats-grid-ultra { grid-template-columns: repeat(2, 1fr); }
+    h1 { font-size: 1.6em; }
+    .ranking table { font-size: 0.8em; }
 }
 
 /* ========================================================= */
 /* 12. ESTILOS DE IMPRESIÓN (PDF)                            */
 /* ========================================================= */
 @media print {
-    #btn-descargar-pdf, .filtro-container, footer, button {
-        display: none !important;
-    }
-    
+    #btn-descargar-pdf, .filtro-container, footer, button { display: none !important; }
     body {
-        background-color: #212121 !important;
-        color: #eee !important;
+        background-color: #0B1A0E !important;
+        color: #FFFFFF !important;
         -webkit-print-color-adjust: exact !important; 
         print-color-adjust: exact !important;
-        padding: 0;
-        margin: 0;
     }
-
     header {
-        background-color: #fdd835 !important;
-        color: #333 !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
+        background: radial-gradient(circle, #1b5e20, #000) !important;
+        border: 2px solid #D4AF37 !important;
     }
-
-    .card {
-        background-color: #ffffff !important;
-        color: #333 !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-        text-align: center !important;
-    }
-
-    /* FORZAR CENTRADO DE TÍTULOS EN PDF */
-    .compact-resumen h2 {
-        display: block !important;
-        text-align: center !important;
-        width: fit-content !important;
-        margin: 0 auto 10px auto !important;
-    }
-
-    /* SOLUCIÓN AL CENTRADO DE TARJETAS EN PDF */
-    .stats-grid-ultra {
-        display: flex !important;
-        flex-wrap: wrap !important;
-        justify-content: center !important; /* Esto centra las tarjetas si son menos de 8 */
-        gap: 5px !important;
-    }
-
     .est-mini {
-        border: 1px solid #ddd !important;
-        padding: 4px 5px !important;
-        min-height: auto !important;
-        flex: 1 1 10% !important; /* Permite que crezcan y se centren */
-        max-width: 100px !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
+        background-color: #0B1A0E !important;
+        border: 3px solid #D4AF37 !important;
     }
-
-    .val-mini { font-size: 0.75em !important; }
-    .est-mini label { font-size: 0.45em !important; }
-    .est-mini i { font-size: 0.7em !important; }
-
-    tbody tr, tr {
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
+    .ranking-box.hit {
+        background: #D4AF37 !important;
+        color: #000 !important;
     }
-
-    @page { margin: 0; }
 }
