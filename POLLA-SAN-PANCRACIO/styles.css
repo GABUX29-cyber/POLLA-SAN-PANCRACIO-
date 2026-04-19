@@ -11,8 +11,7 @@ body {
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    /* MEJORA: Evitar desbordamiento lateral en móviles */
-    overflow-x: hidden;
+    overflow-x: hidden; /* Evita el scroll lateral de la página completa */
 }
 
 /* AJUSTE CRUCIAL: Forzar texto oscuro dentro de secciones/tarjetas blancas */
@@ -29,13 +28,13 @@ header {
     border-radius: 12px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 900px; 
+    max-width: 900px; /* Ancho máximo para el header y contenedores */
     box-sizing: border-box;
 }
 
 h1 {
     margin: 0;
-    /* MEJORA: Fuente dinámica para el título */
+    /* MEJORA: Fuente dinámica para el título principal */
     font-size: clamp(1.3em, 5vw, 1.8em);
     font-weight: 800;
     letter-spacing: 1px;
@@ -49,7 +48,7 @@ header p {
 }
 
 /* ========================================================= */
-/* 2. ÁREA FINANCIERA ULTRA COMPACTA (CON COLORES Y EMOJIS)   */
+/* 2. ÁREA FINANCIERA ULTRA COMPACTA (CON COLORES Y EMOJIS)    */
 /* ========================================================= */
 .compact-resumen {
     padding: 8px !important;
@@ -86,7 +85,7 @@ header p {
 }
 
 .val-mini {
-    /* MEJORA: Fuente dinámica para montos financieros */
+    /* MEJORA: Fuente dinámica para montos */
     font-size: clamp(0.75em, 2.5vw, 0.9em);
     font-weight: 800;
     color: #333;
@@ -102,7 +101,7 @@ header p {
     margin-top: 3px;
     text-align: center;
     width: 95%;
-    white-space: normal; 
+    white-space: normal; /* Asegura que el texto no se corte y baje */
 }
 
 /* Colores de los cuadros financieros */
@@ -115,6 +114,7 @@ header p {
 .acumulado { background-color: #fffde7; border-bottom: 3px solid #fbc02d; }
 .acumulado i { color: #fbc02d; }
 
+/* Estilo para el nuevo Acumulado 2 */
 .acumulado2 { 
     background-color: #fff9c4 !important; 
     border-bottom: 3px solid #fbc02d !important; 
@@ -156,6 +156,8 @@ header p {
     text-align: center;
     width: 100%;
     box-sizing: border-box;
+    /* MEJORA: Evita que el contenido desborde los bordes redondeados */
+    overflow: hidden; 
 }
 
 .card h2 {
@@ -168,30 +170,29 @@ header p {
 }
 
 /* ========================================================= */
-/* 4. TABLA DE RESULTADOS (CUADRÍCULA POR HORAS)             */
+/* 4. TABLA DE RESULTADOS (CUADRÍCULA CON SCROLL PROTEGIDO)    */
 /* ========================================================= */
 .tabla-resultados-wrapper {
     width: 100%;
-    /* MEJORA: Scroll interno suave obligatorio */
-    overflow-x: auto;
+    overflow-x: auto; /* Activa el desplazamiento lateral */
     margin-top: 10px;
-    -webkit-overflow-scrolling: touch; /* Mejora scroll en iPhone */
+    -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
+    border: 1px solid #eee;
     border-radius: 8px;
 }
 
 .tabla-horarios {
     width: 100%;
     border-collapse: collapse;
-    /* MEJORA: Ancho mínimo para que los datos no se pisen */
-    min-width: 700px; 
+    /* MEJORA: Ancho mínimo para que los datos no se pisen en móvil */
+    min-width: 750px; 
 }
 
 .tabla-horarios th, .tabla-horarios td {
     border: 1px solid #ddd;
     padding: 8px 4px;
     text-align: center;
-    /* MEJORA: Fuente dinámica en celdas */
-    font-size: clamp(0.75em, 2vw, 0.85em);
+    font-size: 0.85em;
 }
 
 .tabla-horarios thead th {
@@ -201,7 +202,7 @@ header p {
 }
 
 .col-ruleta {
-    /* MEJORA: Columna fija al scrollear lateralmente */
+    /* MEJORA: Fija la columna de la izquierda para que no se pierda al scrollear */
     position: sticky;
     left: 0;
     z-index: 2;
@@ -210,6 +211,7 @@ header p {
     color: #333;
     text-align: left !important;
     padding-left: 10px !important;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
 }
 
 .celda-numero {
@@ -267,17 +269,16 @@ header p {
 /* 6. TABLA DE RANKING / PARTICIPANTES                       */
 /* ========================================================= */
 .ranking {
-    /* MEJORA: Scroll interno para la lista de jugadores */
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
-    /* MEJORA: Ancho mínimo para ranking */
-    min-width: 600px;
+    min-width: 600px; /* Asegura legibilidad en el ranking */
     font-size: 0.9em;
 }
 
@@ -567,7 +568,9 @@ footer {
         grid-template-columns: 1fr;
     }
     
-    /* MEJORA: Tamaño de fuente más pequeño para móvil para evitar choques */
+    h1 { font-size: 1.4em; }
+    
+    /* MEJORA: Tamaño de fuente ultra compacto para móvil */
     .val-mini { font-size: 0.75em; }
     .est-mini label { font-size: 0.45em; }
     
@@ -621,7 +624,7 @@ footer {
         text-align: center !important;
     }
 
-    /* MEJORA: Desactivar scroll interno en impresión para mostrar todo */
+    /* MEJORA: Desactiva el scroll lateral en el PDF para ver toda la tabla */
     .tabla-resultados-wrapper, .ranking {
         overflow: visible !important;
     }
@@ -629,7 +632,12 @@ footer {
     .tabla-horarios, table {
         min-width: 100% !important;
     }
+    
+    .col-ruleta {
+        position: static !important;
+    }
 
+    /* FORZAR CENTRADO DE TÍTULOS EN PDF */
     .compact-resumen h2 {
         display: block !important;
         text-align: center !important;
@@ -637,6 +645,7 @@ footer {
         margin: 0 auto 10px auto !important;
     }
 
+    /* SOLUCIÓN AL CENTRADO DE TARJETAS EN PDF */
     .stats-grid-ultra {
         display: flex !important;
         flex-wrap: wrap !important;
