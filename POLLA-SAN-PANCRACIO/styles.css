@@ -164,42 +164,35 @@ header p {
 }
 
 /* ========================================================= */
-/* 4. TABLAS CON SCROLL UNIFICADO (RESULTADOS Y RANKING)      */
+/* 4. TABLA DE RESULTADOS (UNIFICADA CON EL ESTILO RANKING)    */
 /* ========================================================= */
-/* Se unifica el contenedor de scroll para que resultados sea igual al de participantes */
-.tabla-resultados-wrapper, .ranking {
+.tabla-resultados-wrapper {
     width: 100%;
-    overflow-x: auto;
+    overflow-x: auto; /* Scroll igual al de participantes */
     margin-top: 10px;
     -webkit-overflow-scrolling: touch;
-    /* Eliminamos bordes externos para que se vea limpio como el de participantes */
 }
 
-.tabla-horarios, .ranking table {
+.tabla-horarios {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
-    font-size: 0.9em;
-    min-width: 600px; /* Asegura que el scroll se active y no se aplasten las celdas */
+    min-width: 600px; /* Asegura que el scroll se active igual que en la otra tabla */
 }
 
-/* Estilo de celdas unificado */
-.tabla-horarios th, .tabla-horarios td,
-.ranking table th, .ranking table td {
-    border: 1px solid #eee; /* Borde suave como el del ranking */
+.tabla-horarios th, .tabla-horarios td {
+    border: 1px solid #eee; /* Borde más suave igual al ranking */
     padding: 10px 5px;
     text-align: center;
+    font-size: 0.85em;
     color: #333;
-    font-weight: 600;
 }
 
-/* Estilo de encabezados unificado */
-.tabla-horarios thead th, .ranking table thead th {
+.tabla-horarios thead th {
     background-color: #333;
     color: #fdd835;
+    font-weight: 700;
     padding: 12px 8px;
     text-transform: uppercase;
-    font-weight: 700;
     border: 1px solid #444;
 }
 
@@ -209,6 +202,7 @@ header p {
     color: #333;
     text-align: left !important;
     padding-left: 10px !important;
+    /* Mantenemos el sticky por si lo usas, pero con el estilo limpio */
     position: sticky;
     left: 0;
     z-index: 1;
@@ -266,8 +260,37 @@ header p {
 }
 
 /* ========================================================= */
-/* 6. ESTILOS ESPECÍFICOS DEL RANKING                         */
+/* 6. TABLA DE RANKING / PARTICIPANTES                        */
 /* ========================================================= */
+.ranking {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+thead th {
+    background-color: #333;
+    color: #fdd835;
+    padding: 12px 8px;
+    text-transform: uppercase;
+    font-weight: 700;
+    border: 1px solid #444;
+}
+
+tbody td {
+    padding: 10px 5px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+    font-weight: 600;
+}
+
 tbody tr:nth-child(even) {
     background-color: #f9f9f9;
 }
@@ -541,7 +564,7 @@ footer {
     
     h1 { font-size: 1.4em; }
     
-    .ranking table, .tabla-horarios { font-size: 0.75em; }
+    .ranking table { font-size: 0.75em; }
     
     .ranking-box {
         width: 22px;
@@ -603,7 +626,7 @@ footer {
     .stats-grid-ultra {
         display: flex !important;
         flex-wrap: wrap !important;
-        justify-content: center !important; 
+        justify-content: center !important; /* Esto centra las tarjetas si son menos de 8 */
         gap: 5px !important;
     }
 
@@ -611,7 +634,7 @@ footer {
         border: 1px solid #ddd !important;
         padding: 4px 5px !important;
         min-height: auto !important;
-        flex: 1 1 10% !important; 
+        flex: 1 1 10% !important; /* Permite que crezcan y se centren */
         max-width: 100px !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
