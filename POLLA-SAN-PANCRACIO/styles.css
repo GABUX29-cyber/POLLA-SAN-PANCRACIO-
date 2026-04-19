@@ -164,24 +164,25 @@ header p {
 }
 
 /* ========================================================= */
-/* 4. TABLA DE RESULTADOS (UNIFICADA CON EL ESTILO RANKING)    */
+/* 4. TABLA DE RESULTADOS (CUADRÍCULA POR HORAS)             */
 /* ========================================================= */
 .tabla-resultados-wrapper {
     width: 100%;
-    overflow-x: auto; /* Scroll igual al de participantes */
+    overflow-x: auto; /* Permite el scroll horizontal */
     margin-top: 10px;
     -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
 }
 
 .tabla-horarios {
     width: 100%;
     border-collapse: collapse;
-    min-width: 600px; /* Asegura que el scroll se active igual que en la otra tabla */
+    min-width: 700px; /* Forzamos un ancho mínimo para que aparezca el scroll y no se rompa el margen */
 }
 
 .tabla-horarios th, .tabla-horarios td {
-    border: 1px solid #eee; /* Borde más suave igual al ranking */
-    padding: 10px 5px;
+    border: 1px solid #ddd;
+    padding: 8px 5px;
     text-align: center;
     font-size: 0.85em;
     color: #333;
@@ -191,9 +192,6 @@ header p {
     background-color: #333;
     color: #fdd835;
     font-weight: 700;
-    padding: 12px 8px;
-    text-transform: uppercase;
-    border: 1px solid #444;
 }
 
 .col-ruleta {
@@ -202,8 +200,7 @@ header p {
     color: #333;
     text-align: left !important;
     padding-left: 10px !important;
-    /* Mantenemos el sticky por si lo usas, pero con el estilo limpio */
-    position: sticky;
+    position: sticky; /* Mantiene el nombre de la ruleta visible al hacer scroll */
     left: 0;
     z-index: 1;
 }
@@ -264,7 +261,7 @@ header p {
 /* ========================================================= */
 .ranking {
     width: 100%;
-    overflow-x: auto;
+    overflow-x: auto; /* Permite el scroll horizontal */
     -webkit-overflow-scrolling: touch;
 }
 
@@ -273,6 +270,7 @@ table {
     border-collapse: collapse;
     margin-top: 10px;
     font-size: 0.9em;
+    min-width: 600px; /* Asegura que la tabla no se aplaste en móviles */
 }
 
 thead th {
