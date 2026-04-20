@@ -23,13 +23,14 @@ header {
     text-align: center;
     margin-bottom: 25px;
     padding: 15px 10px;
-    background-color: #fdd835;
+    background-color: #fdd835; /* Oro San Pancracio */
     color: #333;
     border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
     width: 100%;
     max-width: 900px; /* Ancho máximo para el header y contenedores */
     box-sizing: border-box;
+    border-bottom: 4px solid #FF9800; /* Naranja vibrante del logo */
 }
 
 h1 {
@@ -57,7 +58,7 @@ header p {
 .compact-resumen h2 {
     font-size: 0.9em !important;
     margin-bottom: 8px !important;
-    border-bottom: 2px solid #fdd835;
+    border-bottom: 2px solid #2E7D32; /* Verde Esmeralda del perejil */
     padding-bottom: 3px;
     display: inline-block;
 }
@@ -77,6 +78,11 @@ header p {
     justify-content: center;
     border: 1px solid rgba(0,0,0,0.1);
     min-height: 60px;
+    transition: transform 0.2s;
+}
+
+.est-mini:hover {
+    transform: translateY(-2px);
 }
 
 .est-mini i {
@@ -97,39 +103,61 @@ header p {
     font-size: clamp(0.45em, 2vw, 0.52em);
     text-transform: uppercase;
     font-weight: 700;
-    color: #444;
+    color: #5D4037; /* Marrón Madera de la paleta */
     margin-top: 3px;
     text-align: center;
     width: 95%;
     white-space: normal; /* Asegura que el texto no se corte y baje */
 }
 
-/* Colores de los cuadros financieros */
-.ventas { background-color: #e3f2fd; border-bottom: 3px solid #2196f3; }
-.ventas i { color: #2196f3; }
+/* Colores de los cuadros financieros basados en la nueva imagen */
+.ventas { 
+    background-color: #E8F5E9; 
+    border-bottom: 3px solid #2E7D32; /* Verde Esmeralda */
+}
+.ventas i { color: #2E7D32; }
 
-.recaudado { background-color: #e8f5e9; border-bottom: 3px solid #4caf50; }
-.recaudado i { color: #4caf50; }
+.recaudado { 
+    background-color: #F1F8E9; 
+    border-bottom: 3px solid #AEEA00; /* Verde Neón */
+}
+.recaudado i { color: #7CB342; }
 
-.acumulado { background-color: #fffde7; border-bottom: 3px solid #fbc02d; }
+.acumulado { 
+    background-color: #fffde7; 
+    border-bottom: 3px solid #fbc02d; /* Oro */
+}
 .acumulado i { color: #fbc02d; }
 
-/* Estilo para el nuevo Acumulado 2 */
+/* Estilo para el nuevo Acumulado 2 con Naranja del logo */
 .acumulado2 { 
-    background-color: #fff9c4 !important; 
-    border-bottom: 3px solid #fbc02d !important; 
+    background-color: #FFF3E0 !important; 
+    border-bottom: 3px solid #FF9800 !important; 
 }
+.acumulado2 i { color: #FF9800; }
 
-.casa { background-color: #f3e5f5; border-bottom: 3px solid #9c27b0; }
+.casa { 
+    background-color: #f3e5f5; 
+    border-bottom: 3px solid #9c27b0; 
+}
 .casa i { color: #9c27b0; }
 
-.domingo { background-color: #e0f2f1; border-bottom: 3px solid #009688; }
+.domingo { 
+    background-color: #e0f2f1; 
+    border-bottom: 3px solid #009688; 
+}
 .domingo i { color: #009688; }
 
-.repartir { background-color: #fff3e0; border-bottom: 3px solid #ff9800; }
-.repartir i { color: #ff9800; }
+.repartir { 
+    background-color: #F9FBE7; 
+    border-bottom: 3px solid #C0CA33; 
+}
+.repartir i { color: #C0CA33; }
 
-.ganadores-box-item { background-color: #ffebee; border-bottom: 3px solid #f44336; }
+.ganadores-box-item { 
+    background-color: #ffebee; 
+    border-bottom: 3px solid #f44336; 
+}
 .ganadores-box-item i { color: #f44336; }
 
 /* ========================================================= */
@@ -152,7 +180,7 @@ header p {
     background-color: #ffffff;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     text-align: center;
     width: 100%;
     box-sizing: border-box;
@@ -164,7 +192,7 @@ header p {
     margin-top: 0;
     margin-bottom: 15px;
     font-size: 1.2em;
-    border-bottom: 2px solid #fdd835;
+    border-bottom: 2px solid #2E7D32; /* Verde del logo */
     padding-bottom: 8px;
     display: inline-block;
 }
@@ -196,8 +224,8 @@ header p {
 }
 
 .tabla-horarios thead th {
-    background-color: #333;
-    color: #fdd835;
+    background-color: #2E7D32; /* Verde Esmeralda de la imagen */
+    color: #ffffff;
     font-weight: 700;
 }
 
@@ -212,6 +240,7 @@ header p {
     text-align: left !important;
     padding-left: 10px !important;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    border-right: 2px solid #FF9800 !important;
 }
 
 .celda-numero {
@@ -253,16 +282,16 @@ header p {
 .numero-ball {
     width: 45px;
     height: 45px;
-    background: radial-gradient(circle at 30% 30%, #fdd835, #fbc02d);
-    color: #333;
+    background: radial-gradient(circle at 30% 30%, #AEEA00, #2E7D32); /* Degradado de Verdes del logo */
+    color: #ffffff;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 800;
     font-size: 1.3em;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2), inset 0 -2px 5px rgba(0,0,0,0.1);
-    border: 2px solid #333;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3), inset 0 -2px 5px rgba(0,0,0,0.1);
+    border: 2px solid #ffffff;
 }
 
 /* ========================================================= */
@@ -283,12 +312,12 @@ table {
 }
 
 thead th {
-    background-color: #333;
-    color: #fdd835;
+    background-color: #2E7D32; /* Verde Esmeralda */
+    color: #ffffff;
     padding: 12px 8px;
     text-transform: uppercase;
     font-weight: 700;
-    border: 1px solid #444;
+    border: 1px solid #1B5E20;
 }
 
 tbody td {
@@ -303,7 +332,7 @@ tbody tr:nth-child(even) {
 }
 
 tbody tr:hover {
-    background-color: #fffde7;
+    background-color: #F1F8E9;
 }
 
 .ranking-box {
@@ -320,20 +349,21 @@ tbody tr:hover {
 }
 
 .ranking-box.hit {
-    background-color: #4caf50;
-    color: white;
-    border-color: #2e7d32;
+    background-color: #AEEA00; /* Verde Neón del logo */
+    color: #333;
+    border-color: #2E7D32;
     box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
 }
 
 .aciertos-box {
-    background-color: #333;
-    color: #fdd835;
+    background-color: #2E7D32;
+    color: #AEEA00;
     width: 35px;
     height: 35px;
     line-height: 35px;
     border-radius: 50%;
     font-size: 1em;
+    font-weight: 800;
 }
 
 .ganador-final {
@@ -412,7 +442,7 @@ tbody tr:hover {
 }
 
 /* ========================================================= */
-/* 9. PANEL DE ADMINISTRACIÓN                                */
+/* 9. PANEL DE ADMINISTRACIÓN                                 */
 /* ========================================================= */
 .admin-section {
     background-color: white;
@@ -445,7 +475,7 @@ tbody tr:hover {
 }
 
 #btn-procesar-pegado {
-    background-color: #007bff;
+    background-color: #2E7D32; /* Verde Esmeralda */
     color: white;
     padding: 12px;
     border: none;
@@ -458,7 +488,7 @@ tbody tr:hover {
 }
 
 #btn-procesar-pegado:hover {
-    background-color: #0056b3;
+    background-color: #1B5E20;
 }
 
 form label {
@@ -482,7 +512,7 @@ form input, form select {
 form button {
     width: 100%;
     padding: 15px;
-    background-color: #388e3c;
+    background-color: #2E7D32;
     color: white;
     border: none;
     border-radius: 8px;
@@ -493,7 +523,7 @@ form button {
 }
 
 form button:hover {
-    background-color: #2e7d32;
+    background-color: #1B5E20;
 }
 
 #lista-participantes, #lista-resultados {
@@ -507,7 +537,7 @@ form button:hover {
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 10px;
-    border-left: 5px solid #fdd835;
+    border-left: 5px solid #2E7D32;
     font-size: 0.9em;
     color: #333;
     font-weight: 600;
@@ -593,7 +623,7 @@ footer {
 }
 
 /* ========================================================= */
-/* 12. ESTILOS DE IMPRESIÓN (PDF)                            */
+/* 12. ESTILOS DE IMPRESIÓN (PDF)                             */
 /* ========================================================= */
 @media print {
     #btn-descargar-pdf, .filtro-container, footer, button {
@@ -614,6 +644,7 @@ footer {
         color: #333 !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
+        border-bottom: 4px solid #FF9800 !important;
     }
 
     .card {
