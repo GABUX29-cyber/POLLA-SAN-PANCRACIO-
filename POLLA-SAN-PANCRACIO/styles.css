@@ -3,674 +3,373 @@
 /* ========================================================= */
 body {
     font-family: 'Montserrat', sans-serif;
-    background-color: #212121; /* Fondo gris oscuro de la página */
-    color: #eee; /* Texto general a gris claro para contraste */
+    background-color: #121212; /* Fondo oscuro profundo para resaltar el contenido */
+    color: #f1f1f1; 
     margin: 0;
     padding: 15px; 
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    overflow-x: hidden; /* Evita el scroll lateral de la página completa */
+    overflow-x: hidden;
 }
 
-/* AJUSTE CRUCIAL: Forzar texto oscuro dentro de secciones/tarjetas */
+/* Forzar texto oscuro dentro de secciones/tarjetas blancas */
 .card, .admin-section, .card h2, .admin-section h2, .admin-section h3 {
-    color: #333;
+    color: #263238;
 }
 
 header {
     text-align: center;
-    margin-bottom: 25px;
-    padding: 15px 10px;
-    background-color: #2E7D32; /* Fondo Verde solicitado */
-    color: #ffffff; /* Letras Blancas solicitadas */
-    border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    margin-bottom: 30px;
+    padding: 20px 15px;
+    background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%); /* Verde San Pancracio */
+    color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    border-bottom: 4px solid #c5a059; /* Detalle en Dorado */
     width: 100%;
-    max-width: 900px; /* Ancho máximo para el header y contenedores */
+    max-width: 900px;
     box-sizing: border-box;
 }
 
 h1 {
     margin: 0;
-    /* MEJORA: Fuente dinámica para el título principal */
-    font-size: clamp(1.3em, 5vw, 1.8em);
-    font-weight: 800;
-    letter-spacing: 1px;
+    font-size: clamp(1.5em, 6vw, 2.2em);
+    font-weight: 900;
+    letter-spacing: 2px;
     text-transform: uppercase;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
 }
 
 header p {
-    margin: 5px 0 0;
-    font-weight: 600;
-    font-size: 0.9em;
+    margin: 10px 0 0;
+    font-weight: 500;
+    font-size: 1.1em;
+    color: #d1d1d1;
+    letter-spacing: 1px;
 }
 
 /* ========================================================= */
-/* 2. ÁREA FINANCIERA ULTRA COMPACTA (CON COLORES Y EMOJIS)    */
+/* 2. ÁREA FINANCIERA PROFESIONAL                             */
 /* ========================================================= */
 .compact-resumen {
-    padding: 8px !important;
+    padding: 15px !important;
 }
 
 .compact-resumen h2 {
-    font-size: 0.9em !important;
-    margin-bottom: 8px !important;
-    border-bottom: 2px solid #2E7D32;
-    padding-bottom: 3px;
+    font-size: 1.1em !important;
+    margin-bottom: 15px !important;
+    border-bottom: 3px solid #c5a059; /* Dorado */
+    padding-bottom: 5px;
     display: inline-block;
+    color: #1b5e20;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .stats-grid-ultra {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 5px;
+    gap: 10px;
 }
 
 .est-mini {
-    border-radius: 6px;
-    padding: 6px 2px;
+    border-radius: 10px;
+    padding: 10px 5px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(0,0,0,0.1);
-    min-height: 60px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+}
+
+.est-mini:hover {
+    transform: translateY(-3px);
 }
 
 .est-mini i {
-    font-size: 0.9em;
-    margin-bottom: 3px;
+    font-size: 1.2em;
+    margin-bottom: 5px;
 }
 
 .val-mini {
-    /* MEJORA: Fuente dinámica para montos */
-    font-size: clamp(0.75em, 2.5vw, 0.9em);
+    font-size: clamp(0.85em, 2.5vw, 1.1em);
     font-weight: 800;
-    color: #333;
-    line-height: 1;
+    color: #1a1a1a;
+    line-height: 1.2;
 }
 
 .est-mini label {
-    /* MEJORA: Fuente dinámica para etiquetas */
-    font-size: clamp(0.45em, 2vw, 0.52em);
+    font-size: clamp(0.55em, 2vw, 0.65em);
     text-transform: uppercase;
     font-weight: 700;
-    color: #444;
-    margin-top: 3px;
+    color: #757575;
+    margin-top: 5px;
     text-align: center;
-    width: 95%;
-    white-space: normal; /* Asegura que el texto no se corte y baje */
 }
 
-/* Colores de los cuadros financieros */
-.ventas { background-color: #e3f2fd; border-bottom: 3px solid #2196f3; }
-.ventas i { color: #2196f3; }
-
-.recaudado { background-color: #e8f5e9; border-bottom: 3px solid #4caf50; }
-.recaudado i { color: #4caf50; }
-
-.acumulado { background-color: #fffde7; border-bottom: 3px solid #fbc02d; }
-.acumulado i { color: #fbc02d; }
-
-/* Estilo para el nuevo Acumulado 2 */
-.acumulado2 { 
-    background-color: #fff9c4 !important; 
-    border-bottom: 3px solid #fbc02d !important; 
-}
-
-.casa { background-color: #f3e5f5; border-bottom: 3px solid #9c27b0; }
-.casa i { color: #9c27b0; }
-
-.domingo { background-color: #e0f2f1; border-bottom: 3px solid #009688; }
-.domingo i { color: #009688; }
-
-.repartir { background-color: #fff3e0; border-bottom: 3px solid #ff9800; }
-.repartir i { color: #ff9800; }
-
-.ganadores-box-item { background-color: #ffebee; border-bottom: 3px solid #f44336; }
-.ganadores-box-item i { color: #f44336; }
+/* Colores Tematizados por Función */
+.ventas { border-bottom: 4px solid #2196f3; background-color: #f0f7ff; }
+.recaudado { border-bottom: 4px solid #4caf50; background-color: #f1f8f1; }
+.acumulado, .acumulado2 { border-bottom: 4px solid #c5a059; background-color: #fdfaf2; }
+.casa { border-bottom: 4px solid #9c27b0; background-color: #f9f2fa; }
+.domingo { border-bottom: 4px solid #009688; background-color: #f0f8f7; }
+.repartir { border-bottom: 4px solid #ff9800; background-color: #fff8f0; }
+.ganadores-box-item { border-bottom: 4px solid #f44336; background-color: #fff5f5; }
 
 /* ========================================================= */
-/* 3. CONTENEDORES Y TARJETAS                                 */
+/* 3. CONTENEDORES Y TARJETAS (ESTILO LIMPIO)                 */
 /* ========================================================= */
 .card-container {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 15px;
+    gap: 25px;
     width: 100%;
     max-width: 900px;
-    margin-bottom: 25px;
-}
-
-.card-container.full-width {
-    grid-template-columns: 1fr;
+    margin-bottom: 30px;
 }
 
 .card {
-    background-color: #D1D1D1; /* Fondo Gris solicitado */
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    background-color: #ffffff; 
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
     text-align: center;
     width: 100%;
     box-sizing: border-box;
-    /* MEJORA: Evita que el contenido desborde los bordes redondeados */
     overflow: hidden; 
 }
 
 .card h2 {
     margin-top: 0;
-    margin-bottom: 15px;
-    font-size: 1.2em;
-    border-bottom: 2px solid #2E7D32;
-    padding-bottom: 8px;
-    display: inline-block;
+    margin-bottom: 20px;
+    font-size: 1.4em;
+    border-bottom: 2px solid #1b5e20;
+    padding-bottom: 10px;
+    color: #1b5e20;
+    text-transform: uppercase;
 }
 
 /* ========================================================= */
-/* 4. TABLA DE RESULTADOS (CUADRÍCULA CON SCROLL PROTEGIDO)    */
+/* 4. TABLA DE RESULTADOS (DISEÑO CORPORATIVO)                */
 /* ========================================================= */
 .tabla-resultados-wrapper {
     width: 100%;
-    overflow-x: auto; /* Activa el desplazamiento lateral */
-    margin-top: 10px;
-    -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
-    border: 1px solid #eee;
-    border-radius: 8px;
+    overflow-x: auto;
+    margin-top: 15px;
+    border-radius: 12px;
+    border: 1px solid #cfd8dc;
 }
 
 .tabla-horarios {
     width: 100%;
     border-collapse: collapse;
-    /* MEJORA: Ancho mínimo para que los datos no se pisen en móvil */
-    min-width: 750px; 
+    min-width: 800px;
 }
 
 .tabla-horarios th, .tabla-horarios td {
-    border: 1px solid #ddd;
-    padding: 8px 4px;
+    border: 1px solid #eceff1;
+    padding: 12px 8px;
     text-align: center;
-    font-size: 0.85em;
 }
 
-.tabla-horarios thead th {
-    background-color: #2E7D32; /* Fila Verde solicitada */
-    color: #ffffff; /* Letras Blancas solicitadas */
+/* Cabecera Verde y Esquina Verde Solicitada */
+.tabla-horarios thead th, 
+.tabla-horarios thead tr th:first-child {
+    background-color: #1b5e20 !important; /* Verde San Pancracio */
+    color: #ffffff !important;
     font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.9em;
 }
 
 .col-ruleta {
-    /* MEJORA: Fija la columna de la izquierda para que no se pierda al scrollear */
     position: sticky;
     left: 0;
     z-index: 2;
-    background-color: #fdd835 !important;
-    font-weight: 800;
-    color: #333;
+    background-color: #c5a059 !important; /* Dorado */
+    font-weight: 900;
+    color: #ffffff;
     text-align: left !important;
-    padding-left: 10px !important;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    padding-left: 15px !important;
+    box-shadow: 4px 0 8px rgba(0,0,0,0.2);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 }
 
 .celda-numero {
-    font-weight: 800;
-    font-size: 1.5em;
-    color: #000000 !important;
+    font-weight: 900;
+    font-size: 1.7em;
+    color: #1b5e20 !important;
 }
 
 .sin-resultado {
-    color: #ccc;
+    color: #b0bec5;
+    font-style: italic;
     font-weight: 400;
 }
 
 /* ========================================================= */
-/* 5. RESULTADOS DEL DÍA (BOLAS DE LOTERÍA)                   */
+/* 5. BOLAS DE LOTERÍA (DISEÑO 3D LIMPIO)                     */
 /* ========================================================= */
 .numeros-ganadores {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 15px;
-    margin-top: 10px;
-}
-
-.resultado-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.sorteo-name {
-    font-size: 0.7em;
-    font-weight: 700;
-    margin-bottom: 4px;
-    color: #555;
-    text-transform: uppercase;
+    gap: 20px;
+    margin-top: 15px;
 }
 
 .numero-ball {
-    width: 45px;
-    height: 45px;
-    background: radial-gradient(circle at 30% 30%, #fdd835, #fbc02d);
-    color: #333;
+    width: 55px;
+    height: 55px;
+    background: radial-gradient(circle at 35% 35%, #ffffff, #e0e0e0);
+    color: #1b5e20;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 800;
-    font-size: 1.3em;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2), inset 0 -2px 5px rgba(0,0,0,0.1);
-    border: 2px solid #333;
+    font-weight: 900;
+    font-size: 1.5em;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    border: 3px solid #c5a059; /* Borde Dorado */
 }
 
 /* ========================================================= */
-/* 6. TABLA DE RANKING / PARTICIPANTES                       */
+/* 6. TABLA DE RANKING / PARTICIPANTES                        */
 /* ========================================================= */
-.ranking {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    border-radius: 8px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    min-width: 600px; /* Asegura legibilidad en el ranking */
-    font-size: 0.9em;
-}
-
-thead th {
-    background-color: #2E7D32; /* Encabezado verde en ranking */
-    color: #ffffff; /* Letras blancas */
-    padding: 12px 8px;
-    text-transform: uppercase;
-    font-weight: 700;
-    border: 1px solid #1B5E20;
+.ranking table thead th {
+    background-color: #263238;
+    color: #c5a059; /* Dorado */
 }
 
 tbody td {
-    padding: 10px 5px;
-    border-bottom: 1px solid #eee;
-    color: #333;
+    padding: 12px 10px;
+    border-bottom: 1px solid #f1f1f1;
+    color: #37474f;
     font-weight: 600;
 }
 
 tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #fcfcfc;
 }
 
 tbody tr:hover {
-    background-color: #fffde7;
+    background-color: #f1f8f1;
 }
 
 .ranking-box {
     display: inline-block;
-    width: 28px;
-    height: 28px;
-    line-height: 28px;
-    background-color: #eee;
-    border-radius: 4px;
-    text-align: center;
-    font-weight: 700;
-    border: 1px solid #ccc;
-    font-size: 0.85em;
-}
-
-.ranking-box.hit {
-    background-color: #4caf50;
-    color: white;
-    border-color: #2e7d32;
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-}
-
-.aciertos-box {
-    background-color: #2E7D32;
-    color: #ffffff;
-    width: 35px;
-    height: 35px;
-    line-height: 35px;
-    border-radius: 50%;
-    font-size: 1em;
-}
-
-.ganador-final {
-    background-color: #d32f2f;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-weight: 800;
-    font-size: 0.8em;
-    animation: pulse 1.5s infinite;
-    display: inline-block;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-
-/* ========================================================= */
-/* 7. FILTROS Y BUSCADOR                                     */
-/* ========================================================= */
-.filtro-container {
-    width: 100%;
-    max-width: 900px;
-    margin-bottom: 15px;
-}
-
-.filtro-input-wrapper {
-    position: relative;
-    width: 100%;
-}
-
-.filtro-input-wrapper i {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #777;
-}
-
-.filtro-input {
-    width: 100%;
-    padding: 12px 12px 12px 45px;
-    border-radius: 25px;
-    border: none;
-    background-color: #fff;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1em;
-    box-sizing: border-box;
-    outline: none;
-}
-
-/* ========================================================= */
-/* 8. BOTÓN PDF                                              */
-/* ========================================================= */
-#btn-descargar-pdf {
-    background-color: #d32f2f;
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 8px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: 'Montserrat', sans-serif;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-    transition: background 0.2s;
-}
-
-#btn-descargar-pdf:hover {
-    background-color: #b71c1c;
-}
-
-/* ========================================================= */
-/* 9. PANEL DE ADMINISTRACIÓN                                 */
-/* ========================================================= */
-.admin-section {
-    background-color: #D1D1D1; /* Gris solicitado para el panel */
-    width: 100%;
-    max-width: 900px;
-    padding: 25px;
-    border-radius: 12px;
-    margin-bottom: 25px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-    box-sizing: border-box;
-}
-
-#paste-section {
-    margin-top: 20px;
-    border-top: 1px solid #eee;
-    padding-top: 20px;
-}
-
-#paste-section textarea {
-    width: 100%;
-    min-height: 120px;
-    padding: 12px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 0.95em;
-    box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
-    resize: vertical;
-}
-
-#btn-procesar-pegado {
-    background-color: #2E7D32;
-    color: white;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: 700;
-    width: 100%;
-    transition: background-color 0.2s ease;
-}
-
-#btn-procesar-pegado:hover {
-    background-color: #1B5E20;
-}
-
-form label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 700;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    background-color: #f5f5f5;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
     color: #444;
 }
 
-form input, form select {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1em;
-    box-sizing: border-box;
-}
-
-form button {
-    width: 100%;
-    padding: 15px;
-    background-color: #2E7D32;
+.ranking-box.hit {
+    background-color: #1b5e20;
     color: white;
-    border: none;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 1.1em;
-    cursor: pointer;
-    text-transform: uppercase;
+    border-color: #0d3211;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-form button:hover {
-    background-color: #1B5E20;
-}
-
-#lista-participantes, #lista-resultados {
-    list-style: none;
-    padding: 0;
-    margin-top: 20px;
-}
-
-#lista-participantes li, #lista-resultados li {
-    background-color: #f5f5f5;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    border-left: 5px solid #2E7D32;
-    font-size: 0.9em;
-    color: #333;
-    font-weight: 600;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.btn-editar, .btn-eliminar {
-    padding: 6px 12px;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-    font-weight: 700;
-    font-family: 'Montserrat', sans-serif;
-    margin-left: 5px;
-    transition: 0.2s;
-}
-
-.btn-editar {
-    background-color: #ffc107;
-    color: #333;
-}
-
-.btn-editar:hover {
-    background-color: #e0a800;
-}
-
-.btn-eliminar {
-    background-color: #dc3545;
-    color: white;
-}
-
-.btn-eliminar:hover {
-    background-color: #c82333;
+.aciertos-box {
+    background-color: #1b5e20;
+    color: #ffffff;
+    width: 38px;
+    height: 38px;
+    line-height: 38px;
+    border-radius: 50%;
+    font-weight: 800;
 }
 
 /* ========================================================= */
-/* 10. FOOTER                                                */
+/* 7. FILTROS Y BUSCADOR                                      */
+/* ========================================================= */
+.filtro-input {
+    border: 2px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+.filtro-input:focus {
+    border-color: #1b5e20;
+    box-shadow: 0 0 10px rgba(27, 94, 32, 0.2);
+}
+
+/* ========================================================= */
+/* 8. PANEL DE ADMINISTRACIÓN (GRIS CEMENTO PROFESIONAL)      */
+/* ========================================================= */
+.admin-section {
+    background-color: #eceff1; /* Gris Cemento Suave */
+    border: 1px solid #cfd8dc;
+    padding: 30px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 900px;
+    box-sizing: border-box;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.admin-section h2 {
+    color: #1b5e20;
+    border-bottom: 2px solid #c5a059;
+}
+
+#btn-procesar-pegado, form button {
+    background-color: #1b5e20;
+    color: #ffffff;
+    border-radius: 8px;
+    border: none;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: background 0.3s;
+}
+
+#btn-procesar-pegado:hover, form button:hover {
+    background-color: #2e7d32;
+    transform: translateY(-1px);
+}
+
+#lista-participantes li {
+    background-color: #ffffff;
+    border-left: 6px solid #c5a059;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+/* ========================================================= */
+/* 9. FOOTER Y RESPONSIVE                                     */
 /* ========================================================= */
 footer {
-    margin-top: auto;
-    padding: 20px;
-    text-align: center;
-    color: #999;
-    font-size: 0.8em;
+    padding: 40px 20px;
+    color: #888;
+    font-weight: 500;
+    letter-spacing: 1px;
 }
 
-/* ========================================================= */
-/* 11. MEDIA QUERIES (RESPONSIVE)                            */
-/* ========================================================= */
 @media (max-width: 600px) {
-    .stats-grid-ultra {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .card-container {
-        grid-template-columns: 1fr;
-    }
-    
-    h1 { font-size: 1.4em; }
-    
-    /* MEJORA: Tamaño de fuente ultra compacto para móvil */
-    .val-mini { font-size: 0.75em; }
-    .est-mini label { font-size: 0.45em; }
-    
-    .ranking table { font-size: 0.75em; }
-    
-    .ranking-box {
-        width: 22px;
-        height: 22px;
-        line-height: 22px;
-        font-size: 0.75em;
-    }
-    
-    #lista-participantes li, #lista-resultados li {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
-
-    .tabla-horarios { font-size: 0.65em; }
+    .stats-grid-ultra { grid-template-columns: repeat(2, 1fr); }
+    h1 { font-size: 1.5em; }
+    .card { padding: 15px; }
+    .val-mini { font-size: 0.9em; }
 }
 
 /* ========================================================= */
-/* 12. ESTILOS DE IMPRESIÓN (PDF)                             */
+/* 10. ESTILOS DE IMPRESIÓN (PDF)                             */
 /* ========================================================= */
 @media print {
-    #btn-descargar-pdf, .filtro-container, footer, button {
-        display: none !important;
-    }
-    
-    body {
-        background-color: #212121 !important;
-        color: #eee !important;
-        -webkit-print-color-adjust: exact !important; 
-        print-color-adjust: exact !important;
-        padding: 0;
-        margin: 0;
-    }
-
-    header {
-        background-color: #2E7D32 !important;
-        color: #ffffff !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-    }
-
-    .card {
-        background-color: #D1D1D1 !important;
-        color: #333 !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-        text-align: center !important;
-    }
-
-    /* MEJORA: Desactiva el scroll lateral en el PDF para ver toda la tabla */
-    .tabla-resultados-wrapper, .ranking {
-        overflow: visible !important;
-    }
-    
-    .tabla-horarios, table {
-        min-width: 100% !important;
-    }
-    
-    .col-ruleta {
-        position: static !important;
-    }
-
-    /* FORZAR CENTRADO DE TÍTULOS EN PDF */
-    .compact-resumen h2 {
-        display: block !important;
-        text-align: center !important;
-        width: fit-content !important;
-        margin: 0 auto 10px auto !important;
-    }
-
-    /* SOLUCIÓN AL CENTRADO DE TARJETAS EN PDF */
-    .stats-grid-ultra {
-        display: flex !important;
-        flex-wrap: wrap !important;
-        justify-content: center !important; 
-        gap: 5px !important;
-    }
-
-    .est-mini {
-        border: 1px solid #ddd !important;
-        padding: 4px 5px !important;
-        min-height: auto !important;
-        flex: 1 1 10% !important; 
-        max-width: 100px !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-    }
-
-    .val-mini { font-size: 0.75em !important; }
-    .est-mini label { font-size: 0.45em !important; }
-    .est-mini i { font-size: 0.7em !important; }
-
-    tbody tr, tr {
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-    }
-
-    @page { margin: 0; }
+    body { background-color: #ffffff !important; color: #000 !important; }
+    header { background: #1b5e20 !important; color: #ffffff !important; -webkit-print-color-adjust: exact; }
+    .card { border: 1px solid #ddd !important; box-shadow: none !important; }
+    .col-ruleta { background-color: #c5a059 !important; color: #ffffff !important; -webkit-print-color-adjust: exact; }
+    .tabla-horarios thead th { background-color: #1b5e20 !important; color: #ffffff !important; -webkit-print-color-adjust: exact; }
+    .ranking-box.hit { background-color: #1b5e20 !important; -webkit-print-color-adjust: exact; }
 }
