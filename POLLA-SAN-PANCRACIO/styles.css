@@ -3,7 +3,7 @@
 /* ========================================================= */
 body {
     font-family: 'Montserrat', sans-serif;
-    background-color: #212121; /* Fondo gris oscuro */
+    background-color: #212121; /* Fondo gris oscuro de la página */
     color: #eee; /* Texto general a gris claro para contraste */
     margin: 0;
     padding: 15px; 
@@ -14,7 +14,7 @@ body {
     overflow-x: hidden; /* Evita el scroll lateral de la página completa */
 }
 
-/* AJUSTE CRUCIAL: Forzar texto oscuro dentro de secciones/tarjetas blancas */
+/* AJUSTE CRUCIAL: Forzar texto oscuro dentro de secciones/tarjetas */
 .card, .admin-section, .card h2, .admin-section h2, .admin-section h3 {
     color: #333;
 }
@@ -23,10 +23,10 @@ header {
     text-align: center;
     margin-bottom: 25px;
     padding: 15px 10px;
-    background-color: #fdd835;
-    color: #333;
+    background-color: #2E7D32; /* Fondo Verde solicitado */
+    color: #ffffff; /* Letras Blancas solicitadas */
     border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
     width: 100%;
     max-width: 900px; /* Ancho máximo para el header y contenedores */
     box-sizing: border-box;
@@ -57,7 +57,7 @@ header p {
 .compact-resumen h2 {
     font-size: 0.9em !important;
     margin-bottom: 8px !important;
-    border-bottom: 2px solid #fdd835;
+    border-bottom: 2px solid #2E7D32;
     padding-bottom: 3px;
     display: inline-block;
 }
@@ -149,10 +149,10 @@ header p {
 }
 
 .card {
-    background-color: #ffffff;
+    background-color: #D1D1D1; /* Fondo Gris solicitado */
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     text-align: center;
     width: 100%;
     box-sizing: border-box;
@@ -164,7 +164,7 @@ header p {
     margin-top: 0;
     margin-bottom: 15px;
     font-size: 1.2em;
-    border-bottom: 2px solid #fdd835;
+    border-bottom: 2px solid #2E7D32;
     padding-bottom: 8px;
     display: inline-block;
 }
@@ -196,8 +196,8 @@ header p {
 }
 
 .tabla-horarios thead th {
-    background-color: #333;
-    color: #fdd835;
+    background-color: #2E7D32; /* Fila Verde solicitada */
+    color: #ffffff; /* Letras Blancas solicitadas */
     font-weight: 700;
 }
 
@@ -283,12 +283,12 @@ table {
 }
 
 thead th {
-    background-color: #333;
-    color: #fdd835;
+    background-color: #2E7D32; /* Encabezado verde en ranking */
+    color: #ffffff; /* Letras blancas */
     padding: 12px 8px;
     text-transform: uppercase;
     font-weight: 700;
-    border: 1px solid #444;
+    border: 1px solid #1B5E20;
 }
 
 tbody td {
@@ -327,8 +327,8 @@ tbody tr:hover {
 }
 
 .aciertos-box {
-    background-color: #333;
-    color: #fdd835;
+    background-color: #2E7D32;
+    color: #ffffff;
     width: 35px;
     height: 35px;
     line-height: 35px;
@@ -412,10 +412,10 @@ tbody tr:hover {
 }
 
 /* ========================================================= */
-/* 9. PANEL DE ADMINISTRACIÓN                                */
+/* 9. PANEL DE ADMINISTRACIÓN                                 */
 /* ========================================================= */
 .admin-section {
-    background-color: white;
+    background-color: #D1D1D1; /* Gris solicitado para el panel */
     width: 100%;
     max-width: 900px;
     padding: 25px;
@@ -445,7 +445,7 @@ tbody tr:hover {
 }
 
 #btn-procesar-pegado {
-    background-color: #007bff;
+    background-color: #2E7D32;
     color: white;
     padding: 12px;
     border: none;
@@ -458,7 +458,7 @@ tbody tr:hover {
 }
 
 #btn-procesar-pegado:hover {
-    background-color: #0056b3;
+    background-color: #1B5E20;
 }
 
 form label {
@@ -482,7 +482,7 @@ form input, form select {
 form button {
     width: 100%;
     padding: 15px;
-    background-color: #388e3c;
+    background-color: #2E7D32;
     color: white;
     border: none;
     border-radius: 8px;
@@ -493,7 +493,7 @@ form button {
 }
 
 form button:hover {
-    background-color: #2e7d32;
+    background-color: #1B5E20;
 }
 
 #lista-participantes, #lista-resultados {
@@ -507,7 +507,7 @@ form button:hover {
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 10px;
-    border-left: 5px solid #fdd835;
+    border-left: 5px solid #2E7D32;
     font-size: 0.9em;
     color: #333;
     font-weight: 600;
@@ -593,7 +593,7 @@ footer {
 }
 
 /* ========================================================= */
-/* 12. ESTILOS DE IMPRESIÓN (PDF)                            */
+/* 12. ESTILOS DE IMPRESIÓN (PDF)                             */
 /* ========================================================= */
 @media print {
     #btn-descargar-pdf, .filtro-container, footer, button {
@@ -610,14 +610,14 @@ footer {
     }
 
     header {
-        background-color: #fdd835 !important;
-        color: #333 !important;
+        background-color: #2E7D32 !important;
+        color: #ffffff !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
     }
 
     .card {
-        background-color: #ffffff !important;
+        background-color: #D1D1D1 !important;
         color: #333 !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
