@@ -25,7 +25,7 @@ header {
     padding: 15px 10px;
     background-color: #73E6CB;
     color: #333;
-    border-radius: 122px;
+    border-radius: 12px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 900px; /* Ancho máximo para el header y contenedores */
@@ -170,7 +170,7 @@ header p {
 }
 
 /* ========================================================= */
-/* 4. TABLA DE RESULTADOS (CUADRÍCULA CON SCROLL PROTEGIDO)     */
+/* 4. TABLA DE RESULTADOS (CUADRÍCULA CON SCROLL PROTEGIDO)    */
 /* ========================================================= */
 .tabla-resultados-wrapper {
     width: 100%;
@@ -266,7 +266,7 @@ header p {
 }
 
 /* ========================================================= */
-/* 6. TABLA DE RANKING / PARTICIPANTES                        */
+/* 6. TABLA DE RANKING / PARTICIPANTES                       */
 /* ========================================================= */
 .ranking {
     overflow-x: auto;
@@ -354,7 +354,7 @@ tbody tr:hover {
 }
 
 /* ========================================================= */
-/* 7. FILTROS Y BUSCADOR                                      */
+/* 7. FILTROS Y BUSCADOR                                     */
 /* ========================================================= */
 .filtro-container {
     width: 100%;
@@ -389,7 +389,7 @@ tbody tr:hover {
 }
 
 /* ========================================================= */
-/* 8. BOTÓN PDF                                               */
+/* 8. BOTÓN PDF                                              */
 /* ========================================================= */
 #btn-descargar-pdf {
     background-color: #d32f2f;
@@ -412,7 +412,7 @@ tbody tr:hover {
 }
 
 /* ========================================================= */
-/* 9. PANEL DE ADMINISTRACIÓN                                 */
+/* 9. PANEL DE ADMINISTRACIÓN                                */
 /* ========================================================= */
 .admin-section {
     background-color: white;
