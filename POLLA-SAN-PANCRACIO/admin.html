@@ -34,7 +34,7 @@
             margin-bottom: 10px;
             padding: 12px;
             border-radius: 8px;
-            border-left: 5px solid #fdd835;
+            border-left: 5px solid #50C878; /* Color actualizado */
             color: #333;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
@@ -68,7 +68,7 @@
             resize: vertical; 
         }
         #paste-section button {
-            background-color: #007bff;
+            background-color: #50C878; /* Color de marca */
             color: white;
             padding: 10px 15px;
             border: none;
@@ -80,7 +80,7 @@
             transition: background-color 0.2s ease;
         }
         #paste-section button:hover {
-            background-color: #0056b3;
+            background-color: #3da35f;
         }
 
         #input-buscar-participante {
@@ -124,13 +124,23 @@
         .login-card button {
             width: 100%;
             padding: 12px;
-            background: #fdd835;
+            background: #50C878;
+            color: white;
             border: none;
             border-radius: 6px;
             font-weight: bold;
             cursor: pointer;
         }
         #contenido-principal { display: none; }
+
+        /* Estilo específico para el selector de modo */
+        #modo-premios {
+            background-color: #f1f8f1;
+            border: 2px solid #50C878;
+            font-weight: bold;
+            color: #1b5e20;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -155,6 +165,12 @@
         <div class="admin-section">
             <h2>💵 Ingresar Montos Financieros y Ventas</h2>
             <form id="form-finanzas">
+                <label for="modo-premios">MODALIDAD DE REPARTO:</label>
+                <select id="modo-premios" style="width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 6px;" onchange="verificarModo()">
+                    <option value="1" selected>1 SOLO PREMIO (75% TOTAL)</option>
+                    <option value="2">2 PREMIOS (50% / 25% + ACUMULADOS)</option>
+                </select>
+
                 <label for="input-ventas">Total de VENTAS (Tickets Vendidos):</label>
                 <input type="number" id="input-ventas" min="0" value="0" required>
                 
@@ -166,13 +182,13 @@
                         <label for="input-acumulado">Acumulado 1 (Principal):</label>
                         <input type="number" id="input-acumulado" step="0.01" value="0.00" required>
                     </div>
-                    <div>
+                    <div id="container-acumulado2">
                         <label for="input-acumulado2">Acumulado 2 (Secundario):</label>
                         <input type="number" id="input-acumulado2" step="0.01" value="0.00" required>
                     </div>
                 </div>
                 
-                <button type="submit" style="margin-top: 10px;">Guardar Finanzas</button>
+                <button type="submit" style="margin-top: 10px; background-color: #50C878; color: white;">Guardar Finanzas</button>
             </form>
 
             <div class="card-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px;">
@@ -240,7 +256,7 @@
                 <label for="numero-ganador">Número Ganador (00-99):</label>
                 <input type="text" id="numero-ganador" placeholder="Ej: 05 o 0" required>
                 
-                <button type="submit">Guardar Resultado</button>
+                <button type="submit" style="background-color: #50C878; color: white;">Guardar Resultado</button>
             </form>
             <h3>Resultados Ingresados:</h3>
             <ul id="lista-resultados"></ul>
@@ -266,12 +282,12 @@
                 
                 <label>Jugadas Procesadas (Sistema de 6 números):</label>
                 <input type="text" id="jugadas-procesadas" 
-                       style="background-color: #fffde7; border: 2px solid #fdd835; font-weight: bold;" 
+                       style="background-color: #fffde7; border: 2px solid #50C878; font-weight: bold;" 
                        placeholder="01,02,03,04,05,06 | 10,11..." required>
                 
                 <input type="hidden" id="notas-correccion" value=""> 
 
-                <button type="submit">Registrar Participante</button>
+                <button type="submit" style="background-color: #50C878; color: white;">Registrar Participante</button>
             </form>
             
             <h3>Listado de Participantes:</h3>
@@ -281,7 +297,7 @@
             <ul id="lista-participantes"></ul>
         </div>
         
-        <hr style="border-color: #fdd835; margin: 30px 0;">
+        <hr style="border-color: #50C878; margin: 30px 0;">
 
         <div style="text-align: center; margin-bottom: 20px;">
             <button id="btn-reiniciar-datos" style="background-color: #dc3545; color: white; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">
@@ -289,6 +305,21 @@
             </button>
         </div>
     </div> 
+
+    <script>
+        function verificarModo() {
+            const modo = document.getElementById('modo-premios').value;
+            const container2 = document.getElementById('container-acumulado2');
+            if (modo === "1") {
+                container2.style.display = 'none';
+            } else {
+                container2.style.display = 'block';
+            }
+        }
+        // Ejecutar al cargar para asegurar el estado inicial
+        window.onload = verificarModo;
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js"></script>
     <script src="admin-script.js"></script>

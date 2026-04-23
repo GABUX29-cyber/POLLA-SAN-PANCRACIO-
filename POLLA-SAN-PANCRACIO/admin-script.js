@@ -50,11 +50,12 @@ document.addEventListener('DOMContentLoaded', () => {
     verificarSesion();
 
     // --- VARIABLES GLOBALES ACTUALIZADAS ---
-    const JUGADA_SIZE = 6; // Cambio de 7 a 6
+    const JUGADA_SIZE = 6; 
 
     let participantes = [];
     let resultados = [];
-    let finanzas = { ventas: 0, recaudado: 0.00, acumulado1: 0.00, acumulado2: 0.00 };
+    // Se añade 'modo' a la estructura de finanzas
+    let finanzas = { ventas: 0, recaudado: 0.00, acumulado1: 0.00, acumulado2: 0.00, modo: "1" };
 
     // ---------------------------------------------------------------------------------------
     // --- 1. FUNCIÓN DE PROCESAMIENTO (REGLAS DE NEGOCIO PARA 6 NÚMEROS) ---
@@ -206,11 +207,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('form-finanzas').addEventListener('submit', async (e) => {
         e.preventDefault();
+        finanzas.modo = document.getElementById('modo-premios').value;
         finanzas.ventas = parseInt(document.getElementById('input-ventas').value);
         finanzas.recaudado = parseFloat(document.getElementById('input-recaudado').value);
         finanzas.acumulado1 = parseFloat(document.getElementById('input-acumulado').value);
         
-        // Incluir acumulado2 si el elemento existe en el HTML
         const inputAc2 = document.getElementById('input-acumulado2');
         if (inputAc2) {
             finanzas.acumulado2 = parseFloat(inputAc2.value);
@@ -314,6 +315,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 5. RENDERIZADO ---
     // ---------------------------------------------------------------------------------------
     function renderizarTodo() {
+        const inputModo = document.getElementById('modo-premios');
+        if (inputModo) {
+            inputModo.value = finanzas.modo || "1";
+            // Disparar manualmente el cambio visual para ocultar/mostrar acumulado 2
+            if (typeof window.verificarModo === "function") window.verificarModo();
+        }
+
         const inputVentas = document.getElementById('input-ventas');
         if (inputVentas) inputVentas.value = participantes.length;
 
