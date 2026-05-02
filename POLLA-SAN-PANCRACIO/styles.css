@@ -197,7 +197,7 @@ header p {
 
 .tabla-horarios thead th {
     background-color: #333;
-    color: #fdd835;
+    color: #73E6CB;
     font-weight: 700;
 }
 
@@ -206,7 +206,7 @@ header p {
     position: sticky;
     left: 0;
     z-index: 2;
-    background-color: #fdd835 !important;
+    background-color: ##73E6CB !important;
     font-weight: 800;
     color: #333;
     text-align: left !important;
