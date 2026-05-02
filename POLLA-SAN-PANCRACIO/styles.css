@@ -283,8 +283,8 @@ table {
 }
 
 thead th {
-    background-color: #73E6CB;
-    color: #fdd835;
+    background-color: #333;
+    color: #73E6CB;
     padding: 12px 8px;
     text-transform: uppercase;
     font-weight: 700;
