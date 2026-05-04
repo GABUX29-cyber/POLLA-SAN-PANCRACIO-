@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // ----------------------------------------------------------------
-    // PARTE 3: Lógica Financiera y CENTRADO ESPACIADO
+    // PARTE 3: Lógica Financiera y DISEÑO ADAPTABLE (GRID)
     // ----------------------------------------------------------------
 
     function actualizarFinanzasYEstadisticas() {
@@ -87,11 +87,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const segundoPremioEl = document.getElementById('segundo-premio'); 
         const domingoEl = document.getElementById('monto-domingo');
 
-        // Contenedores individuales (.est-mini)
         const contenedorAcumulado2 = acumulado2El ? acumulado2El.parentElement : null;
         const contenedorSegundoPremio = segundoPremioEl ? segundoPremioEl.parentElement : null;
 
-        // Ajuste de las cuadrículas (.stats-grid-ultra)
         const grids = document.querySelectorAll('.stats-grid-ultra');
 
         const montoRecaudadoHoy = parseFloat(finanzasData.recaudado) || 0;
@@ -104,19 +102,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         let calculoPrimerPremio = 0;
         let calculoSegundoPremio = 0;
 
-        // Configuración para que se vea amplio y centrado
+        // --- CONFIGURACIÓN DE GRID DINÁMICO ---
         grids.forEach(grid => {
-            grid.style.display = 'flex';
-            grid.style.flexWrap = 'wrap';
-            grid.style.justifyContent = 'center'; // Centra los elementos
-            grid.style.gap = '25px'; // Aumentamos el espacio para que no estén pegados
-            grid.style.padding = '10px 0';
-        });
-
-        // Aseguramos que cada tarjeta mantenga un tamaño mínimo para que no se encojan
-        document.querySelectorAll('.est-mini').forEach(card => {
-            card.style.minWidth = '220px'; // Tamaño estándar similar al original
-            card.style.flex = '0 1 auto';  // Evita que se estiren de más
+            grid.style.display = 'grid';
+            grid.style.gap = '20px';
+            grid.style.justifyContent = 'center';
+            grid.style.padding = '15px';
+            
+            // Si la modalidad es de 2 premios (4 elementos), usamos 4 columnas o 2 y 2
+            if (finanzasData.modalidad === '2_premios') {
+                grid.style.gridTemplateColumns = 'repeat(auto-fit, minmax(200px, 1fr))';
+                grid.style.maxWidth = '1000px'; 
+                grid.style.margin = '0 auto';
+            } else {
+                // Si es modalidad sencilla (3 elementos), las centramos bien
+                grid.style.gridTemplateColumns = 'repeat(auto-fit, minmax(200px, 280px))';
+                grid.style.maxWidth = '900px';
+                grid.style.margin = '0 auto';
+            }
         });
 
         if (finanzasData.modalidad === '2_premios') {
@@ -144,7 +147,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // ----------------------------------------------------------------
-    // PARTE 4: Renderizado de Datos (Resultados y Ranking)
+    // PARTE 4: Renderizado de Datos
     // ----------------------------------------------------------------
 
     function calcularAciertos(jugadorJugadas, ganadores) {
