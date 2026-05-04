@@ -10,14 +10,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         ventas: 0, 
         recaudado: 0.00,
         acumulado1: 0.00,
-        acumulado2: 0.00 // Nuevo campo para el segundo acumulado
+        acumulado2: 0.00 // Segundo acumulado para el 2do premio
     };
     
     let resultadosDelDia = [];
-    const JUGADA_SIZE = 6; // Cambio definitivo de 7 a 6 números
+    const JUGADA_SIZE = 6; // Formato de 6 números
     let rankingCalculado = []; 
 
-    // FUNCIÓN PARA FORMATEAR MONEDA (Punto en miles, coma en decimales)
+    // FUNCIÓN PARA FORMATEAR MONEDA (Estilo Alemán: Punto en miles, coma en decimales)
     const formatearBS = (monto) => {
         return new Intl.NumberFormat('de-DE', {
             minimumFractionDigits: 2,
@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function cargarDatosDesdeNube() {
         try {
+            // Consulta paralela a Supabase
             const { data: p } = await _supabase.from('participantes').select('*').order('nro', { ascending: true });
             const { data: r } = await _supabase.from('resultados').select('*');
             const { data: f } = await _supabase.from('finanzas').select('*').single();
@@ -88,7 +89,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function actualizarFinanzasYEstadisticas() {
-        // Enlazamos con los IDs del HTML
+        // Enlaces con el DOM
         const ventasEl = document.getElementById('ventas');
         const recaudadoEl = document.getElementById('recaudado');
         const acumulado1El = document.getElementById('acumulado1');
@@ -98,43 +99,29 @@ document.addEventListener('DOMContentLoaded', async () => {
         const segundoPremioEl = document.getElementById('segundo-premio'); 
         const domingoEl = document.getElementById('monto-domingo');
 
-        // Valores base desde la base de datos
+        // Valores numéricos
         const montoRecaudadoHoy = parseFloat(finanzasData.recaudado) || 0;
         const montoAcumuladoAnterior = parseFloat(finanzasData.acumulado1) || 0;
         const montoAcumuladoDos = parseFloat(finanzasData.acumulado2) || 0;
 
-        // --- LÓGICA FINANCIERA INTERNA ---
-        
-        // 1. Repartición del 100% recogido
-        const montoParaPremiosTotal = montoRecaudadoHoy * 0.75; // 75% para repartir
-        const montoParaDomingo = montoRecaudadoHoy * 0.05;      // 5% para domingos
-        // El 20% de la casa se calcula pero no se busca el elemento en el DOM para no mostrarlo
-        const montoParaCasa = montoRecaudadoHoy * 0.20;         
+        // --- LÓGICA DE REPARTO ---
+        // 75% Premios, 5% Domingo, 20% Casa (No se muestra)
+        const montoParaPremiosTotal = montoRecaudadoHoy * 0.75; 
+        const montoParaDomingo = montoRecaudadoHoy * 0.05;      
 
-        // 2. División del 75% de premios (80% / 20%) + sus respectivos acumulados
+        // Distribución de Premios: 80% al Primero, 20% al Segundo + sus acumulados
         const calculoPrimerPremio = (montoParaPremiosTotal * 0.80) + montoAcumuladoAnterior;
         const calculoSegundoPremio = (montoParaPremiosTotal * 0.20) + montoAcumuladoDos;
 
-        // --- ACTUALIZACIÓN DE LA INTERFAZ ---
-
-        // Cuadro 1: Resumen de Polla
+        // --- RENDERIZADO DE VALORES ---
         if (ventasEl) ventasEl.textContent = finanzasData.ventas;
         if (recaudadoEl) recaudadoEl.textContent = formatearBS(montoRecaudadoHoy);
         if (acumulado1El) acumulado1El.textContent = formatearBS(montoAcumuladoAnterior);
         if (acumulado2El) acumulado2El.textContent = formatearBS(montoAcumuladoDos);
         
-        // Cuadro 2: Premios (Sin mostrar la Casa)
-        if (primerPremioEl) {
-            primerPremioEl.textContent = formatearBS(calculoPrimerPremio);
-        }
-
-        if (segundoPremioEl) {
-            segundoPremioEl.textContent = formatearBS(calculoSegundoPremio);
-        }
-
-        if (domingoEl) {
-            domingoEl.textContent = formatearBS(montoParaDomingo);
-        }
+        if (primerPremioEl) primerPremioEl.textContent = formatearBS(calculoPrimerPremio);
+        if (segundoPremioEl) segundoPremioEl.textContent = formatearBS(calculoSegundoPremio);
+        if (domingoEl) domingoEl.textContent = formatearBS(montoParaDomingo);
     }
 
     // ----------------------------------------------------------------
@@ -198,6 +185,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!tbody) return;
         tbody.innerHTML = '';
 
+        // Cálculo y ordenación por aciertos
         rankingCalculado = participantesData.map(p => {
             const numAciertos = calcularAciertos(p.jugadas, resultadosDelDia);
             return { ...p, aciertos: numAciertos };
@@ -218,6 +206,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             const tr = document.createElement('tr');
             
+            // Construcción de las celdas de la jugada
             let jugadasHTML = '';
             for (let i = 0; i < JUGADA_SIZE; i++) {
                 const num = p.jugadas[i] ? String(p.jugadas[i]) : '--';
@@ -236,6 +225,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             tbody.appendChild(tr);
 
+            // Celda de aciertos/ganador
             const aciertosCell = tr.querySelector(`#aciertos-${p.nro}`);
             if (p.aciertos >= 6) { 
                 aciertosCell.innerHTML = '<span class="ganador-final">GANADOR 🏆</span>';
@@ -244,6 +234,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
 
+        // Actualizar contador de ganadores en la interfaz
         const totalGanadoresEl = document.getElementById('total-ganadores');
         if (totalGanadoresEl) totalGanadoresEl.textContent = totalGanadores;
     }
@@ -264,5 +255,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
+    // Ejecución inicial
     cargarDatosDesdeNube();
 });

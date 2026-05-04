@@ -50,11 +50,17 @@ document.addEventListener('DOMContentLoaded', () => {
     verificarSesion();
 
     // --- VARIABLES GLOBALES ACTUALIZADAS ---
-    const JUGADA_SIZE = 6; // Cambio de 7 a 6
+    const JUGADA_SIZE = 6; 
 
     let participantes = [];
     let resultados = [];
-    let finanzas = { ventas: 0, recaudado: 0.00, acumulado1: 0.00, acumulado2: 0.00 };
+    let finanzas = { 
+        ventas: 0, 
+        recaudado: 0.00, 
+        acumulado1: 0.00, 
+        acumulado2: 0.00,
+        modalidad: '1_premio' // Nueva propiedad para la modalidad
+    };
 
     // ---------------------------------------------------------------------------------------
     // --- 1. FUNCIÓN DE PROCESAMIENTO (REGLAS DE NEGOCIO PARA 6 NÚMEROS) ---
@@ -206,17 +212,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('form-finanzas').addEventListener('submit', async (e) => {
         e.preventDefault();
+        
+        // Captura de valores del formulario
         finanzas.ventas = parseInt(document.getElementById('input-ventas').value);
         finanzas.recaudado = parseFloat(document.getElementById('input-recaudado').value);
         finanzas.acumulado1 = parseFloat(document.getElementById('input-acumulado').value);
         
-        // Incluir acumulado2 si el elemento existe en el HTML
+        // Capturar modalidad de reparto
+        const selectModalidad = document.getElementById('modalidad-reparto');
+        if (selectModalidad) {
+            finanzas.modalidad = selectModalidad.value;
+        }
+
+        // Incluir acumulado2
         const inputAc2 = document.getElementById('input-acumulado2');
         if (inputAc2) {
             finanzas.acumulado2 = parseFloat(inputAc2.value);
         }
         
-        const { error } = await _supabase.from('finanzas').update(finanzas).eq('id', 1);
+        // Actualización en Supabase
+        const { error } = await _supabase.from('finanzas').update({
+            ventas: finanzas.ventas,
+            recaudado: finanzas.recaudado,
+            acumulado1: finanzas.acumulado1,
+            acumulado2: finanzas.acumulado2,
+            modalidad: finanzas.modalidad
+        }).eq('id', 1);
+
         if (error) alert("Error al actualizar finanzas");
         else { alert("✅ Finanzas actualizadas."); cargarDatosDesdeNube(); }
     });
@@ -314,6 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 5. RENDERIZADO ---
     // ---------------------------------------------------------------------------------------
     function renderizarTodo() {
+        // Actualizar campos del formulario con datos de la nube
         const inputVentas = document.getElementById('input-ventas');
         if (inputVentas) inputVentas.value = participantes.length;
 
@@ -325,7 +348,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const inputAcumulado2 = document.getElementById('input-acumulado2');
         if (inputAcumulado2) inputAcumulado2.value = finanzas.acumulado2 || 0;
+        
+        const selectModalidad = document.getElementById('modalidad-reparto');
+        if (selectModalidad && finanzas.modalidad) {
+            selectModalidad.value = finanzas.modalidad;
+        }
 
+        // Cálculos financieros (20% Casa y 5% Domingo)
         const montoCasa = (finanzas.recaudado * 0.20).toFixed(2);
         const montoDomingo = (finanzas.recaudado * 0.05).toFixed(2);
         
@@ -335,6 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const elDomingo = document.getElementById('domingo-valor');
         if (elDomingo) elDomingo.textContent = `${montoDomingo} BS`;
 
+        // Renderizar Resultados
         const listaRes = document.getElementById('lista-resultados');
         listaRes.innerHTML = '';
         resultados.forEach((res) => {
@@ -348,6 +378,7 @@ document.addEventListener('DOMContentLoaded', () => {
             listaRes.appendChild(li);
         });
 
+        // Renderizar Participantes
         const listaPart = document.getElementById('lista-participantes');
         listaPart.innerHTML = '';
         participantes.forEach(p => {

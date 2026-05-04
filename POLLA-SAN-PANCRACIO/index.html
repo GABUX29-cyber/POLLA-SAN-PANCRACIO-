@@ -1,131 +1,184 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POLLA SAN PANCRACIO - Resultados</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+document.addEventListener('DOMContentLoaded', () => {
 
-    <header>
-        <h1>POLLA SAN PANCRACIO</h1>
-        <p><i class="fas fa-calendar-alt"></i> Cargando fecha...</p>
-    </header>
+    // --- VARIABLES Y ESTADO ---
+    let participantes = [];
+    let resultadosDiarios = [];
+    let finanzas = {
+        ventas: 0,
+        recaudado: 0.00,
+        acumulado1: 0.00,
+        acumulado2: 0.00,
+        modalidad: '1_premio'
+    };
+
+    // --- ELEMENTOS DEL DOM ---
+    const tablaBody = document.getElementById('ranking-body');
+    const displayResultados = document.getElementById('numeros-ganadores-display');
+    const inputFiltro = document.getElementById('filtroParticipantes');
     
-    <div class="card-container full-width">
-        <div class="card">
-            <h2><i class="fas fa-clock"></i> Resultados del Día</h2>
-            <div id="numeros-ganadores-display">
-                <p>Esperando conexión con el servidor...</p>
-            </div>
-        </div>
-    </div>
+    // Elementos de Stats
+    const elVentas = document.getElementById('ventas');
+    const elRecaudado = document.getElementById('recaudado');
+    const elAcumulado1 = document.getElementById('acumulado1');
+    const elAcumulado2 = document.getElementById('acumulado2');
     
-    <div class="card-container">
-        
-        <div class="card compact-resumen">
-            <h2><i class="fas fa-chart-line"></i> Info Extra</h2>
-            <div class="stats-grid-ultra">
-                <div class="est-mini ventas">
-                    <i class="fas fa-ticket-alt"></i>
-                    <span id="ventas" class="val-mini">0</span>
-                    <label>TICKETS VENDIDOS</label>
-                </div>
+    // Elementos de Premios
+    const elPrimerPremio = document.getElementById('primer-premio');
+    const elSegundoPremio = document.getElementById('segundo-premio');
+    const elMontoDomingo = document.getElementById('monto-domingo');
+    const elTotalGanadores = document.getElementById('total-ganadores');
 
-                <div class="est-mini recaudado">
-                    <i class="fas fa-money-bill-wave"></i>
-                    <span id="recaudado" class="val-mini">0.00 BS</span>
-                    <label>TOTAL RECAUDADO</label>
-                </div>
+    // --- 1. CARGA DE DATOS DESDE SUPABASE ---
+    async function cargarDatos() {
+        try {
+            // Obtener Participantes
+            const { data: pData, error: pError } = await _supabase
+                .from('participantes')
+                .select('*')
+                .order('nro', { ascending: true });
 
-                <div class="est-mini acumulado">
-                    <i class="fas fa-trophy"></i>
-                    <span id="acumulado1" class="val-mini">0.00 BS</span>
-                    <label>ACUMULADO 1</label>
-                </div>
+            // Obtener Resultados
+            const { data: rData, error: rError } = await _supabase
+                .from('resultados')
+                .select('*')
+                .order('id', { ascending: true });
 
-                <div class="est-mini acumulado2">
-                    <i class="fas fa-star"></i>
-                    <span id="acumulado2" class="val-mini">0.00 BS</span>
-                    <label>ACUMULADO 2</label>
-                </div>
-            </div>
-        </div>
+            // Obtener Finanzas
+            const { data: fData, error: fError } = await _supabase
+                .from('finanzas')
+                .select('*')
+                .single();
 
-        <div class="card compact-resumen">
-            <h2><i class="fas fa-gift"></i> Premios/Ganadores</h2>
-            <div class="stats-grid-ultra">
-                <div class="est-mini repartir">
-                    <i class="fas fa-medal" style="color: #ff9800;"></i>
-                    <span id="primer-premio" class="val-mini">0.00 BS</span>
-                    <label>🥇 PRIMER PREMIO 🥇</label>
-                </div>
+            if (pError || rError || fError) throw new Error("Error al obtener datos");
 
-                <div class="est-mini domingo">
-                    <i class="fas fa-medal" style="color: #009688;"></i>
-                    <span id="segundo-premio" class="val-mini">0.00 BS</span>
-                    <label>🥈 SEGUNDO PREMIO 🥈</label>
-                </div>
+            participantes = pData || [];
+            resultadosDiarios = rData.map(r => r.numero) || [];
+            finanzas = fData || finanzas;
 
-                <div class="est-mini acumulado">
-                    <i class="fas fa-calendar-day" style="color: #fbc02d;"></i>
-                    <span id="monto-domingo" class="val-mini">0.00 BS</span>
-                    <label>5% DÍA DOMINGO</label>
-                </div>
+            renderizarResultados(rData);
+            procesarYRenderizarTabla();
+            actualizarDashboard();
 
-                <div class="est-mini ganadores-box-item">
-                    <i class="fas fa-users" style="color: #f44336;"></i>
-                    <span id="total-ganadores" class="val-mini">0</span>
-                    <label>GANADORES</label>
-                </div>
-            </div>
-        </div>
+        } catch (err) {
+            console.error("Error en la conexión:", err);
+            displayResultados.innerHTML = `<p style="color:red;">Error de conexión con el servidor.</p>`;
+        }
+    }
 
-    </div>
+    // --- 2. RENDERIZADO DE RESULTADOS (CÍRCULOS) ---
+    function renderizarResultados(lista) {
+        if (lista.length === 0) {
+            displayResultados.innerHTML = `<p>No hay resultados registrados hoy.</p>`;
+            return;
+        }
 
-    <div style="margin-bottom: 20px; text-align: center;">
-        <button id="btn-descargar-pdf">
-            <i class="fas fa-file-pdf"></i> Descargar Resultados / Imprimir
-        </button>
-    </div>
+        displayResultados.innerHTML = '';
+        lista.forEach(res => {
+            const contenedor = document.createElement('div');
+            contenedor.className = 'resultado-item';
+            contenedor.innerHTML = `
+                <span class="sorteo-hora">${res.sorteo}</span>
+                <div class="bola-resultado">${res.numero}</div>
+            `;
+            displayResultados.appendChild(contenedor);
+        });
+    }
 
-    <div class="filtro-container">
-        <div class="filtro-input-wrapper">
-            <i class="fas fa-search"></i>
-            <input type="text" id="filtroParticipantes" class="filtro-input" placeholder="🔍 Buscar por Nombre o REFE...">
-        </div>
-    </div>
+    // --- 3. LÓGICA DE CÁLCULO Y TABLA ---
+    function procesarYRenderizarTabla() {
+        const busqueda = inputFiltro.value.toLowerCase();
+        tablaBody.innerHTML = '';
 
-    <div class="card-container full-width">
-        <div class="card ranking">
-            <h2><i class="fas fa-list-ol"></i> Participantes y Aciertos</h2>
-            <div style="overflow-x: auto;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>NRO</th>
-                            <th>PARTICIPANTE</th>
-                            <th>REFE</th>
-                            <th colspan="6">JUGADA</th> 
-                            <th>ACIERTOS</th>
-                        </tr>
-                    </thead>
-                    <tbody id="ranking-body">
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+        let conteoGanadores = 0;
 
-    <footer>
-        <p>&copy; 2026 POLLA SAN PANCRACIO - Sistema Profesional de Gestión de Resultados.</p>
-    </footer>
+        // Filtrar participantes según el buscador
+        const filtrados = participantes.filter(p => 
+            p.nombre.toLowerCase().includes(busqueda) || 
+            p.refe.toString().includes(busqueda)
+        );
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="supabase-config.js"></script>
-    <script src="script.js"></script>
-</body>
-</html>
+        filtrados.forEach(p => {
+            // Cálculo de aciertos (comparando jugadas con resultados diarios)
+            let aciertos = p.jugadas.filter(num => resultadosDiarios.includes(num)).length;
+            
+            if (aciertos >= 5) conteoGanadores++;
+
+            const tr = document.createElement('tr');
+            
+            // Determinar clase de resaltado según aciertos
+            if (aciertos === 6) tr.className = 'ganador-max';
+            else if (aciertos === 5) tr.className = 'ganador-medio';
+
+            // Construir celdas de la jugada (6 columnas)
+            let celdasJugada = '';
+            for (let i = 0; i < 6; i++) {
+                let num = p.jugadas[i] || '-';
+                let claseAcierto = resultadosDiarios.includes(num) ? 'acertado' : '';
+                celdasJugada += `<td class="${claseAcierto}">${num}</td>`;
+            }
+
+            tr.innerHTML = `
+                <td><strong>${p.nro}</strong></td>
+                <td class="nombre-cell">${p.nombre}</td>
+                <td><span class="refe-tag">${p.refe}</span></td>
+                ${celdasJugada}
+                <td><strong class="aciertos-count">${aciertos}</strong></td>
+            `;
+            tablaBody.appendChild(tr);
+        });
+
+        elTotalGanadores.textContent = conteoGanadores;
+    }
+
+    // --- 4. ACTUALIZACIÓN DEL DASHBOARD FINANCIERO ---
+    function actualizarDashboard() {
+        elVentas.textContent = participantes.length;
+        elRecaudado.textContent = `${finanzas.recaudado.toFixed(2)} BS`;
+        elAcumulado1.textContent = `${finanzas.acumulado1.toFixed(2)} BS`;
+        elAcumulado2.textContent = `${(finanzas.acumulado2 || 0).toFixed(2)} BS`;
+
+        // Cálculo del 5% Domingo
+        const montoDomingo = (finanzas.recaudado * 0.05).toFixed(2);
+        elMontoDomingo.textContent = `${montoDomingo} BS`;
+
+        // Lógica de Reparto de Premios (75% del recaudado tras apartar casa y domingo)
+        const totalPremios = finanzas.recaudado * 0.75;
+        let primerPremio = 0;
+        let segundoPremio = 0;
+
+        if (finanzas.modalidad === '2_premios') {
+            // Reparto proporcional si hay dos premios
+            primerPremio = totalPremios * 0.70;
+            segundoPremio = totalPremios * 0.30;
+        } else {
+            // Todo al primer premio si la modalidad es normal (tarde)
+            primerPremio = totalPremios;
+            segundoPremio = 0.00;
+        }
+
+        elPrimerPremio.textContent = `${primerPremio.toFixed(2)} BS`;
+        elSegundoPremio.textContent = `${segundoPremio.toFixed(2)} BS`;
+    }
+
+    // --- 5. EVENTOS ---
+
+    // Buscador en tiempo real
+    inputFiltro.addEventListener('input', procesarYRenderizarTabla);
+
+    // Formatear Fecha Actual en el Header
+    const fechaHeader = document.querySelector('header p');
+    const opcionesFecha = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    fechaHeader.innerHTML = `<i class="fas fa-calendar-alt"></i> ${new Date().toLocaleDateString('es-ES', opcionesFecha)}`;
+
+    // Botón de Descarga PDF
+    document.getElementById('btn-descargar-pdf').addEventListener('click', () => {
+        window.print();
+    });
+
+    // --- INICIALIZACIÓN ---
+    cargarDatos();
+
+    // Recarga automática cada 30 segundos
+    setInterval(cargarDatos, 30000);
+
+});
