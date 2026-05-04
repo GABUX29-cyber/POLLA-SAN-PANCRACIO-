@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // ----------------------------------------------------------------
-    // PARTE 3: Lógica de Visibilidad y Centrado (Ajuste imagen_58.png)
+    // PARTE 3: Lógica de Visibilidad (Basado en imagen_57.png)
     // ----------------------------------------------------------------
 
     function actualizarFinanzasYEstadisticas() {
@@ -87,12 +87,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const segundoPremioEl = document.getElementById('segundo-premio'); 
         const domingoEl = document.getElementById('monto-domingo');
 
-        // Seleccionamos el contenedor padre (.est-mini)
+        // Seleccionamos el contenedor padre (.est-mini) para ocultarlos por completo
         const contenedorAcumulado2 = acumulado2El ? acumulado2El.parentElement : null;
         const contenedorSegundoPremio = segundoPremioEl ? segundoPremioEl.parentElement : null;
-
-        // Cuadrículas principales (.stats-grid-ultra)
-        const grids = document.querySelectorAll('.stats-grid-ultra');
 
         const montoRecaudadoHoy = parseFloat(finanzasData.recaudado) || 0;
         const montoAcumuladoAnterior = parseFloat(finanzasData.acumulado1) || 0;
@@ -104,22 +101,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         let calculoPrimerPremio = 0;
         let calculoSegundoPremio = 0;
 
-        // --- APLICAR CENTRADO DINÁMICO ---
-        grids.forEach(grid => {
-            grid.style.display = 'flex';
-            grid.style.flexWrap = 'nowrap'; // Mantiene todo en una línea para evitar errores de imagen_59
-            grid.style.justifyContent = 'center'; // Centra los elementos
-            grid.style.gap = '15px'; // Espaciado moderado
-            grid.style.width = '100%';
-        });
-
-        // Ajuste de tamaño de tarjetas para que no se peguen ni se rompan
-        document.querySelectorAll('.est-mini').forEach(card => {
-            card.style.minWidth = '200px'; 
-            card.style.flex = '0 1 auto';
-        });
-
-        // Lógica de modalidad
+        // Si la modalidad es de 2 premios (según tu panel de administración)
         if (finanzasData.modalidad === '2_premios') {
             if (contenedorAcumulado2) contenedorAcumulado2.style.display = 'flex';
             if (contenedorSegundoPremio) contenedorSegundoPremio.style.display = 'flex';
@@ -127,6 +109,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             calculoPrimerPremio = (montoParaPremiosTotal * 0.80) + montoAcumuladoAnterior;
             calculoSegundoPremio = (montoParaPremiosTotal * 0.20) + montoAcumuladoDos;
         } else {
+            // Si es modalidad "Tarde" o 1 solo premio, ocultamos los elementos
             if (contenedorAcumulado2) contenedorAcumulado2.style.display = 'none';
             if (contenedorSegundoPremio) contenedorSegundoPremio.style.display = 'none';
 
