@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // ----------------------------------------------------------------
-    // PARTE 3: Lógica de Visibilidad (Basado en imagen_57.png)
+    // PARTE 3: Lógica de Visibilidad y Centrado
     // ----------------------------------------------------------------
 
     function actualizarFinanzasYEstadisticas() {
@@ -100,6 +100,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         let calculoPrimerPremio = 0;
         let calculoSegundoPremio = 0;
+
+        // --- BLOQUE DE CENTRADO (CSS IN JS) ---
+        const grids = document.querySelectorAll('.stats-grid-ultra');
+        grids.forEach(grid => {
+            grid.style.display = 'flex';
+            grid.style.justifyContent = 'center';
+            grid.style.flexWrap = 'wrap';
+            grid.style.gap = '15px'; // Espacio entre tarjetas
+        });
 
         // Si la modalidad es de 2 premios (según tu panel de administración)
         if (finanzasData.modalidad === '2_premios') {
