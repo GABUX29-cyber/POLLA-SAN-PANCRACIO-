@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // ----------------------------------------------------------------
-    // PARTE 3: Lógica de Visibilidad (Basado en imagen_57.png)
+    // PARTE 3: Lógica Financiera y CENTRADO DINÁMICO
     // ----------------------------------------------------------------
 
     function actualizarFinanzasYEstadisticas() {
@@ -87,9 +87,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         const segundoPremioEl = document.getElementById('segundo-premio'); 
         const domingoEl = document.getElementById('monto-domingo');
 
-        // Seleccionamos el contenedor padre (.est-mini) para ocultarlos por completo
+        // Contenedores individuales (.est-mini)
         const contenedorAcumulado2 = acumulado2El ? acumulado2El.parentElement : null;
         const contenedorSegundoPremio = segundoPremioEl ? segundoPremioEl.parentElement : null;
+
+        // Cuadrículas principales (.stats-grid-ultra) para aplicar el centrado
+        const grids = document.querySelectorAll('.stats-grid-ultra');
 
         const montoRecaudadoHoy = parseFloat(finanzasData.recaudado) || 0;
         const montoAcumuladoAnterior = parseFloat(finanzasData.acumulado1) || 0;
@@ -101,7 +104,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         let calculoPrimerPremio = 0;
         let calculoSegundoPremio = 0;
 
-        // Si la modalidad es de 2 premios (según tu panel de administración)
+        // Forzar centrado en las cuadrículas
+        grids.forEach(grid => {
+            grid.style.display = 'flex';
+            grid.style.flexWrap = 'wrap';
+            grid.style.justifyContent = 'center';
+            grid.style.gap = '15px'; // Mantiene el espacio entre tarjetas
+        });
+
         if (finanzasData.modalidad === '2_premios') {
             if (contenedorAcumulado2) contenedorAcumulado2.style.display = 'flex';
             if (contenedorSegundoPremio) contenedorSegundoPremio.style.display = 'flex';
@@ -109,7 +119,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             calculoPrimerPremio = (montoParaPremiosTotal * 0.80) + montoAcumuladoAnterior;
             calculoSegundoPremio = (montoParaPremiosTotal * 0.20) + montoAcumuladoDos;
         } else {
-            // Si es modalidad "Tarde" o 1 solo premio, ocultamos los elementos
             if (contenedorAcumulado2) contenedorAcumulado2.style.display = 'none';
             if (contenedorSegundoPremio) contenedorSegundoPremio.style.display = 'none';
 
@@ -117,7 +126,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             calculoSegundoPremio = 0;
         }
 
-        // Aplicamos los textos formateados
         if (ventasEl) ventasEl.textContent = finanzasData.ventas;
         if (recaudadoEl) recaudadoEl.textContent = formatearBS(montoRecaudadoHoy);
         if (acumulado1El) acumulado1El.textContent = formatearBS(montoAcumuladoAnterior);
