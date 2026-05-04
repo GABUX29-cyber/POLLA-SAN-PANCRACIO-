@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
 
     // ----------------------------------------------------------------
-    // PARTE 1: Carga y Preparación de Datos desde SUPABASE
+    // PARTE 1: Variables de Estado y Configuración Global
     // ----------------------------------------------------------------
 
     let resultadosAdmin = [];
@@ -10,14 +10,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         ventas: 0, 
         recaudado: 0.00,
         acumulado1: 0.00,
-        acumulado2: 0.00 // Nuevo campo para el segundo acumulado
+        acumulado2: 0.00,
+        modalidad: '1_premio' // Valor inicial por defecto
     };
     
     let resultadosDelDia = [];
-    const JUGADA_SIZE = 6; // Cambio definitivo de 7 a 6 números
+    const JUGADA_SIZE = 6; // Configuración para 6 números por jugada
     let rankingCalculado = []; 
 
-    // FUNCIÓN PARA FORMATEAR MONEDA (Punto en miles, coma en decimales)
+    // Formateador de moneda: Punto para miles, coma para decimales
     const formatearBS = (monto) => {
         return new Intl.NumberFormat('de-DE', {
             minimumFractionDigits: 2,
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }).format(monto) + " BS";
     };
 
+    // Función para mostrar la fecha actual en el encabezado
     function establecerFechaReal() {
         const headerP = document.querySelector('header p');
         if (headerP) {
@@ -41,12 +43,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    // ----------------------------------------------------------------
+    // PARTE 2: Comunicación con Supabase (Carga de Datos)
+    // ----------------------------------------------------------------
+
     async function cargarDatosDesdeNube() {
         try {
+            // Realizamos las peticiones a las tablas correspondientes
             const { data: p } = await _supabase.from('participantes').select('*').order('nro', { ascending: true });
             const { data: r } = await _supabase.from('resultados').select('*');
             const { data: f } = await _supabase.from('finanzas').select('*').single();
 
+            // Asignación de datos a variables locales
             if (p) participantesData = p;
             if (r) {
                 resultadosAdmin = r;
@@ -56,9 +64,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 finanzasData = f;
             }
 
+            // Una vez cargados los datos, inicializamos los componentes visuales
             inicializarSistema();
         } catch (error) {
-            console.error("Error cargando datos de Supabase:", error);
+            console.error("Error crítico cargando datos de Supabase:", error);
         }
     }
 
@@ -71,24 +80,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // ----------------------------------------------------------------
-    // PARTE 2: Funciones Lógicas de Cálculo
+    // PARTE 3: Lógica Financiera y Distribución de Premios
     // ----------------------------------------------------------------
 
-    function calcularAciertos(jugadorJugadas, ganadores) {
-        let aciertos = 0;
-        const ganadoresSet = new Set(ganadores.map(val => String(val))); 
-        
-        jugadorJugadas.forEach(num => {
-            let numProcesado = String(num);
-            if (ganadoresSet.has(numProcesado)) {
-                aciertos++;
-            }
-        });
-        return aciertos;
-    }
-
     function actualizarFinanzasYEstadisticas() {
-        // Enlazamos con los IDs del HTML
+        // Captura de elementos del DOM
         const ventasEl = document.getElementById('ventas');
         const recaudadoEl = document.getElementById('recaudado');
         const acumulado1El = document.getElementById('acumulado1');
@@ -98,48 +94,52 @@ document.addEventListener('DOMContentLoaded', async () => {
         const segundoPremioEl = document.getElementById('segundo-premio'); 
         const domingoEl = document.getElementById('monto-domingo');
 
-        // Valores base desde la base de datos
+        // Conversión de valores de la base de datos
         const montoRecaudadoHoy = parseFloat(finanzasData.recaudado) || 0;
         const montoAcumuladoAnterior = parseFloat(finanzasData.acumulado1) || 0;
         const montoAcumuladoDos = parseFloat(finanzasData.acumulado2) || 0;
 
-        // --- LÓGICA FINANCIERA INTERNA ---
-        
-        // 1. Repartición del 100% recogido
-        const montoParaPremiosTotal = montoRecaudadoHoy * 0.75; // 75% para repartir
-        const montoParaDomingo = montoRecaudadoHoy * 0.05;      // 5% para domingos
-        // El 20% de la casa se calcula pero no se busca el elemento en el DOM para no mostrarlo
-        const montoParaCasa = montoRecaudadoHoy * 0.20;         
+        // Distribución Base: 75% para el pote de premios, 5% para el fondo del domingo
+        const montoParaPremiosTotal = montoRecaudadoHoy * 0.75; 
+        const montoParaDomingo = montoRecaudadoHoy * 0.05;      
 
-        // 2. División del 75% de premios (80% / 20%) + sus respectivos acumulados
-        const calculoPrimerPremio = (montoParaPremiosTotal * 0.80) + montoAcumuladoAnterior;
-        const calculoSegundoPremio = (montoParaPremiosTotal * 0.20) + montoAcumuladoDos;
+        let calculoPrimerPremio = 0;
+        let calculoSegundoPremio = 0;
 
-        // --- ACTUALIZACIÓN DE LA INTERFAZ ---
+        // --- LÓGICA DINÁMICA DE MODALIDAD ---
+        if (finanzasData.modalidad === '2_premios') {
+            // Reparto 80/20 entre los dos premios
+            calculoPrimerPremio = (montoParaPremiosTotal * 0.80) + montoAcumuladoAnterior;
+            calculoSegundoPremio = (montoParaPremiosTotal * 0.20) + montoAcumuladoDos;
+        } else {
+            // Modalidad "Tarde" o normal: 100% al primer lugar
+            calculoPrimerPremio = montoParaPremiosTotal + montoAcumuladoAnterior;
+            calculoSegundoPremio = 0; 
+        }
 
-        // Cuadro 1: Resumen de Polla
+        // Actualización de los valores en pantalla
         if (ventasEl) ventasEl.textContent = finanzasData.ventas;
         if (recaudadoEl) recaudadoEl.textContent = formatearBS(montoRecaudadoHoy);
         if (acumulado1El) acumulado1El.textContent = formatearBS(montoAcumuladoAnterior);
         if (acumulado2El) acumulado2El.textContent = formatearBS(montoAcumuladoDos);
         
-        // Cuadro 2: Premios (Sin mostrar la Casa)
-        if (primerPremioEl) {
-            primerPremioEl.textContent = formatearBS(calculoPrimerPremio);
-        }
-
-        if (segundoPremioEl) {
-            segundoPremioEl.textContent = formatearBS(calculoSegundoPremio);
-        }
-
-        if (domingoEl) {
-            domingoEl.textContent = formatearBS(montoParaDomingo);
-        }
+        if (primerPremioEl) primerPremioEl.textContent = formatearBS(calculoPrimerPremio);
+        if (segundoPremioEl) segundoPremioEl.textContent = formatearBS(calculoSegundoPremio);
+        if (domingoEl) domingoEl.textContent = formatearBS(montoParaDomingo);
     }
 
     // ----------------------------------------------------------------
-    // PARTE 3: Renderizado de Interfaz
+    // PARTE 4: Renderizado de Interfaz y Aciertos
     // ----------------------------------------------------------------
+
+    function calcularAciertos(jugadorJugadas, ganadores) {
+        let aciertos = 0;
+        const ganadoresSet = new Set(ganadores.map(val => String(val))); 
+        jugadorJugadas.forEach(num => {
+            if (ganadoresSet.has(String(num))) aciertos++;
+        });
+        return aciertos;
+    }
 
     function renderResultadosDia() {
         const container = document.getElementById('numeros-ganadores-display');
@@ -158,39 +158,23 @@ document.addEventListener('DOMContentLoaded', async () => {
             const partes = res.sorteo.split(' ');
             const hora = partes.pop(); 
             const nombreRuleta = partes.join(' ');
-
-            if (!mapaResultados[nombreRuleta]) {
-                mapaResultados[nombreRuleta] = {};
-            }
+            if (!mapaResultados[nombreRuleta]) mapaResultados[nombreRuleta] = {};
             mapaResultados[nombreRuleta][hora] = res.numero;
         });
 
-        let tablaHTML = `
-            <div class="tabla-resultados-wrapper">
-                <table class="tabla-horarios">
-                    <thead>
-                        <tr>
-                            <th style="background:#333; border:none;"></th>
-                            ${horas.map(h => `<th>${h}</th>`).join('')}
-                        </tr>
-                    </thead>
-                    <tbody>
-        `;
+        let tablaHTML = `<div class="tabla-resultados-wrapper"><table class="tabla-horarios"><thead><tr><th style="background:#333; border:none;"></th>${horas.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>`;
 
         nombresRuletas.forEach(ruleta => {
             tablaHTML += `<tr><td class="col-ruleta">${ruleta}</td>`;
             horas.forEach(h => {
-                const num = (mapaResultados[ruleta] && mapaResultados[ruleta][h]) 
-                            ? mapaResultados[ruleta][h] 
-                            : "--";
+                const num = (mapaResultados[ruleta] && mapaResultados[ruleta][h]) ? mapaResultados[ruleta][h] : "--";
                 const claseNum = num === "--" ? "sin-resultado" : "celda-numero";
                 tablaHTML += `<td class="${claseNum}">${num}</td>`;
             });
             tablaHTML += `</tr>`;
         });
 
-        tablaHTML += `</tbody></table></div>`;
-        container.innerHTML = tablaHTML;
+        container.innerHTML = tablaHTML + `</tbody></table></div>`;
     }
 
     function renderRanking(filtro = "") {
@@ -198,31 +182,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!tbody) return;
         tbody.innerHTML = '';
 
-        rankingCalculado = participantesData.map(p => {
-            const numAciertos = calcularAciertos(p.jugadas, resultadosDelDia);
-            return { ...p, aciertos: numAciertos };
-        });
-
-        rankingCalculado.sort((a, b) => b.aciertos - a.aciertos);
+        rankingCalculado = participantesData.map(p => ({
+            ...p, aciertos: calcularAciertos(p.jugadas, resultadosDelDia)
+        })).sort((a, b) => b.aciertos - a.aciertos);
 
         const term = filtro.toLowerCase();
         const dataFiltrada = rankingCalculado.filter(p => 
-            p.nombre.toLowerCase().includes(term) || 
-            p.refe.toString().includes(term)
+            p.nombre.toLowerCase().includes(term) || p.refe.toString().includes(term)
         );
 
         let totalGanadores = 0;
-
         dataFiltrada.forEach(p => {
             if (p.aciertos >= 6) totalGanadores++;
-
             const tr = document.createElement('tr');
             
             let jugadasHTML = '';
             for (let i = 0; i < JUGADA_SIZE; i++) {
                 const num = p.jugadas[i] ? String(p.jugadas[i]) : '--';
-                const esGanador = resultadosDelDia.includes(num);
-                const claseGanador = esGanador ? 'hit' : '';
+                const claseGanador = resultadosDelDia.includes(num) ? 'hit' : '';
                 jugadasHTML += `<td><span class="ranking-box ${claseGanador}">${num}</span></td>`;
             }
 
@@ -233,11 +210,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 ${jugadasHTML}
                 <td id="aciertos-${p.nro}"></td>
             `;
-            
             tbody.appendChild(tr);
 
             const aciertosCell = tr.querySelector(`#aciertos-${p.nro}`);
-            if (p.aciertos >= 6) { 
+            if (p.aciertos >= 6) {
                 aciertosCell.innerHTML = '<span class="ganador-final">GANADOR 🏆</span>';
             } else {
                 aciertosCell.innerHTML = `<span class="ranking-box aciertos-box">${p.aciertos}</span>`;

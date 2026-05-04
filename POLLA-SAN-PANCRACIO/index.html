@@ -26,6 +26,7 @@
     
     <div class="card-container">
         
+        <!-- Tarjeta de Info Extra: Ventas y Acumulados -->
         <div class="card compact-resumen">
             <h2><i class="fas fa-chart-line"></i> Info Extra</h2>
             <div class="stats-grid-ultra">
@@ -55,6 +56,7 @@
             </div>
         </div>
 
+        <!-- Tarjeta de Premios: Cálculo dinámico según modalidad -->
         <div class="card compact-resumen">
             <h2><i class="fas fa-gift"></i> Premios/Ganadores</h2>
             <div class="stats-grid-ultra">
@@ -92,6 +94,7 @@
         </button>
     </div>
 
+    <!-- Buscador de Participantes -->
     <div class="filtro-container">
         <div class="filtro-input-wrapper">
             <i class="fas fa-search"></i>
@@ -99,6 +102,7 @@
         </div>
     </div>
 
+    <!-- Tabla de Ranking de Aciertos -->
     <div class="card-container full-width">
         <div class="card ranking">
             <h2><i class="fas fa-list-ol"></i> Participantes y Aciertos</h2>
@@ -114,6 +118,7 @@
                         </tr>
                     </thead>
                     <tbody id="ranking-body">
+                        <!-- Se llena dinámicamente con script.js -->
                     </tbody>
                 </table>
             </div>
@@ -124,6 +129,7 @@
         <p>&copy; 2026 POLLA SAN PANCRACIO - Sistema Profesional de Gestión de Resultados.</p>
     </footer>
 
+    <!-- Scripts de conexión y lógica -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js"></script>
     <script src="script.js"></script>
