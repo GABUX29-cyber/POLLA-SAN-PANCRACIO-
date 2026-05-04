@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // ----------------------------------------------------------------
-    // PARTE 3: Lógica de Visibilidad y Centrado
+    // PARTE 3: Lógica de Visibilidad (Basado en imagen_57.png)
     // ----------------------------------------------------------------
 
     function actualizarFinanzasYEstadisticas() {
@@ -91,6 +91,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         const contenedorAcumulado2 = acumulado2El ? acumulado2El.parentElement : null;
         const contenedorSegundoPremio = segundoPremioEl ? segundoPremioEl.parentElement : null;
 
+        // --- ÚNICO CAMBIO: Centrado de los contenedores ---
+        const grids = document.querySelectorAll('.stats-grid-ultra');
+        grids.forEach(grid => {
+            grid.style.display = 'flex';
+            grid.style.justifyContent = 'center';
+        });
+
         const montoRecaudadoHoy = parseFloat(finanzasData.recaudado) || 0;
         const montoAcumuladoAnterior = parseFloat(finanzasData.acumulado1) || 0;
         const montoAcumuladoDos = parseFloat(finanzasData.acumulado2) || 0;
@@ -100,15 +107,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         let calculoPrimerPremio = 0;
         let calculoSegundoPremio = 0;
-
-        // --- BLOQUE DE CENTRADO (CSS IN JS) ---
-        const grids = document.querySelectorAll('.stats-grid-ultra');
-        grids.forEach(grid => {
-            grid.style.display = 'flex';
-            grid.style.justifyContent = 'center';
-            grid.style.flexWrap = 'wrap';
-            grid.style.gap = '15px'; // Espacio entre tarjetas
-        });
 
         // Si la modalidad es de 2 premios (según tu panel de administración)
         if (finanzasData.modalidad === '2_premios') {
