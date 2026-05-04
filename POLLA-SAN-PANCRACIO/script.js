@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // ----------------------------------------------------------------
-    // PARTE 3: Lógica Financiera y CENTRADO COMPACTO
+    // PARTE 3: Lógica de Visibilidad y Centrado (Ajuste imagen_58.png)
     // ----------------------------------------------------------------
 
     function actualizarFinanzasYEstadisticas() {
@@ -87,9 +87,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         const segundoPremioEl = document.getElementById('segundo-premio'); 
         const domingoEl = document.getElementById('monto-domingo');
 
+        // Seleccionamos el contenedor padre (.est-mini)
         const contenedorAcumulado2 = acumulado2El ? acumulado2El.parentElement : null;
         const contenedorSegundoPremio = segundoPremioEl ? segundoPremioEl.parentElement : null;
 
+        // Cuadrículas principales (.stats-grid-ultra)
         const grids = document.querySelectorAll('.stats-grid-ultra');
 
         const montoRecaudadoHoy = parseFloat(finanzasData.recaudado) || 0;
@@ -102,22 +104,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         let calculoPrimerPremio = 0;
         let calculoSegundoPremio = 0;
 
-        // Regresamos a Flexbox pero con espacios controlados
+        // --- APLICAR CENTRADO DINÁMICO ---
         grids.forEach(grid => {
             grid.style.display = 'flex';
-            grid.style.flexWrap = 'nowrap'; // Forzamos que no salte de línea si hay espacio
-            grid.style.justifyContent = 'center';
-            grid.style.gap = '12px'; // Espacio reducido para que quepan todos
-            grid.style.padding = '10px';
+            grid.style.flexWrap = 'nowrap'; // Mantiene todo en una línea para evitar errores de imagen_59
+            grid.style.justifyContent = 'center'; // Centra los elementos
+            grid.style.gap = '15px'; // Espaciado moderado
+            grid.style.width = '100%';
         });
 
-        // Ajustamos las tarjetas para que sean un poco más compactas
+        // Ajuste de tamaño de tarjetas para que no se peguen ni se rompan
         document.querySelectorAll('.est-mini').forEach(card => {
-            card.style.minWidth = '180px'; // Un poco más pequeño para asegurar la fila
-            card.style.flex = '1 1 auto';
-            card.style.maxWidth = '250px';
+            card.style.minWidth = '200px'; 
+            card.style.flex = '0 1 auto';
         });
 
+        // Lógica de modalidad
         if (finanzasData.modalidad === '2_premios') {
             if (contenedorAcumulado2) contenedorAcumulado2.style.display = 'flex';
             if (contenedorSegundoPremio) contenedorSegundoPremio.style.display = 'flex';
@@ -132,6 +134,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             calculoSegundoPremio = 0;
         }
 
+        // Aplicamos los textos formateados
         if (ventasEl) ventasEl.textContent = finanzasData.ventas;
         if (recaudadoEl) recaudadoEl.textContent = formatearBS(montoRecaudadoHoy);
         if (acumulado1El) acumulado1El.textContent = formatearBS(montoAcumuladoAnterior);
