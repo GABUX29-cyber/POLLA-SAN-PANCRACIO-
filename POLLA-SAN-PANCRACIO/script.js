@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // ----------------------------------------------------------------
-    // PARTE 3: Lógica Financiera y DISEÑO ADAPTABLE (GRID)
+    // PARTE 3: Lógica Financiera y CENTRADO COMPACTO
     // ----------------------------------------------------------------
 
     function actualizarFinanzasYEstadisticas() {
@@ -102,24 +102,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         let calculoPrimerPremio = 0;
         let calculoSegundoPremio = 0;
 
-        // --- CONFIGURACIÓN DE GRID DINÁMICO ---
+        // Regresamos a Flexbox pero con espacios controlados
         grids.forEach(grid => {
-            grid.style.display = 'grid';
-            grid.style.gap = '20px';
+            grid.style.display = 'flex';
+            grid.style.flexWrap = 'nowrap'; // Forzamos que no salte de línea si hay espacio
             grid.style.justifyContent = 'center';
-            grid.style.padding = '15px';
-            
-            // Si la modalidad es de 2 premios (4 elementos), usamos 4 columnas o 2 y 2
-            if (finanzasData.modalidad === '2_premios') {
-                grid.style.gridTemplateColumns = 'repeat(auto-fit, minmax(200px, 1fr))';
-                grid.style.maxWidth = '1000px'; 
-                grid.style.margin = '0 auto';
-            } else {
-                // Si es modalidad sencilla (3 elementos), las centramos bien
-                grid.style.gridTemplateColumns = 'repeat(auto-fit, minmax(200px, 280px))';
-                grid.style.maxWidth = '900px';
-                grid.style.margin = '0 auto';
-            }
+            grid.style.gap = '12px'; // Espacio reducido para que quepan todos
+            grid.style.padding = '10px';
+        });
+
+        // Ajustamos las tarjetas para que sean un poco más compactas
+        document.querySelectorAll('.est-mini').forEach(card => {
+            card.style.minWidth = '180px'; // Un poco más pequeño para asegurar la fila
+            card.style.flex = '1 1 auto';
+            card.style.maxWidth = '250px';
         });
 
         if (finanzasData.modalidad === '2_premios') {
