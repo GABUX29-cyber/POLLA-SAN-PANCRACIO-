@@ -67,11 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---------------------------------------------------------------------------------------
     function procesarYValidarJugada(numerosRaw, nombreParticipante) {
         let numeros = numerosRaw.map(n => {
-            let num = n.trim().padStart(2, '0');
+            let num = n.trim();
+            // Lógica corregida: 0 -> O, 00 sigue igual, otros se rellenan con padStart
+            if (num === "0") return "O";
             if (num === "00") return "00";
-            if (parseInt(num) === 0) return "O"; 
-            return num;
-        });
+            if (num.length === 1 && !isNaN(num)) return num.padStart(2, '0');
+            return num.toUpperCase();
+        }).filter(n => n !== "");
 
         let avisos = [];
         let avisosAlert = [];
@@ -96,7 +98,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Gestión de Duplicados
         let counts = {};
         let duplicadosEncontrados = [];
-        numeros.forEach(n => counts[n] = (counts[n] || 0) + 1);
+        numeros.forEach(n => {
+            if (n !== "O") counts[n] = (counts[n] || 0) + 1;
+        });
         
         for (let n in counts) {
             if (counts[n] > 1) {
@@ -166,7 +170,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const nuevoNumeroRaw = prompt(`Editar resultado para ${sorteoActual}:`, numeroActual);
         if (nuevoNumeroRaw === null || nuevoNumeroRaw.trim() === "") return;
 
-        let numFinal = (nuevoNumeroRaw === "0" || (parseInt(nuevoNumeroRaw) === 0 && nuevoNumeroRaw !== "00")) ? "O" : nuevoNumeroRaw.trim().padStart(2, '0');
+        // Lógica corregida para el 0 y 00 en resultados
+        let numFinal = nuevoNumeroRaw.trim();
+        if (numFinal === "0") {
+            numFinal = "O";
+        } else if (numFinal !== "00") {
+            numFinal = numFinal.padStart(2, '0');
+        }
 
         const { error } = await _supabase
             .from('resultados')
@@ -180,17 +190,23 @@ document.addEventListener('DOMContentLoaded', () => {
     window.editarParticipanteNube = async (id, nombreAct, refeAct, jugadasAct) => {
         const nuevoNombre = prompt("Nombre:", nombreAct);
         if (nuevoNombre === null) return;
+        
+        // Ahora permite editar la Referencia (REFE)
+        const nuevaRefe = prompt("Referencia (REFE):", refeAct);
+        if (nuevaRefe === null) return;
+
         const nuevasJugadasStr = prompt("Jugadas (separadas por coma):", jugadasAct);
         if (nuevasJugadasStr === null) return;
-        const motivo = prompt("Motivo de la edición (ej: Error en REFE):", "Manual");
-
+        
+        const motivo = prompt("Motivo de la edición:", "Manual");
         const notaEdicion = `⚠️ Editado: ${motivo}`;
 
         const { error } = await _supabase
             .from('participantes')
             .update({ 
                 nombre: nuevoNombre, 
-                jugadas: nuevasJugadasStr.split(','),
+                refe: nuevaRefe,
+                jugadas: nuevasJugadasStr.split(',').map(n => n.trim()),
                 notas_correccion: notaEdicion 
             })
             .eq('id', id);
@@ -247,7 +263,14 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const sorteoHora = document.getElementById('sorteo-hora').value;
         let numRaw = document.getElementById('numero-ganador').value.trim();
-        let numFinal = (numRaw === "0" || (parseInt(numRaw) === 0 && numRaw !== "00")) ? "O" : numRaw.padStart(2, '0');
+        
+        // Lógica corregida para el 0 y 00 al registrar resultado
+        let numFinal = numRaw;
+        if (numFinal === "0") {
+            numFinal = "O";
+        } else if (numFinal !== "00") {
+            numFinal = numFinal.padStart(2, '0');
+        }
 
         const { data: existente } = await _supabase
             .from('resultados')
@@ -278,7 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let nombre = "Sin Nombre", refe = "";
 
         lineas.forEach(linea => {
-            const matches = linea.match(/\b\d{1,2}\b/g);
+            const matches = linea.match(/\b(\d{1,2}|O)\b/gi);
             if (matches && matches.length >= 4) {
                 for (let i = 0; i < matches.length; i += JUGADA_SIZE) {
                     let grupo = matches.slice(i, i + JUGADA_SIZE);
